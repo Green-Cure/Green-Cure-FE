@@ -4,15 +4,15 @@ import React from "react";
 export default function Login() {
   return (
     <>
-      <div className="flex min-h-full flex-col justify-center px-4 py-12 lg:px-8 lg:py-10">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className={"flex min-h-full flex-col justify-center px-4 sm:px-0 py-12 sm:py-16 lg:px-8 lg:py-20 md:w-2/5 md:mr-8 md:px-0 lg:mr-16"}>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md">
           <h2 className="mt-6 text-center text-base font-semibold leading-9 tracking-tight text-gray-900">Welcome to</h2>
           <h1 className="text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">GreenCure</h1>
           <img className="mx-auto h-36 mt-4 w-auto" src="https://placehold.co/200x200" alt="GreenCure Logo" />
           <h2 className="mt-6 text-center text-base font-semibold leading-9 tracking-tight text-gray-900">Please log in to continue</h2>
         </div>
 
-        <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <div className="mt-2">
