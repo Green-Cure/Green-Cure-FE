@@ -9,8 +9,8 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
-        <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto py-5 px-8">
-          <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <div className="max-w-screen flex bg-white flex-wrap items-center justify-between mx-auto py-5 px-8 lg:px-10 relative">
+          <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse relative">
             <img className="h-8" src="https://placehold.co/50x50" alt="GreenCure Logo" />
             <span className="self-center text-xl whitespace-nowrap">Green Cure</span>
           </a>
@@ -20,13 +20,13 @@ export default function Navbar() {
                 type="button"
                 className="text-white bg-gcNeutrals-300 hover:bg-gcNeutrals-400 focus:ring-4 focus:outline-none focus:ring-gcNeutrals-100 font-medium rounded-lg text-sm px-4 py-1.5 md:px-6 md:py-2 text-center md:inline-block hidden"
               >
-                Sign in
+                <Link href={"/auth/register"}>Sign in</Link>
               </button>
               <button
                 type="button"
                 className="text-white bg-gcNeutrals-600 hover:bg-gcNeutrals-700 focus:ring-4 focus:outline-none focus:ring-gcNeutrals-100 font-medium rounded-lg text-sm px-4 py-1.5 md:px-6 md:py-2 text-center md:inline-block hidden"
               >
-                Log in
+                <Link href={"/auth/login"}>Log in</Link>
               </button>
               <button
                 data-collapse-toggle="navbar-sticky"
@@ -45,7 +45,7 @@ export default function Navbar() {
             <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
               <ul className="flex md:gap-3 lg:gap-6 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
                 <li>
-                  <Link href={"#"} className="block py-2 px-3 text-white bg-gcPrimary-700 rounded md:bg-transparent md:text-gcPrimary-700 md:p-0">
+                  <Link href={"/about"} className="block py-2 px-3 text-white bg-gcPrimary-700 rounded md:bg-transparent md:text-gcPrimary-700 md:p-0">
                     About Us
                   </Link>
                 </li>
@@ -62,30 +62,30 @@ export default function Navbar() {
               </ul>
             </div>
           </div>
-          <div className={"w-full md:hidden" + (isNavOpen ? "" : " hidden")} id="navbar-default">
+          <div className={"w-full md:hidden transition-all duration-300 relative -z-30" + (isNavOpen ? "mt-0" : " -mt-96")} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-200 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
               <div className="flex justify-center items-center gap-6 mb-4">
                 <button type="button" className="text-white bg-gcNeutrals-300 hover:bg-gcNeutrals-400 focus:ring-4 focus:outline-none focus:ring-gcNeutrals-100 font-medium rounded-lg text-sm px-4 py-1.5 md:px-6 md:py-2 text-center">
-                  Sign in
+                  <Link href={"/auth/register"}>Sign in</Link>
                 </button>
                 <button type="button" className="text-white bg-gcNeutrals-600 hover:bg-gcNeutrals-700 focus:ring-4 focus:outline-none focus:ring-gcNeutrals-100 font-medium rounded-lg text-sm px-4 py-1.5 md:px-6 md:py-2 text-center">
-                  Log in
+                  <Link href={"/auth/login"}>Log in</Link>
                 </button>
               </div>
               <li>
-                <a href="#" className="block py-2 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">
+                <Link href={"/about"} className="block py-2 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3 text-gray-900 hover:text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0">
+                <Link href={"#"} className="block py-2 px-3 text-gray-900 hover:text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0">
                   Discover
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3 text-gray-900 hover:text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0">
+                <Link href={"#"} className="block py-2 px-3 text-gray-900 hover:text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0">
                   More
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
