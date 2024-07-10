@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
     <>
-      <footer className="bg-gcNeutrals-200 w-full mt-12">
-        <div className="flex flex-wrap flex-col w-full py-5 px-8 lg:px-8 md:py-8 gap-4">
+      <footer className="bg-gcNeutrals-200 w-full mt-12 bottom-0">
+        <div className="flex flex-wrap flex-col w-full py-5 px-8 lg:px-10 md:py-8 gap-4">
           <div className="sm:flex lg:flex-row sm:flex-col sm:gap-4 items-start sm:justify-between lg:border-none border-b pb-4 lg:pb-0">
             <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
               <img className="h-8" src="https://placehold.co/50x50" alt="GreenCure Logo" />
