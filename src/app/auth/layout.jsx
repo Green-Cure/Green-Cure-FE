@@ -28,16 +28,9 @@ export default function AuthLayout({ children }) {
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen grid grid-rows-[auto-1fr-auto] md:bg-gradient-to-br from-gcNeutrals-baseWhite to-gcPrimary-basePrimary">
         {!isMobile && <Navbar />}
-        <div className={isMobile ? "" : "flex pr-0 xl:pr-9 justify-between"}>
-          {!isMobile && (
-            <div className="rounded-br-[70px] md:w-1/2 mt-16 lg:max-w-screen-lg">
-              <img className="w-full rounded-br-[70px]" src="https://placehold.co/1000x800" alt="Hero Image" />
-            </div>
-          )}
-          {children}
-        </div>
+        <main className={isMobile ? "bg-gradient-to-b from-gcPrimary-500 to-gcPrimary-600" : "flex pr-0 xl:pr-9 justify-between"}>{children}</main>
         {!isMobile && <Footer />}
       </div>
     </>
