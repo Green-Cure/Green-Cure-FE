@@ -50,7 +50,7 @@ export default function ProfileTopBar() {
               </Link>
             </li>
           </ul>
-          <button className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent1p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500">
+          <button className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent2p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500">
             Go to Premium
           </button>
         </div>
@@ -58,7 +58,7 @@ export default function ProfileTopBar() {
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
-            className="inline-flex items-center p-2 w-8 h-8 justify-center text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gcPrimary-1000"
+            className="inline-flex items-center p-2 w-8 h-8 justify-center text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none"
             aria-controls="navbar-sticky"
             aria-expanded="false"
             onClick={() => setIsNavOpen(!isNavOpen)}
