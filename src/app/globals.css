@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply font-Poppins;
+    @apply font-Poppins bg-gcNeutrals-baseWhite;
   }
 }
 
@@ -31,16 +31,24 @@
     @apply font-bold xl:text-base sm:text-sm text-xs gcDropShadow;
   }
 
+  .gcHeading5p {
+    @apply font-semibold text-2xl md:text-3xl lg:text-4xl xl:text-5xl gcDropShadow;
+  }
+
   .gcBody1p {
     @apply text-xs sm:text-sm md:text-base lg:text-xl gcDropShadow;
   }
 
   .gcBody2p {
-    @apply lg:text-base md:text-lg sm:text-sm text-xs gcDropShadow;
+    @apply lg:text-base sm:text-sm text-xs gcDropShadow;
   }
 
   .gcContentAccent1p {
     @apply font-Poppins xl:text-lg md:text-sm text-xs font-semibold;
+  }
+
+  .gcContentAccent1pi {
+    @apply font-Poppins xl:text-lg md:text-sm text-xs font-normal italic;
   }
 
   .gcHeadingQuote {
