@@ -6,7 +6,7 @@ const nextConfig = {
   },
   // TODO : komen output, assetPrefix & basePath jika running lokal, aktifkan kembali ketika push
   output: "export",
-  assetPrefix: "https://green-cure.github.io/Green-Cure-FE",
+  assetPrefix: "https://green-cure.github.io/Green-Cure-FE/",
   basePath: "/Green-Cure-FE",
 };
 
