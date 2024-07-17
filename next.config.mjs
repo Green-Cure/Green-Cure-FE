@@ -6,6 +6,7 @@ const nextConfig = {
   },
   // TODO : komen output, assetPrefix & basePath jika running lokal, aktifkan kembali ketika push
   output: "export",
+  basePath: "/Green-Cure-FE",
 };
 
 export default nextConfig;
