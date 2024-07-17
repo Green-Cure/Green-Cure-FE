@@ -7,7 +7,7 @@ export default function Register() {
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
         <img
           className="w-full rounded-br-[70px]"
-          src="assets/images/woman-growing-plants-close-up.jpg"
+          src="images/woman-growing-plants-close-up.jpg"
           alt="Hero Image"
         />
         <div className="w-full absolute top-0 bottom-0 left-0 right-0 rounded-br-[70px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
