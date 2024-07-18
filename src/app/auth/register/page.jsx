@@ -5,29 +5,14 @@ export default function Register() {
   return (
     <>
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
-        <img
-          className="w-full rounded-br-[70px]"
-          src="/images/woman-growing-plants-close-up.jpg"
-          alt="Hero Image"
-        />
+        <img className="w-full rounded-br-[70px]" src="/images/woman-growing-plants-close-up.jpg" alt="Hero Image" />
         <div className="w-full absolute top-0 bottom-0 left-0 right-0 rounded-br-[70px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
       </div>
       <div className="flex min-h-full flex-col justify-center px-7 sm:px-0 py-12 sm:py-16 md:px-8 md:py-20 md:w-2/5">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md md:inline-block flex flex-col justify-center items-center">
-          <h2 className="mt-6 text-center text-sm md:text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
-            Join the GreenCure
-          </h2>
-          <h1 className="text-center text-3xl md:text-2xl lg:text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
-            Create your Account
-          </h1>
-          <svg
-            width="80"
-            height="80"
-            className="md:hidden w-20 gcDropShadow mt-8 mb-2"
-            viewBox="0 0 53 53"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <h2 className="mt-6 text-center text-sm md:text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Join the GreenCure</h2>
+          <h1 className="text-center text-3xl md:text-2xl lg:text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Create your Account</h1>
+          <svg width="80" height="80" className="md:hidden w-20 gcDropShadow mt-8 mb-2" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -91,9 +76,7 @@ export default function Register() {
             </div>
           </form>
 
-          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">
-            {"Already have an account?"}
-          </p>
+          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">{"Already have an account?"}</p>
           <Link
             href={"/auth/login"}
             className="flex w-full justify-center rounded-md bg-gcNeutrals-baseWhite px-3 py-3 md:py-3 text-base font-bold leading-6 text-gcPrimary-1000 shadow-sm hover:bg-gcPrimary-1000 hover:text-gcNeutrals-baseWhite transition mt-3"

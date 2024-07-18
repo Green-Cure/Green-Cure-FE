@@ -1,4 +1,4 @@
-export default function ProfilePostCard() {
+export default function PostCard() {
   return (
     <div className="border-b lg:pb-2 lg:mt-8 mt-4">
       <header className="flex justify-between">
