@@ -35,6 +35,10 @@
     @apply font-semibold text-2xl md:text-3xl lg:text-4xl xl:text-5xl gcDropShadow;
   }
 
+  .gcHeading6p {
+    @apply font-semibold text-sm md:text-lg lg:text-xl xl:text-2xl gcDropShadow;
+  }
+
   .gcBody1p {
     @apply text-xs sm:text-sm md:text-base lg:text-xl gcDropShadow;
   }
