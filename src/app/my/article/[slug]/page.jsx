@@ -35,10 +35,10 @@ export default function MyArticleDetail({ params }) {
     return (
       <>
         <div className="flex flex-col">
-          <h1 className="gcHeading1p text-gcPrimary-1000 mt-5 sm:px-0 px-4">{article.title}</h1>
+          <h1 className="gcHeading2p text-gcPrimary-1000 mt-5 sm:px-0 px-4">{article.title}</h1>
           <div className="mt-5 flex sm:flex-row flex-col lg:gap-10 sm:gap-8 gap-6">
             <div className="sm:w-3/4 w-full flex flex-col">
-              <img className="sm:rounded-xl object-cover xl:h-[550px] lg:h-[400px] md:h-[300px] h-[200px]" src={article.image} alt={article.slug} />
+              <img className="sm:rounded-xl object-cover xl:h-[400px] lg:h-[350px] md:h-[300px] h-[200px]" src={article.image} alt={article.slug} />
               <div className="flex flex-row items-start justify-between mt-5 sm:px-0 px-4">
                 <div className="flex flex-row justify-center items-center gap-3">
                   <img className="rounded-full lg:w-12 md:w-11 sm:w-10 w-9" src="https://placehold.co/50x50" alt="Profile Author" />
