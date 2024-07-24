@@ -60,7 +60,7 @@ export default function Library() {
   };
 
   const renderDetails = (item) => (
-    <div className="mt-4 bg-gcPrimary-200 p-6 rounded-lg shadow-md flex items-center space-x-4">
+    <div className="mt-4 bg-gcPrimary-200 p-6 rounded-lg shadow-md flex flex-col md:flex-row items-center space-x-4">
       <img
         src={item.image}
         alt={item.name}
@@ -99,9 +99,9 @@ export default function Library() {
   );
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="bg-gradient-to-br from-gcPrimary-200 to-gcPrimary-600 w-20 flex flex-col items-center py-6 space-y-8"></aside>
-      <div className="flex-1 flex flex-col px-10 py-8 bg-gcNeutrals-baseWhite">
+    <div className="flex flex-col md:flex-row min-h-screen">
+      <aside className="bg-gradient-to-br from-gcPrimary-200 to-gcPrimary-600 w-full md:w-20 flex flex-col items-center py-6 space-y-8"></aside>
+      <div className="flex-1 flex flex-col px-4 md:px-10 py-8 bg-gcNeutrals-baseWhite">
         <div className="flex items-center mb-6">
           <Link href="/" legacyBehavior>
             <a className="mr-4 flex items-center">
@@ -121,7 +121,7 @@ export default function Library() {
               </svg>
             </a>
           </Link>
-          <h1 className="text-4xl font-bold leading-10 tracking-tight text-gcPrimary-1000 p-3 rounded-lg">
+          <h1 className="text-2xl md:text-4xl font-bold leading-10 tracking-tight text-gcPrimary-1000 p-3 rounded-lg">
             Library
           </h1>
         </div>
@@ -141,7 +141,7 @@ export default function Library() {
             ></svg>
           </div>
         </div>
-        <div className="mt-6 flex space-x-6">
+        <div className="mt-6 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
           <button className="bg-gcPrimary-600 text-white font-semibold py-3 px-6 rounded-full text-lg">
             Tanaman
           </button>
