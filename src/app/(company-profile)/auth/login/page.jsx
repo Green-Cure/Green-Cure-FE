@@ -1,6 +1,51 @@
+"use client";
+
+import request from "@/app/utils/requests";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FiEyeOff, FiEye } from "react-icons/fi";
 
 export default function Login() {
+  const router = useRouter();
+
+  const [typeInput, setTypeInput] = useState(true);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleClickType = () => {
+    setTypeInput(!typeInput);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    request
+      .post("auth/authenticated", {
+        email: email,
+        password: password,
+      })
+      .then(function (response) {
+        console.info(response.response.data);
+        if (response.response.data.statusCode === 200 || response.response.data.statusCode === 201) {
+          localStorage.setItem("token", response.data);
+          router.push("/my");
+        } else {
+          window.alert("Login gagal");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
@@ -23,7 +68,7 @@ export default function Login() {
         </div>
 
         <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
             <div>
               <div className="mt-2">
                 <input
@@ -33,22 +78,27 @@ export default function Login() {
                   autoComplete="email"
                   placeholder="Email"
                   required
+                  onChange={handleChangeEmail}
+                  value={email}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={typeInput ? "password" : "text"}
                   autoComplete="current-password"
                   placeholder="Password"
                   required
+                  onChange={handleChangePassword}
+                  value={password}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm  placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
               </div>
             </div>
 

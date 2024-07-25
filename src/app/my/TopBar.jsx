@@ -1,10 +1,13 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function TopBar({ children, pageName }) {
+  const router = useRouter();
+
   return (
     <>
       <div className="flex justify-between border-b border-b-[#A09CAB] lg:py-4 md:py-3 py-2 sm:mx-0 mx-4">
-        <Link href={"#"} className="flex justify-center items-center lg:gap-6 gap-3">
+        <button type="button" onClick={() => router.back()} className="flex justify-center items-center lg:gap-6 gap-3">
           <svg className="xl:w-9 lg:w-8 md:w-7 w-5" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M2.02303 21.9982H36.5175C36.9824 21.9982 37.4514 22.0022 37.9163 21.9982H37.977C38.4945 21.9982 39.0403 21.7744 39.4082 21.4147C39.7599 21.0671 40.0227 20.4996 39.9984 20C39.9742 19.4845 39.8044 18.9489 39.4082 18.5853C39.012 18.2256 38.5268 18.0018 37.977 18.0018H3.48253C3.01759 18.0018 2.54861 17.9978 2.08367 18.0018H2.02303C1.50553 18.0018 0.959732 18.2256 0.591823 18.5853C0.240087 18.9329 -0.022705 19.5004 0.00155274 20C0.0258104 20.5155 0.195614 21.0511 0.591823 21.4147C0.992075 21.7704 1.47723 21.9982 2.02303 21.9982Z"
@@ -17,7 +20,7 @@ export default function TopBar({ children, pageName }) {
           </svg>
 
           <h2 className="gcHeading3p text-gcPrimary-1000">{pageName}</h2>
-        </Link>
+        </button>
         {children}
       </div>
     </>
