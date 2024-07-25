@@ -3,20 +3,10 @@ import { notFound } from "next/navigation";
 import { useContext } from "react";
 import { ArticleContext } from "../layout";
 import Link from "next/link";
+import { formatDate } from "@/app/utils/formatTimestamp";
 
 export default function MyArticleDetail({ params }) {
   const { articles, loading, error, meta } = useContext(ArticleContext);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    const month = months[date.getUTCMonth()];
-    const day = date.getUTCDate();
-    const year = date.getUTCFullYear();
-
-    return `${month} ${day}, ${year}`;
-  };
 
   const findArticleBySlug = (data, slug) => {
     return data.find((article) => article.slug === slug);

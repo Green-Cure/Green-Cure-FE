@@ -1,7 +1,67 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { FiEyeOff, FiEye } from "react-icons/fi";
 
 export default function Register() {
+  const router = useRouter();
+
+  const [typeInput, setTypeInput] = useState(true);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleChangePhone = (event) => {
+    setPhone(event.target.value);
+  };
+  const handleChangeName = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleClickType = () => {
+    setTypeInput(!typeInput);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    request
+      .post("auth/register", {
+        email: email,
+        password: password,
+        username: username,
+        phone: phone,
+        name: name,
+      })
+      .then(function (response) {
+        console.info(response.response.data);
+        if (response.response.data.statusCode === 200 || response.response.data.statusCode === 201) {
+          localStorage.setItem("token", response.data);
+          router.push("/my");
+        } else {
+          window.alert("Register gagal");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
@@ -23,7 +83,7 @@ export default function Register() {
         </div>
 
         <div className="md:mt-10 mt-8 sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
             <div>
               <div className="mt-2">
                 <input
@@ -33,6 +93,8 @@ export default function Register() {
                   autoComplete="fullname"
                   placeholder="Full name"
                   required
+                  value={name}
+                  onChange={handleChangeName}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
               </div>
@@ -47,22 +109,27 @@ export default function Register() {
                   autoComplete="email"
                   placeholder="Email"
                   required
+                  value={email}
+                  onChange={handleChangeEmail}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={typeInput ? "password" : "text"}
                   autoComplete="current-password"
                   placeholder="Password"
                   required
+                  value={password}
+                  onChange={handleChangePassword}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
               </div>
             </div>
 
