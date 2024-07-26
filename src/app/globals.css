@@ -96,3 +96,67 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+/* Additional CSS for Quill editor content */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5 {
+  font-weight: bold;
+}
+.prose blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 16px;
+  color: #666;
+  margin-left: 0;
+  margin-right: 0;
+}
+.prose img {
+  max-width: 100%;
+}
+
+.prose .ql-size-small {
+  @apply md:text-sm text-xs;
+}
+
+.prose .ql-size-large {
+  @apply xl:text-2xl lg:text-xl md:text-lg sm:text-base text-sm;
+}
+
+.prose .ql-size-huge {
+  @apply xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-base;
+}
+
+.prose pre {
+  background: #f5f5f5;
+  padding: 16px;
+}
+.prose ol,
+.prose ul {
+  padding-left: 20px;
+}
+.prose .ql-indent-1 {
+  padding-left: 3em;
+}
+.prose .ql-indent-2 {
+  padding-left: 6em;
+}
+.prose .ql-indent-3 {
+  padding-left: 9em;
+}
+.prose .ql-indent-4 {
+  padding-left: 12em;
+}
+.prose .ql-indent-5 {
+  padding-left: 15em;
+}
+.prose .ql-indent-6 {
+  padding-left: 18em;
+}
+.prose .ql-indent-7 {
+  padding-left: 21em;
+}
+.prose .ql-indent-8 {
+  padding-left: 24em;
+}

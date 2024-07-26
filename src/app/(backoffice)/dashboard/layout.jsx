@@ -5,7 +5,7 @@ import MenuSidebar from "./MenuSidebar";
 import { BsFillPeopleFill, BsFillBarChartLineFill } from "react-icons/bs";
 import { IoSettingsSharp } from "react-icons/io5";
 import { FaBookOpen } from "react-icons/fa6";
-import { MdForum } from "react-icons/md";
+import { MdForum, MdArticle } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import BreadCrumbs from "./BreadCrumbs";
 
@@ -113,7 +113,11 @@ export default function DashboardLayout({ children }) {
             </li>
 
             <li>
-              <MenuSidebar icon={<FaBookOpen className={"text-xl"} />} href={"/dashboard/article"} title={"Article"} />
+              <MenuSidebar icon={<MdArticle className={"text-xl"} />} href={"/dashboard/article"} title={"Article"} />
+            </li>
+
+            <li>
+              <MenuSidebar icon={<FaBookOpen className={"text-xl"} />} href={"/dashboard/library"} title={"Library"} />
             </li>
 
             <li>
