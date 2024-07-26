@@ -13,22 +13,22 @@ export default function Library() {
     {
       name: "Aloe Vera",
       description: "Aloe arborescens",
-      image: "/path/to/image/aloe-vera.jpg",
+      image: "/images/aloe.jpg",
     },
     {
       name: "Basil",
       description: "Ocimum basilicum",
-      image: "/path/to/image/basil.jpg",
+      image: "/images/basil.webp",
     },
     {
       name: "Cactus",
       description: "Cactaceae",
-      image: "/path/to/image/cactus.jpg",
+      image: "/images/kaktus.webp",
     },
     {
       name: "Dandelion",
       description: "Taraxacum",
-      image: "/path/to/image/dandelion.jpg",
+      image: "/images/dandelion.jpg",
     },
   ];
 
@@ -36,22 +36,22 @@ export default function Library() {
     {
       name: "Leaf Blight",
       description: "Disease description",
-      image: "/path/to/image/leaf-blight.jpg",
+      image: "/images/leaf_blight.jpg",
     },
     {
       name: "Powdery Mildew",
       description: "Disease description",
-      image: "/path/to/image/powdery-mildew.jpg",
+      image: "/images/powdery_mildew.jpeg",
     },
     {
       name: "Rust",
       description: "Disease description",
-      image: "/path/to/image/rust.jpg",
+      image: "/images/rust.jpg",
     },
     {
       name: "Downy Mildew",
       description: "Disease description",
-      image: "/path/to/image/downy-mildew.jpg",
+      image: "/images/donwy_mildew.webp",
     },
   ];
 
@@ -64,12 +64,14 @@ export default function Library() {
   };
 
   const renderDetails = (item) => (
-    <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-col items-center space-y-4 sm:flex-row sm:items-start sm:space-x-4">
-      <img
-        src={item.image}
-        alt={item.name}
-        className="w-24 h-24 object-cover rounded-lg"
-      />
+    <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-col sm:flex-row sm:space-x-4 items-center sm:items-center">
+      <div className="flex justify-center items-center w-24 h-24">
+        <img
+          src={item.image}
+          alt={item.name}
+          className="object-cover rounded-lg"
+        />
+      </div>
       <div className="flex-1 text-center sm:text-left">
         <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000 mb-2">
           {item.name}
@@ -85,7 +87,7 @@ export default function Library() {
         </p>
         <Link
           href={{
-            pathname: "/detail-view",
+            pathname: "/my/library/detail-view",
             query: {
               name: item.name,
               description: item.description,
@@ -111,25 +113,16 @@ export default function Library() {
           <div className="flex-1 flex flex-col bg-gcNeutrals-baseWhite">
             <div className="mt-6 relative w-full max-w-3xl">
               <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <rect
-                  x="1.61426"
-                  y="2.15909"
-                  width="20.6818"
-                  height="20.6818"
-                  rx="10.3409"
-                  stroke="#205072"
-                  strokeWidth="2.95455"
-                />
                 <path
-                  d="M19.3409 19.8864L25.25 25.7955"
-                  stroke="#205072"
-                  strokeWidth="2.95455"
+                  d="M11 2C6.03 2 2 6.03 2 11C2 15.97 6.03 20 11 20C13.19 20 15.19 19.21 16.74 17.93L20.29 21.48C20.68 21.87 21.31 21.87 21.7 21.48C22.09 21.09 22.09 20.46 21.7 20.07L18.15 16.52C19.42 14.97 20.21 12.97 20.21 11C20.21 6.03 16.18 2 11 2ZM11 4C14.86 4 18 7.14 18 11C18 14.86 14.86 18 11 18C7.14 18 4 14.86 4 11C4 7.14 7.14 4 11 4Z"
+                  fill="#205072"
                 />
               </svg>
               <input
