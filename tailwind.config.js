@@ -66,6 +66,11 @@ module.exports = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "weather-radial-cerah": "radial-gradient(circle at right bottom, #FEFFD8 17%, #B8CDE8 67%, #90B1F2 97%, #90B1F2 100%)",
+        "weather-radial-berawan": "radial-gradient(circle at right bottom, #D8FFEC 17%, #B8CDE8 67%, #90B1F2 97%, #90B1F2 100%)",
+        "weather-radial-hujan": "radial-gradient(circle at right bottom, #DDE7FF 17%, #A1B2D3 67%, #7C92BF 97%, #7C92BF 100%)",
+        "weather-radial-badai": "radial-gradient(circle at right bottom, #A8BBEA 17%, #7C92BF 67%, #506183 97%, #506183 100%)",
+        "weather-radial-bersalju": "radial-gradient(circle at right bottom, #D8FFEC 17%, #B8CDE8 67%, #90B1F2 97%, #90B1F2 100%)",
       },
     },
   },
