@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import TopBar from "../TopBar";
+import LoggedInNavbar from "../LoggedInNavbar";
 
 export default function Library() {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const plants = [
     {
       name: "Aloe Vera",
@@ -60,20 +64,20 @@ export default function Library() {
   };
 
   const renderDetails = (item) => (
-    <div className="mt-4 bg-gcPrimary-200 p-6 rounded-lg shadow-md flex items-center space-x-4">
+    <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-col items-center space-y-4 sm:flex-row sm:items-start sm:space-x-4">
       <img
         src={item.image}
         alt={item.name}
         className="w-24 h-24 object-cover rounded-lg"
       />
-      <div className="flex-1">
-        <h2 className="text-2xl font-semibold text-gcPrimary-1000 mb-2">
+      <div className="flex-1 text-center sm:text-left">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000 mb-2">
           {item.name}
         </h2>
-        <p className="text-gcPrimary-1000 text-lg mb-2">
+        <p className="text-gcPrimary-1000 text-base sm:text-lg mb-2">
           <em>{item.description}</em>
         </p>
-        <p className="text-gcPrimary-1000 text-base">
+        <p className="text-gcPrimary-1000 text-sm sm:text-base">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius
           augue non ante lacinia, vel bibendum velit ornare. Sed a eleifend
           nulla. Vestibulum a arcu arcu. Fusce sit amet ante non augue vehicula
@@ -90,7 +94,7 @@ export default function Library() {
           }}
           legacyBehavior
         >
-          <a className="text-white bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-4 py-2 rounded-full inline-block mt-4">
+          <a className="text-white bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-3 sm:px-4 py-2 rounded-full inline-block mt-4">
             Read More
           </a>
         </Link>
@@ -99,86 +103,107 @@ export default function Library() {
   );
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="bg-gradient-to-br from-gcPrimary-200 to-gcPrimary-600 w-20 flex flex-col items-center py-6 space-y-8"></aside>
-      <div className="flex-1 flex flex-col px-10 py-8 bg-gcNeutrals-baseWhite">
-        <div className="flex items-center mb-6">
-          <Link href="/" legacyBehavior>
-            <a className="mr-4 flex items-center">
+    <>
+      <LoggedInNavbar />
+      <section className="sm:ml-12 md:ml-16 lg:ml-20 sm:px-10">
+        <TopBar pageName={"Library"} />
+        <div className="flex justify-center items-center px-4 sm:px-0">
+          <div className="flex-1 flex flex-col bg-gcNeutrals-baseWhite">
+            <div className="mt-6 relative w-full max-w-3xl">
               <svg
-                className="h-10 w-10 text-gcPrimary-1000"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                <rect
+                  x="1.61426"
+                  y="2.15909"
+                  width="20.6818"
+                  height="20.6818"
+                  rx="10.3409"
+                  stroke="#205072"
+                  strokeWidth="2.95455"
+                />
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 6l-6 6 6 6M4 12h16"
+                  d="M19.3409 19.8864L25.25 25.7955"
+                  stroke="#205072"
+                  strokeWidth="2.95455"
                 />
               </svg>
-            </a>
-          </Link>
-          <h1 className="text-4xl font-bold leading-10 tracking-tight text-gcPrimary-1000 p-3 rounded-lg">
-            Library
-          </h1>
-        </div>
-        <div className="mt-6">
-          <div className="relative w-full max-w-3xl">
-            <input
-              type="text"
-              placeholder="Search plants or diseases...."
-              className="w-full rounded-full border border-gray-300 py-3 px-5 pl-12 focus:outline-none focus:ring-2 focus:ring-gcPrimary-600 placeholder:text-gcSecondary-600 bg-gradient-to-r from-gcPrimary-200 to-gcNeutrals-baseWhite text-lg"
-            />
-            <svg
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            ></svg>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search plants or diseases...."
+                className="w-full rounded-full border border-gray-300 py-3 px-5 pl-12 focus:outline-none focus:ring-2 focus:ring-gcPrimary-600 placeholder:text-gcSecondary-600 bg-gradient-to-r from-gcPrimary-200 to-gcNeutrals-baseWhite text-lg"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
+            <div className="mt-6 flex space-x-4 sm:space-x-6">
+              <button className="bg-gcPrimary-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg">
+                Tanaman
+              </button>
+              <button className="bg-gcPrimary-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg">
+                Penyakit
+              </button>
+            </div>
+            <div className="mt-10">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                Tanaman
+              </h2>
+              <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-900 text-base sm:text-lg">
+                {plants.map((plant) => (
+                  <li key={plant.name} onClick={() => handleItemClick(plant)}>
+                    {plant.name}
+                    {selectedItem?.name === plant.name &&
+                      renderDetails(selectedItem)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <hr className="border-t border-gray-300 mt-4" />
+            <div className="mt-10">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                Penyakit Tanaman
+              </h2>
+              <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-900 text-base sm:text-lg">
+                {diseases.map((disease) => (
+                  <li
+                    key={disease.name}
+                    onClick={() => handleItemClick(disease)}
+                  >
+                    {disease.name}
+                    {selectedItem?.name === disease.name &&
+                      renderDetails(selectedItem)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="mt-6 flex space-x-6">
-          <button className="bg-gcPrimary-600 text-white font-semibold py-3 px-6 rounded-full text-lg">
-            Tanaman
-          </button>
-          <button className="bg-gcPrimary-600 text-white font-semibold py-3 px-6 rounded-full text-lg">
-            Penyakit
-          </button>
-        </div>
-        <div className="mt-10 pl-3">
-          <h2 className="text-2xl font-semibold text-gcPrimary-1000">
-            Tanaman
-          </h2>
-          <ul className="mt-4 space-y-3 text-gcPrimary-900 text-lg">
-            {plants.map((plant) => (
-              <li key={plant.name} onClick={() => handleItemClick(plant)}>
-                {plant.name}
-                {selectedItem?.name === plant.name &&
-                  renderDetails(selectedItem)}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <hr className="border-t border-gray-300 mt-4" />
-        <div className="mt-10 pl-3">
-          <h2 className="text-2xl font-semibold text-gcPrimary-1000">
-            Penyakit Tanaman
-          </h2>
-          <ul className="mt-4 space-y-3 text-gcPrimary-900 text-lg">
-            {diseases.map((disease) => (
-              <li key={disease.name} onClick={() => handleItemClick(disease)}>
-                {disease.name}
-                {selectedItem?.name === disease.name &&
-                  renderDetails(selectedItem)}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
