@@ -98,6 +98,30 @@
 }
 
 /* Additional CSS for Quill editor content */
+.prose {
+  white-space: pre-wrap; /* Ensure text wraps within the container */
+  overflow-wrap: break-word; /* Break long words to avoid overflow */
+}
+
+.prose p {
+  @apply leading-6 m-0;
+}
+
+.prose h1 {
+  @apply mb-3 mt-0;
+}
+
+.prose h2 {
+  @apply mb-2.5 mt-0;
+}
+.prose h3,
+.prose h4 {
+  @apply mb-2 mt-0;
+}
+.prose h5 {
+  @apply mb-1.5 mt-0;
+}
+
 .prose h1,
 .prose h2,
 .prose h3,
@@ -159,4 +183,14 @@
 }
 .prose .ql-indent-8 {
   padding-left: 24em;
+}
+
+.prose .ql-align-right {
+  @apply text-right;
+}
+.prose .ql-align-center {
+  @apply text-center;
+}
+.prose .ql-align-justify {
+  @apply text-justify;
 }

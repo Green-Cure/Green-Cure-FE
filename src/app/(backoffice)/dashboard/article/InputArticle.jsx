@@ -92,8 +92,8 @@ export default function InputArticle({ article, handleSubmit }) {
       </div>
       <div className="mt-3">
         <h1 className="gcHeading7p text-gcPrimary-1000">Preview Content</h1>
-        <div className="mt-1 border rounded-xl lg:p-4 md:p-3 p-2">
-          <div className="prose xl:prose-xl lg:prose-lg sm:prose-sm" dangerouslySetInnerHTML={{ __html: content }} />
+        <div className="mt-1 border rounded-xl lg:p-4 md:p-3 p-2 w-full">
+          <div className="prose xl:prose-xl lg:prose-lg sm:prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: content }} />
         </div>
       </div>
     </>

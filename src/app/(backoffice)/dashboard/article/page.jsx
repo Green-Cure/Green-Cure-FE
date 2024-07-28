@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/app/utils/formatTimestamp";
-import request from "@/app/utils/requests";
+import request from "@/app/utils/request";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LuPlus } from "react-icons/lu";

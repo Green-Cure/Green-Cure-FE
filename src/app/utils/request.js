@@ -1,7 +1,8 @@
 import axios from "axios";
+import { host } from "./urlApi";
 
 const request = axios.create({
-  baseURL: `https://green-cure-1311a28f853a.herokuapp.com/v1/`,
+  baseURL: `${host}`,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json, multipart/form-data",
@@ -37,12 +38,6 @@ const errorHandler = (error) => {
   // error.code === 'ERR_NETWORK' should not exist
   if (error.response && error.response.status === 401) {
     expiredTokenHandler(); //di uncomment saat sudah integrasi api login
-  } else if (error.code === "ERR_NETWORK") {
-    window.history.pushState({}, "Redirect Network Error", "/login");
-    console.log(error);
-    if (error.response?.status === 401) {
-      expiredTokenHandler(); //di uncomment saat sudah integrasi api login
-    }
   }
   return error;
 };

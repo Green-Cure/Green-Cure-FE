@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuSidebar from "./MenuSidebar";
 import { BsFillPeopleFill, BsFillBarChartLineFill } from "react-icons/bs";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -8,8 +8,12 @@ import { FaBookOpen } from "react-icons/fa6";
 import { MdForum, MdArticle } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import BreadCrumbs from "./BreadCrumbs";
+import { useRouter } from "next/navigation";
+import request from "@/app/utils/request";
 
 export default function DashboardLayout({ children }) {
+  const router = useRouter();
+
   const [isSidebarDropdown, setIsSidebarDropdown] = useState(false);
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
 
@@ -20,6 +24,35 @@ export default function DashboardLayout({ children }) {
   const toggleProfileDropdown = () => {
     setIsProfileDropdown(!isProfileDropdown);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    request
+      .delete("/auth/logout")
+      .then(function (response) {
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            localStorage.clear();
+            window.location.href = "/auth/login";
+          } else {
+            window.alert("Logout gagal");
+          }
+        } else {
+          window.alert("Logout gagal");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     router.push("/auth/login");
+  //     return;
+  //   }
+  // }, [router]);
 
   return (
     <div>
@@ -86,7 +119,7 @@ export default function DashboardLayout({ children }) {
                         </a>
                       </li>
                       <li>
-                        <button type="button" href="#" className="block px-4 py-2 text-sm w-full text-left text-gray-700 hover:bg-gray-100" role="menuitem">
+                        <button type="button" onClick={handleLogout} className="block px-4 py-2 text-sm w-full text-left text-gray-700 hover:bg-gray-100" role="menuitem">
                           Sign out
                         </button>
                       </li>

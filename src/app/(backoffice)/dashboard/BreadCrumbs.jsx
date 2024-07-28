@@ -5,7 +5,7 @@ export default function BreadCrumbs() {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
 
-  const breakPath = ["detailArticle", "editArticle"];
+  const breakPath = ["detailArticle", "editArticle", "detailUser", "editUser"];
 
   return (
     <div className="flex mb-5">
