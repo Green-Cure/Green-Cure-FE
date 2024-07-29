@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/app/utils/formatTimestamp";
-import request from "@/app/utils/requests";
+import request from "@/app/utils/request";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LuPlus } from "react-icons/lu";
@@ -263,7 +263,7 @@ export default function DashboardArticle() {
           </tbody>
         </table>
 
-        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} />
+        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} label={"article"} />
       </div>
 
       <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">

@@ -146,8 +146,8 @@ export const ArticleProvider = ({ children }) => {
 export default function MyArticleLayout({ children }) {
   return (
     <>
+      <LoggedInNavbar />
       <ArticleProvider>
-        <LoggedInNavbar />
         <section className="sm:ml-12 md:ml-16 lg:ml-20 sm:px-10 sm:mb-10 mb-20">
           <TopBar pageName={"Artikel"} />
           {children}

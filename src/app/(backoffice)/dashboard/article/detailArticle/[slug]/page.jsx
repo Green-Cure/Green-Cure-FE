@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/app/utils/formatTimestamp";
-import request from "@/app/utils/requests";
+import request from "@/app/utils/request";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

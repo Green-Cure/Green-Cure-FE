@@ -17,6 +17,7 @@ export default function MyLayout({ children }) {
   //   const token = localStorage.getItem("token");
   //   if (!token) {
   //     router.push("/auth/login");
+  //     return;
   //   }
   // }, [router]);
 

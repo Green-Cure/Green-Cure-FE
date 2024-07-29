@@ -1,6 +1,6 @@
 "use client";
 
-import request from "@/app/utils/requests";
+import request from "@/app/utils/request";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,18 +25,21 @@ export default function Login() {
     setTypeInput(!typeInput);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     request
-      .post("auth/authenticated", {
+      .post("/auth/authenticated", {
         email: email,
         password: password,
       })
       .then(function (response) {
-        console.info(response.response.data);
-        if (response.response.data.statusCode === 200 || response.response.data.statusCode === 201) {
-          localStorage.setItem("token", response.data);
-          router.push("/my");
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            localStorage.setItem("token", response.data.data[0].token);
+            router.push("/my");
+          } else {
+            window.alert("Login gagal");
+          }
         } else {
           window.alert("Login gagal");
         }

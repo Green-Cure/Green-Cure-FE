@@ -9,10 +9,32 @@ import ProfileMonitoring from "./ProfileMonitoring";
 import ProfileSaved from "./ProfileSaved";
 import TopBar from "../TopBar";
 import Link from "next/link";
+import request from "@/app/utils/request";
 
 export default function Profile() {
   const [showProfileNavbar, setShowProfileNavbar] = useState("1");
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    request
+      .delete("/auth/logout")
+      .then(function (response) {
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            localStorage.clear();
+            window.location.href = "/auth/login";
+          } else {
+            window.alert("Logout gagal");
+          }
+        } else {
+          window.alert("Logout gagal");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -39,12 +61,13 @@ export default function Profile() {
                   </Link>
                 </li>
                 <li className="relative">
-                  <Link
-                    href={"#"}
+                  <button
+                    type="button"
+                    onClick={handleLogout}
                     className="md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcSecondary-500 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-medium"
                   >
                     Log Out
-                  </Link>
+                  </button>
                 </li>
               </ul>
               <button className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent2p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500">
