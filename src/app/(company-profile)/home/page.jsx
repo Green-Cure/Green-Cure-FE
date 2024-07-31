@@ -29,29 +29,38 @@ export default function Home() {
 
         <section id="feature-section" className="md:py-32 py-20 flex justify-center items-center flex-col text-left md:text-center px-8 md:px-10 text-gcPrimary-1000">
           <div className="flex flex-col justify-center items-center md:px-0">
-            <h1 className="gcHeading1p mt-4 xl:w-2/6 text-center xl:px-8">Uncover the Plant Knowledge</h1>
+            <h1 className="gcHeading1p mt-4 xl:w-2/6 text-center">Uncover the Plant Knowledge</h1>
             <h3 className="mt-6 md:w-1/2 gcBody1p">
               Our platform offers a range of powerful features designed to help you identify plant diseases, access a comprehensive library of plant information, and engage with a community of plant enthusiasts.
             </h3>
           </div>
-          <div className="mt-8 md:mt-16 flex md:gap-6 gap-3 flex-wrap justify-center w-full">
+          <div className="mt-8 md:mt-16 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-6 gap-3 justify-items-center w-full relative">
             <div className="max-w-[500px] md:block flex flex-row gap-3 justify-center items-center">
-              <img src="https://placehold.co/550x400" alt="Plant Disease Detection" className="rounded-[30px] w-1/2 md:w-full" />
-              <div className="w-full md:mt-4 md:px-16 flex flex-col gap-2">
+              <div className="relative overflow-hidden md:h-[400px] sm:h-[150px] h-[110px] md:w-full w-1/2 rounded-[30px] mt-4 md:mt-0">
+                <img src="/images/desktop-deteksi.png" alt="Plant Disease Detection" className="rounded-[30px] h-full w-full scale-[1.3] object-cover rotate-[-17deg] absolute overflow-hidden" />
+                <div className="w-full absolute z-10 top-0 bottom-0 left-0 right-0 rounded-[30px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
+              </div>
+              <div className="w-full md:mt-4 md:px-4 flex flex-col gap-2">
                 <h1 className="gcHeading2p">Plant Disease Detection</h1>
                 <h3 className="md:mt-4 gcBody1p">Upload pictures of plants to get disease details, solutions, and product recommendations.</h3>
               </div>
             </div>
             <div className="max-w-[500px] md:block flex flex-row-reverse gap-3 justify-center items-center">
-              <img src="https://placehold.co/550x400" alt="Plant Disease Detection" className="rounded-[30px] w-1/2 md:w-full" />
-              <div className="w-full mt-4 md:px-16 flex flex-col gap-2 text-right md:text-center">
+              <div className="relative overflow-hidden md:h-[400px] sm:h-[150px] h-[110px] md:w-full w-1/2 rounded-[30px] mt-4 md:mt-0">
+                <img src="/images/desktop-library.png" alt="Plant Disease Detection" className="rounded-[30px] h-full w-full scale-[1.3] object-cover rotate-[-17deg] absolute overflow-hidden" />
+                <div className="w-full absolute z-10 top-0 bottom-0 left-0 right-0 rounded-[30px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
+              </div>
+              <div className="w-full mt-4 md:px-4 flex flex-col gap-2 text-right md:text-center">
                 <h1 className="gcHeading2p">Library of Plant Information</h1>
                 <h3 className="md:mt-4 gcBody1p">Access a comprehensive library of information on various plants and their diseases.</h3>
               </div>
             </div>
-            <div className="max-w-[500px] md:block flex flex-row gap-3 justify-center items-center">
-              <img src="https://placehold.co/550x400" alt="Plant Disease Detection" className="rounded-[30px] w-1/2 md:w-full" />
-              <div className="w-full mt-4 md:px-16 flex flex-col gap-2">
+            <div className="max-w-[500px] md:block flex flex-row gap-3 justify-center items-center relative lg:left-1/2 xl:left-0">
+              <div className="relative overflow-hidden md:h-[400px] sm:h-[150px] h-[110px] md:w-full w-1/2 rounded-[30px] mt-4 md:mt-0">
+                <img src="/images/desktop-forum.png" alt="Plant Disease Detection" className="rounded-[30px] h-full w-full scale-[1.3] object-cover rotate-[-17deg] absolute overflow-hidden" />
+                <div className="w-full absolute z-10 top-0 bottom-0 left-0 right-0 rounded-[30px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
+              </div>
+              <div className="w-full mt-4 md:px-4 flex flex-col gap-2">
                 <h1 className="gcHeading2p">Engage in Community Discussions</h1>
                 <h3 className="md:mt-4 gcBody1p">Share writings, pictures, and videos, and participate in discussions with fellow plant enthusiasts.</h3>
               </div>
@@ -62,7 +71,7 @@ export default function Home() {
           </a>
         </section>
 
-        <section id="feature-detection" className="py-32 flex justify-center items-center w-full lg:flex-row flex-col-reverse lg:gap-10 gap-5 px-8 md:px-10 text-gcPrimary-1000">
+        <section id="feature-detection" className="md:py-32 py-20 flex justify-center items-center w-full lg:flex-row flex-col-reverse lg:gap-10 gap-5 px-8 md:px-10 text-gcPrimary-1000">
           <div className="flex flex-col lg:w-3/5 md:gap-8 gap-6 justify-center items-center">
             <div>
               <h1 className="gcHeading1p leading-8 md:text-left text-center">Empower Your Gardening with Plant Disease Detection</h1>
@@ -72,8 +81,9 @@ export default function Home() {
               </p>
             </div>
             <div className="flex gap-8 justify-center items-center">
-              <div className="w-2/5 md:hidden flex">
-                <img src="https://placehold.co/750x800" alt="" className="m-auto rounded-2xl " />
+              <div className="relative md:hidden flex overflow-hidden sm:h-[200px] h-[150px] md:w-full w-1/2 rounded-2xl mt-4 md:mt-0">
+                <img src="/images/desktop-deteksi.png" alt="Plant Disease Detection" className="rounded-2xl h-full w-full scale-[1.3] object-cover rotate-[-17deg] absolute overflow-hidden" />
+                <div className="w-full absolute z-10 top-0 bottom-0 left-0 right-0 rounded-2xl bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
               </div>
               <div className="flex md:flex-row flex-col gap-4 md:w-full w-3/5">
                 <div>
@@ -90,14 +100,15 @@ export default function Home() {
               Learn More
             </a>
           </div>
-          <div className="w-full md:w-2/5 lg:w-2/5 md:flex hidden">
-            <img src="https://placehold.co/750x800" alt="" className="m-auto rounded-2xl " />
+          <div className="w-full md:w-full lg:w-2/5 md:flex hidden relative overflow-hidden lg:h-[600px] md:h-[350px] rounded-2xl mt-4 md:mt-0">
+            <img src="/images/desktop-deteksi.png" alt="Plant Disease Detection" className="rounded-2xl h-full w-full scale-[1.35] object-cover object-left-top rotate-[-17deg] absolute overflow-hidden" />
+            <div className="w-full absolute z-10 top-0 bottom-0 left-0 right-0 rounded-2xl bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
           </div>
         </section>
 
-        <section id="feature-section2" className="py-32 px-8 md:px-10 text-gcPrimary-1000">
+        <section id="feature-section2" className="md:py-32 py-20 px-8 md:px-10 text-gcPrimary-1000">
           <div className="text-center flex flex-col gap justify-center items-center">
-            <h1 className="gcHeading1p lg:w-3/4 xl:w-2/5">{`Services That Empower Your Plant's Health`}</h1>
+            <h1 className="gcHeading1p lg:w-3/4 xl:w-1/2">{`Services That Empower Your Plant's Health`}</h1>
           </div>
           <div className="flex justify-center items-start gap-5 md:gap-8 text-center mt-10 lg:mt-14 lg:flex-row flex-col">
             <div className="lg:max-w-xl flex flex-row lg:flex-col items-center justify-start lg:gap-4 gap-6 lg:text-center text-left">
@@ -134,12 +145,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-32 px-8 md:px-10 text-gcPrimary-1000">
+        <section className="md:py-32 py-20 px-8 md:px-10 text-gcPrimary-1000">
           <div className="text-center flex flex-col gap justify-center items-center px-8 md:px-10">
             <h1 className="gcHeading1p">Empowering Plant Lovers</h1>
           </div>
           <div className="flex justify-center items-center gap-5 md:gap-8 text-left md:mt-12 mt-7 md:flex-row flex-wrap">
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[550px] lg:w-[500px] md:w-[400px] sm:w-[300px] w-[150px] rounded-lg bg-gcNeutrals-baseWhite">
+            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
               <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
               <div className="flex gap-4 justify-center items-center">
                 <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
@@ -149,7 +160,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[550px] lg:w-[500px] md:w-[400px] sm:w-[300px] w-[150px] rounded-lg bg-gcNeutrals-baseWhite">
+            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
               <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
               <div className="flex gap-4 justify-center items-center">
                 <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
@@ -159,7 +170,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[550px] lg:w-[500px] md:w-[400px] sm:w-[300px] w-[150px] rounded-lg bg-gcNeutrals-baseWhite">
+            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
               <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
               <div className="flex gap-4 justify-center items-center">
                 <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
