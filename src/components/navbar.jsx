@@ -59,7 +59,7 @@ export default function Navbar() {
               <ul className="flex md:gap-3 lg:gap-6 flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
                 <li>
                   <Link
-                    href={"#"}
+                    href={"/my/article"}
                     className={`gcBody2p gcDropShadow py-2 px-3 text-gcNeutrals-600 rounded block relative md:p-0 ${
                       pathname == "/article"
                         ? "md:bg-transparent w-fit font-semibold"
@@ -71,7 +71,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={"#"}
+                    href={"/my/library"}
                     className={`gcBody2p gcDropShadow py-2 px-3 text-gcNeutrals-600 rounded block relative md:p-0 ${
                       pathname == "/library"
                         ? "md:bg-transparent w-fit font-semibold"
@@ -112,7 +112,7 @@ export default function Navbar() {
               </div>
               <li>
                 <Link
-                  href={"#"}
+                  href={"/my/article"}
                   className={`gcBody2p gcDropShadow block py-2 px-3 rounded border transition md:p-0 ${
                     pathname == "/article" ? "text-gcNeutrals-baseWhite bg-gcNeutrals-600 md:bg-transparent" : "text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 md:hover:bg-transparent"
                   }`}
@@ -123,7 +123,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Link
-                  href={"#"}
+                  href={"/my/library"}
                   className={`gcBody2p gcDropShadow block py-2 px-3 rounded border transition md:p-0 ${
                     pathname == "/library" ? "text-gcNeutrals-baseWhite bg-gcNeutrals-600 md:bg-transparent" : "text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 md:hover:bg-transparent"
                   }`}

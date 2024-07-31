@@ -1,10 +1,17 @@
 "use client";
 
+import { UserContext } from "@/contexts/UserContext";
+import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { host } from "../utils/urlApi";
 
 export default function LoggedInNavbar() {
   const pathname = usePathname();
+
+  const { userData, setUserData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const classDesktopHover =
     "before:block before:absolute relative before:bg-gcNeutrals-baseWhite before:w-2 md:before:h-7 sm:before:h-6 before:rounded-r-md before:top-1/2 before:-translate-y-1/2 before:-left-full transition-all md:hover:before:left-3 lg:hover:before:left-1 sm:hover:before:left-4 before:transition-all";
@@ -17,6 +24,55 @@ export default function LoggedInNavbar() {
 
   const classMobileActive =
     "relative text-xl w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcNeutrals-baseWhite after:w-4 after:left-1/2 after:-translate-x-1/2 after:scale-x-100 after:transition after:duration-300 after:origin-center after:rounded-lg after:-bottom-2";
+
+  useEffect(() => {
+    if (!userData) {
+      const data = getUserData();
+      console.log(data);
+      if (data) {
+        data
+          .then((response) => {
+            setUserData(response);
+            setLoading(false);
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      } else {
+        setUserData(null);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userData, setUserData]);
+
+  const getUserData = async () => {
+    let userData;
+    await axios
+      .get(`${host}/auth/my`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } })
+      .then((response) => {
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            console.log(response.data);
+            userData = response.data.data[0].user;
+          } else {
+            window.alert("Gagal mengambil data user");
+            return null;
+          }
+        }
+      })
+      .catch(function (err) {
+        if (err.response) {
+          if (err.response.data.statusCode == 401) {
+            userData = null;
+          }
+        }
+        console.log(err);
+      });
+
+    return userData;
+  };
 
   return (
     <>
@@ -121,8 +177,16 @@ export default function LoggedInNavbar() {
           </ul>
           <div className={`items-center justify-center lg:mt-20 md:mt-16 sm:mt-12 sm:flex-col flex-row gap-2 sm:flex hidden `}>
             <Link href={"/my/profile"} className={`w-full justify-center items-center flex ${pathname.startsWith("/my/profile") ? classDesktopActive : classDesktopHover}`}>
-              <div className="flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1">
-                <img className="rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8" src="https://placehold.co/45x45" alt="User Profile" />
+              <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
+                {!loading && userData?.avatar !== undefined && (
+                  <img
+                    className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 ${!userData.avatar && "p-2"}`}
+                    src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"}
+                    alt="User Profile"
+                  />
+                )}
+                {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 p-2`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
+                {loading && <div className="rounded-full lg:w-12 md:w-10 sm:w-8 lg:h-12 md:h-10 sm:h-8"></div>}
               </div>
             </Link>
             <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">Free</span>
@@ -184,8 +248,12 @@ export default function LoggedInNavbar() {
                 </Link>
               </li>
               <Link href={"/my/profile"} className={pathname.startsWith("/my/profile") ? classMobileActive : classMobileHover}>
-                <div className="flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1">
-                  <img className="rounded-full object-cover object-center w-7" src="https://placehold.co/45x45" alt="User Profile" />
+                <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${!userData && "animate-pulse"}`}>
+                  {!loading && userData?.avatar !== undefined && (
+                    <img className={`rounded-full object-cover object-center w-7`} src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"} alt="User Profile" />
+                  )}
+                  {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center w-7 p-1`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
+                  {loading && <div className="rounded-full w-7 h-7"></div>}
                 </div>
               </Link>
             </div>

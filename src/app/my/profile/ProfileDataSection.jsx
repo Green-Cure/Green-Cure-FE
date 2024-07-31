@@ -1,9 +1,14 @@
-export default function ProfileDataSection() {
+export default function ProfileDataSection({ userData }) {
   return (
     <section className="">
       <div className="flex justify-left items-center xl:px-20 lg:px-16 md:px-12 px-7 sm:px-10 md:py-10 py-5 md:gap-8 gap-5">
         <div className="relative">
-          <img src="https://placehold.co/150x150" alt="Profile Avatar" className="rounded-full xl:w-36 lg:w-32 md:w-28 sm:w-24 w-20" />
+          {userData.avatar ? (
+            <img src={`${host}/uploads${userData.avatar}`} alt="Profile Avatar" className="rounded-full xl:w-36 lg:w-32 md:w-28 sm:w-24 w-20" />
+          ) : (
+            <img src={"/avatars/default-avatar.svg"} alt="Profile Avatar" className="rounded-full xl:w-36 lg:w-32 md:w-28 sm:w-24 w-20" />
+          )}
+
           <button className="absolute border right-0 bottom-1 sm:bottom-3 bg-gcSecondary-baseSecondary p-1.5 rounded-full">
             <svg className="lg:w-5 lg:h-5 md:w-4 md:h-4 w-3 h-3" width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -14,9 +19,9 @@ export default function ProfileDataSection() {
           </button>
         </div>
         <div className="flex flex-col gap-1">
-          <h1 className="gcHeading5p text-gcPrimary-1000">Name</h1>
-          <h3 className="gcContentAccent1p text-gcPrimary-1000">@username</h3>
-          <h4 className="gcContentAccent1pi text-gcSecondary-500">Email</h4>
+          <h1 className="gcHeading5p text-gcPrimary-1000">{userData.name}</h1>
+          <h3 className="gcContentAccent1p text-gcPrimary-1000">@{userData.username}</h3>
+          <h4 className="gcContentAccent1pi text-gcSecondary-500">{userData.email}</h4>
         </div>
       </div>
     </section>

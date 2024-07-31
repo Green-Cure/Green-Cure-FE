@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <div className="bg-gradient-to-br from-gcNeutrals-baseWhite to-gcPrimary-basePrimary">
         <Navbar />
-        <section className="mt-16 flex md:flex-row flex-col gap-10">
+        <section className="pt-16 flex md:flex-row flex-col gap-10">
           <div className="rounded-br-[70px] md:w-3/5 -mt-3 lg:max-w-screen-lg relative md:h-max h-36 overflow-hidden">
             <img className="w-full md:h-full rounded-br-[70px] bg-cover" src="/images/close-up-woman-s-hand-holding-smartphone-near-plants.jpg" alt="Hero Image" />
             <div className="w-full absolute top-0 bottom-0 left-0 right-0 rounded-br-[70px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
@@ -17,13 +17,17 @@ export default function Home() {
             <h1 className="gcHeading1p gcDropShadow">Discover the power of plant disease detection and curing your plants!</h1>
             <h3 className="mt-4 gcBody1p gcDropShadow">Upload pictures of your plants and get disease details, solutions, and product recommendations</h3>
             <div className="mt-4 flex gap-6 justify-start items-center">
-              <button className="rounded-[10px] py-2.5 px-6 bg-gcPrimary-1000 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">Explore</button>
-              <button className="rounded-[10px] py-2.5 px-4 bg-gcPrimary-600 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">Learn More</button>
+              <a href="/auth/login" className="rounded-[10px] py-2.5 px-6 bg-gcPrimary-1000 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">
+                Explore
+              </a>
+              <a href="#feature-section" className="rounded-[10px] py-2.5 px-4 bg-gcPrimary-600 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">
+                Learn More
+              </a>
             </div>
           </div>
         </section>
 
-        <section className="md:my-32 my-20 flex justify-center items-center flex-col text-left md:text-center px-8 md:px-10 text-gcPrimary-1000">
+        <section id="feature-section" className="md:py-32 py-20 flex justify-center items-center flex-col text-left md:text-center px-8 md:px-10 text-gcPrimary-1000">
           <div className="flex flex-col justify-center items-center md:px-0">
             <h1 className="gcHeading1p mt-4 xl:w-2/6 text-center xl:px-8">Uncover the Plant Knowledge</h1>
             <h3 className="mt-6 md:w-1/2 gcBody1p">
@@ -53,10 +57,12 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <button className="rounded-[10px] py-2.5 px-6 mt-10 bg-gcPrimary-1000 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">Learn More</button>
+          <a href="#feature-detection" className="rounded-[10px] py-2.5 px-6 mt-10 bg-gcPrimary-1000 text-gcNeutrals-baseWhite gcContentAccent1p gcDropShadow">
+            Learn More
+          </a>
         </section>
 
-        <section className="my-32 flex justify-center items-center w-full lg:flex-row flex-col-reverse lg:gap-10 gap-5 px-8 md:px-10 text-gcPrimary-1000">
+        <section id="feature-detection" className="py-32 flex justify-center items-center w-full lg:flex-row flex-col-reverse lg:gap-10 gap-5 px-8 md:px-10 text-gcPrimary-1000">
           <div className="flex flex-col lg:w-3/5 md:gap-8 gap-6 justify-center items-center">
             <div>
               <h1 className="gcHeading1p leading-8 md:text-left text-center">Empower Your Gardening with Plant Disease Detection</h1>
@@ -80,14 +86,16 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <button className="rounded-[10px] mt-2 py-2.5 px-6 bg-gcPrimary-1000 text-gcNeutrals-baseWhite md:place-self-start place-self-center gcContentAccent1p gcDropShadow">Learn More</button>
+            <a href="#feature-section2" className="rounded-[10px] mt-2 py-2.5 px-6 bg-gcPrimary-1000 text-gcNeutrals-baseWhite md:place-self-start place-self-center gcContentAccent1p gcDropShadow">
+              Learn More
+            </a>
           </div>
           <div className="w-full md:w-2/5 lg:w-2/5 md:flex hidden">
             <img src="https://placehold.co/750x800" alt="" className="m-auto rounded-2xl " />
           </div>
         </section>
 
-        <section className="my-32 px-8 md:px-10 text-gcPrimary-1000">
+        <section id="feature-section2" className="py-32 px-8 md:px-10 text-gcPrimary-1000">
           <div className="text-center flex flex-col gap justify-center items-center">
             <h1 className="gcHeading1p lg:w-3/4 xl:w-2/5">{`Services That Empower Your Plant's Health`}</h1>
           </div>
@@ -126,7 +134,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="my-32 px-8 md:px-10 text-gcPrimary-1000">
+        <section className="py-32 px-8 md:px-10 text-gcPrimary-1000">
           <div className="text-center flex flex-col gap justify-center items-center px-8 md:px-10">
             <h1 className="gcHeading1p">Empowering Plant Lovers</h1>
           </div>

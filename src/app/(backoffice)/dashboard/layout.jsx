@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MenuSidebar from "./MenuSidebar";
 import { BsFillPeopleFill, BsFillBarChartLineFill } from "react-icons/bs";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -8,14 +8,21 @@ import { FaBookOpen } from "react-icons/fa6";
 import { MdForum, MdArticle } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import BreadCrumbs from "./BreadCrumbs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import request from "@/app/utils/request";
+import { UserContext } from "@/contexts/UserContext";
+import { getUserData } from "@/app/utils/getUserData";
+import { getRole } from "@/app/utils/getRole";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [isSidebarDropdown, setIsSidebarDropdown] = useState(false);
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
+
+  const { userData, setUserData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const toggleSidebarDropdown = () => {
     setIsSidebarDropdown(!isSidebarDropdown);
@@ -46,13 +53,62 @@ export default function DashboardLayout({ children }) {
       });
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     router.push("/auth/login");
-  //     return;
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    let role = localStorage.getItem("role");
+
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
+
+    if (!role) {
+      role = getRole();
+    }
+
+    if (role != "1") {
+      router.push("/my");
+      return;
+    }
+
+    if (!userData) {
+      const data = getUserData();
+      if (data) {
+        data.then(
+          (response) => {
+            setUserData(response);
+            setLoading(false);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      } else {
+        setLoading(false);
+        setUserData(null);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [router, userData, setUserData]);
+
+  useEffect(() => {
+    window.addEventListener("storage", async (event) => {
+      if (event.key === "token" || event.key === "role") {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const role = await getRole();
+          if (role) {
+            localStorage.setItem("role", role);
+          }
+        } else {
+          localStorage.clear();
+        }
+
+        window.location.reload();
+      }
+    });
+  });
 
   return (
     <div>
@@ -101,10 +157,10 @@ export default function DashboardLayout({ children }) {
                   <div className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow absolute top-1/2 right-0" id="dropdown-user">
                     <div className="px-4 py-3" role="none">
                       <p className="text-sm text-gray-900" role="none">
-                        Neil Sims
+                        {userData?.name}
                       </p>
                       <p className="text-sm font-medium text-gray-900 truncate" role="none">
-                        neil.sims@flowbite.com
+                        {userData?.email}
                       </p>
                     </div>
                     <ul className="py-1" role="none">
