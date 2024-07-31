@@ -124,22 +124,6 @@ export const ArticleProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //   useEffect(() => {
-  //     const getArticles = async () => {
-  //       try {
-  //         const data = await fetchArticles();
-  //         setArticles(data.data);
-  //         setMeta(data.meta);
-  //       } catch (error) {
-  //         setError(error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     getArticles();
-  //   }, []);
-
   return <ArticleContext.Provider value={{ articles, loading, error, meta }}>{children}</ArticleContext.Provider>;
 };
 

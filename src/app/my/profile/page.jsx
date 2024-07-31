@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoggedInNavbar from "../LoggedInNavbar";
 import ProfileDataSection from "./ProfileDataSection";
 import ProfileNavbar from "./ProfileNavbar";
@@ -10,10 +10,15 @@ import ProfileSaved from "./ProfileSaved";
 import TopBar from "../TopBar";
 import Link from "next/link";
 import request from "@/app/utils/request";
+import { getUserData } from "@/app/utils/getUserData";
+import { UserContext } from "@/contexts/UserContext";
 
 export default function Profile() {
   const [showProfileNavbar, setShowProfileNavbar] = useState("1");
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const { userData, setUserData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -35,6 +40,28 @@ export default function Profile() {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    if (!userData) {
+      const data = getUserData();
+      if (data) {
+        data.then(
+          (response) => {
+            setUserData(response);
+            setLoading(false);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      } else {
+        setLoading(false);
+        setUserData(null);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userData, setUserData]);
 
   return (
     <>
@@ -107,11 +134,17 @@ export default function Profile() {
             </div>
           </div>
         </TopBar>
-        <ProfileDataSection />
-        <ProfileNavbar showProfileNavbar={showProfileNavbar} setShowProfileNavbar={setShowProfileNavbar} />
-        {showProfileNavbar == "1" && <ProfilePost />}
-        {showProfileNavbar == "2" && <ProfileMonitoring />}
-        {showProfileNavbar == "3" && <ProfileSaved />}
+        {loading ? (
+          "Loading..."
+        ) : (
+          <>
+            <ProfileDataSection userData={userData} />
+            <ProfileNavbar showProfileNavbar={showProfileNavbar} setShowProfileNavbar={setShowProfileNavbar} />
+            {showProfileNavbar == "1" && <ProfilePost />}
+            {showProfileNavbar == "2" && <ProfileMonitoring />}
+            {showProfileNavbar == "3" && <ProfileSaved />}
+          </>
+        )}
       </section>
     </>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { getRole } from "@/app/utils/getRole";
 import request from "@/app/utils/request";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,11 +33,19 @@ export default function Login() {
         email: email,
         password: password,
       })
-      .then(function (response) {
+      .then(async function (response) {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
             localStorage.setItem("token", response.data.data[0].token);
-            router.push("/my");
+            const role = await getRole();
+            localStorage.setItem("role", role);
+            if (role == "1") {
+              router.push("/dashboard");
+            } else if (role == "2" || role == "3") {
+              router.push("/my");
+            } else {
+              window.alert("Role tidak valid");
+            }
           } else {
             window.alert("Login gagal");
           }
