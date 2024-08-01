@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiEyeOff, FiEye } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
@@ -35,22 +36,26 @@ export default function Login() {
       })
       .then(async function (response) {
         if (response.data) {
-          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+          if (
+            response.data.statusCode === 200 ||
+            response.data.statusCode === 201
+          ) {
             localStorage.setItem("token", response.data.data[0].token);
             const role = await getRole();
             localStorage.setItem("role", role);
+            toast.success("Login Successfully");
             if (role == "1") {
               router.push("/dashboard");
             } else if (role == "2" || role == "3") {
               router.push("/my");
             } else {
-              window.alert("Role tidak valid");
+              toast.error("Something Went Wrong");
             }
           } else {
-            window.alert("Login gagal");
+            toast.error("Login Failed Credentials Must Valid");
           }
         } else {
-          window.alert("Login gagal");
+          toast.error("Login Failed Credentials Must Valid");
         }
       })
       .catch(function (err) {
@@ -61,14 +66,29 @@ export default function Login() {
   return (
     <>
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
-        <img className="w-full rounded-br-[70px]" src="/images/close-up-woman-s-hand-holding-smartphone-near-plants.jpg" alt="Hero Image" />
+        <img
+          className="w-full rounded-br-[70px]"
+          src="/images/close-up-woman-s-hand-holding-smartphone-near-plants.jpg"
+          alt="Hero Image"
+        />
         <div className="w-full absolute top-0 bottom-0 left-0 right-0 rounded-br-[70px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
       </div>
       <div className="flex min-h-full flex-col justify-center px-7 sm:px-0 py-12 sm:py-16 md:px-8 md:py-20 md:w-2/5">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md md:inline-block flex flex-col justify-center items-center">
-          <h2 className="mt-6 text-center text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Welcome to</h2>
-          <h1 className="text-center text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">GreenCure</h1>
-          <svg width="80" height="80" className="md:hidden w-20 gcDropShadow mt-8 mb-2" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <h2 className="mt-6 text-center text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
+            Welcome to
+          </h2>
+          <h1 className="text-center text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
+            GreenCure
+          </h1>
+          <svg
+            width="80"
+            height="80"
+            className="md:hidden w-20 gcDropShadow mt-8 mb-2"
+            viewBox="0 0 53 53"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -76,7 +96,9 @@ export default function Login() {
               fill="#fafafa"
             />
           </svg>
-          <h2 className="mt-6 md:mt-10 text-center text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Please log in to continue</h2>
+          <h2 className="mt-6 md:mt-10 text-center text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
+            Please log in to continue
+          </h2>
         </div>
 
         <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md">
@@ -110,7 +132,17 @@ export default function Login() {
                   value={password}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm  placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
-                {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
+                {typeInput ? (
+                  <FiEye
+                    className="text-xl absolute top-1/2 -translate-y-1/2 right-3"
+                    onClick={handleClickType}
+                  />
+                ) : (
+                  <FiEyeOff
+                    className="text-xl absolute top-1/2 -translate-y-1/2 right-3"
+                    onClick={handleClickType}
+                  />
+                )}
               </div>
             </div>
 
@@ -124,7 +156,9 @@ export default function Login() {
             </div>
           </form>
 
-          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">{"Don't have an account?"}</p>
+          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">
+            {"Don't have an account?"}
+          </p>
           <Link
             href={"/auth/register"}
             className="flex w-full justify-center rounded-md bg-gcNeutrals-baseWhite px-3 py-3 md:py-3 text-base font-bold leading-6 text-gcPrimary-1000 shadow-sm hover:bg-gcPrimary-1000 hover:text-gcNeutrals-baseWhite transition mt-3"

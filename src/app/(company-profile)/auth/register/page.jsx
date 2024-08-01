@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import request from "@/app/utils/request";
 import React, { useState } from "react";
 import { FiEyeOff, FiEye } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 export default function Register() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -30,6 +33,7 @@ export default function Register() {
   const handleChangePhone = (event) => {
     setPhone(event.target.value);
   };
+
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
@@ -37,9 +41,25 @@ export default function Register() {
   const handleClickType = () => {
     setTypeInput(!typeInput);
   };
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    username: "",
+    phone: "",
+    name: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    console.log("Submitting form with data:", {
+      email: email,
+      password: password,
+      username: username,
+      phone: phone,
+      name: name,
+    });
+
     request
       .post("auth/register", {
         email: email,
@@ -48,31 +68,65 @@ export default function Register() {
         phone: phone,
         name: name,
       })
-      .then(function (response) {
-        console.info(response.response.data);
-        if (response.response.data.statusCode === 200 || response.response.data.statusCode === 201) {
-          localStorage.setItem("token", response.data);
-          router.push("/my");
+      .then(function (res) {
+        if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+          toast.success(res.data.message);
+          router.push("/auth/login");
+        } else if (res.response.data.statusCode === 422) {
+          const newErrors = {
+            email: "",
+            password: "",
+            username: "",
+            phone: "",
+            name: "",
+          };
+
+          res.response.data.messages.forEach((message) => {
+            newErrors[message.field] = message.message;
+          });
+
+          setErrors(newErrors);
+          toast.error("Something Went Wrong");
+        } else if (res.response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
         } else {
-          window.alert("Register gagal");
+          toast.error("An unexpected error occurred");
         }
       })
-      .catch(function (err) {
-        console.log(err);
+      .finally(() => {
+        setIsLoading(false);
+        console.log("Form submission complete");
       });
   };
 
   return (
     <>
       <div className="rounded-br-[70px] md:w-3/5 mt-16 lg:max-w-screen-lg md:inline-block hidden relative h-max">
-        <img className="w-full rounded-br-[70px]" src="/images/woman-growing-plants-close-up.jpg" alt="Hero Image" />
+        <img
+          className="w-full rounded-br-[70px]"
+          src="/images/woman-growing-plants-close-up.jpg"
+          alt="Hero Image"
+        />
         <div className="w-full absolute top-0 bottom-0 left-0 right-0 rounded-br-[70px] bg-gradient-to-br from-transparent to-gcPrimary-900 inset-0 opacity-100"></div>
       </div>
       <div className="flex min-h-full flex-col justify-center px-7 sm:px-0 py-12 sm:py-16 md:px-8 md:py-20 md:w-2/5">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm md:max-w-md md:inline-block flex flex-col justify-center items-center">
-          <h2 className="mt-6 text-center text-sm md:text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Join the GreenCure</h2>
-          <h1 className="text-center text-3xl md:text-2xl lg:text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">Create your Account</h1>
-          <svg width="80" height="80" className="md:hidden w-20 gcDropShadow mt-8 mb-2" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <h2 className="mt-6 text-center text-sm md:text-base font-semibold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
+            Join the GreenCure
+          </h2>
+          <h1 className="text-center text-3xl md:text-2xl lg:text-3xl font-bold leading-9 tracking-tight md:text-gcPrimary-1000 text-gcNeutrals-baseWhite gcDropShadow">
+            Create your Account
+          </h1>
+          <svg
+            width="80"
+            height="80"
+            className="md:hidden w-20 gcDropShadow mt-8 mb-2"
+            viewBox="0 0 53 53"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -97,6 +151,27 @@ export default function Register() {
                   onChange={handleChangeName}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {errors.name && (
+                  <small className="text-red-600">{errors.name}</small>
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="mt-2">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  placeholder="Username"
+                  required
+                  value={username}
+                  onChange={handleChangeUsername}
+                  className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
+                />
+                {errors.username && (
+                  <small className="text-red-600">{errors.username}</small>
+                )}
               </div>
             </div>
 
@@ -113,6 +188,27 @@ export default function Register() {
                   onChange={handleChangeEmail}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {errors.email && (
+                  <small className="text-red-600">{errors.email}</small>
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="mt-2">
+                <input
+                  id="phone"
+                  name="phone"
+                  type="phone"
+                  autoComplete="phone"
+                  placeholder="No Handphone"
+                  required
+                  value={phone}
+                  onChange={handleChangePhone}
+                  className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
+                />
+                {errors.phone && (
+                  <small className="text-red-600">{errors.phone}</small>
+                )}
               </div>
             </div>
 
@@ -129,21 +225,62 @@ export default function Register() {
                   onChange={handleChangePassword}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
-                {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
+                {typeInput ? (
+                  <FiEye
+                    className="text-xl absolute top-1/2 -translate-y-1/2 right-3"
+                    onClick={handleClickType}
+                  />
+                ) : (
+                  <FiEyeOff
+                    className="text-xl absolute top-1/2 -translate-y-1/2 right-3"
+                    onClick={handleClickType}
+                  />
+                )}
+                {errors.password && (
+                  <small className="text-red-600">{errors.password}</small>
+                )}
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-gcPrimary-1000 px-3 py-3 text-base font-bold leading-6 text-gcNeutrals-baseWhite shadow-sm hover:bg-gcNeutrals-baseWhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-1000 hover:text-gcPrimary-1000 transition"
+                className={`flex w-full justify-center rounded-[10px] bg-gcPrimary-1000 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gcPrimary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-600 ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
               >
-                Register
+                {isLoading ? (
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
           </form>
 
-          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">{"Already have an account?"}</p>
+          <p className="mt-8 text-center text-sm text-gcPrimary-1000 gcDropShadow">
+            {"Already have an account?"}
+          </p>
           <Link
             href={"/auth/login"}
             className="flex w-full justify-center rounded-md bg-gcNeutrals-baseWhite px-3 py-3 md:py-3 text-base font-bold leading-6 text-gcPrimary-1000 shadow-sm hover:bg-gcPrimary-1000 hover:text-gcNeutrals-baseWhite transition mt-3"
