@@ -52,13 +52,6 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("Submitting form with data:", {
-      email: email,
-      password: password,
-      username: username,
-      phone: phone,
-      name: name,
-    });
 
     request
       .post("auth/register", {
@@ -97,7 +90,6 @@ export default function Register() {
       })
       .finally(() => {
         setIsLoading(false);
-        console.log("Form submission complete");
       });
   };
 
