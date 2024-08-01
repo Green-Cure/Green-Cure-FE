@@ -266,8 +266,8 @@ export default function DashboardLibrary() {
           </thead>
           <tbody>
             {isLoading ? (
-              <td className="w-4 p-4">Loading...</td>
-            ) : (
+              <td className="p-4">Loading...</td>
+            ) : datas.length > 1 ? (
               datas.map((data) => {
                 return (
                   <tr className="bg-white border-b hover:bg-gray-50" key={data.id}>
@@ -320,6 +320,8 @@ export default function DashboardLibrary() {
                   </tr>
                 );
               })
+            ) : (
+              <td className="p-4 text-nowrap">No data</td>
             )}
           </tbody>
         </table>
