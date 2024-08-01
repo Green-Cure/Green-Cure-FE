@@ -84,7 +84,6 @@ export default function InputLibrary({ data, handleSubmit, typeLibrary, setTypeL
                 if (typeLibrary == "plant") {
                   newData.latin = latin;
                 }
-                console.log("No Initial Data");
               } else {
                 newData.name = name;
                 newData.description = description;
@@ -92,7 +91,6 @@ export default function InputLibrary({ data, handleSubmit, typeLibrary, setTypeL
                 if (typeLibrary == "plant") {
                   newData.latin = latin;
                 }
-                console.log("With Initial Data");
               }
 
               handleSubmit(newData);

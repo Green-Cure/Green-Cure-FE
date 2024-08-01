@@ -300,64 +300,6 @@ export default function DashboardLibrary() {
             </tr>
           </thead>
           <tbody>
-            {/* {isLoading ? (
-              <td className="p-4">Loading...</td>
-            ) : datas !== null ? (
-              datas.map((data) => {
-                return (
-                  <tr className="bg-white border-b hover:bg-gray-50" key={data.id}>
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                        <label htmlFor="checkbox-table-search-3" className="sr-only">
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900">
-                      <h4
-                        className="text-wrap line-clamp-3 hover:underline cursor-pointer"
-                        onClick={() => {
-                          router.push(`/dashboard/library/detailLibrary/${data.type}/${data.id}`);
-                        }}
-                      >
-                        {data.name}
-                      </h4>
-                    </th>
-                    <td className="px-6 py-4">
-                      <img className="max-h-24" src={`${hostNoPrefix}uploads/${data.image}`} alt="Data Thumbnails" />
-                    </td>
-                    <td className="px-6 py-4">{formatDate(data.createdAt)}</td>
-                    <td className="px-6 py-4 ">
-                      <div className="flex gap-3 items-center justify-start">
-                        <button
-                          type="button"
-                          className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                          onClick={() => {
-                            router.push(`/dashboard/library/editLibrary/${data.type}/${data.id}`);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                          onClick={() => {
-                            setIdDelete(data.id);
-                            setTypeDelete(data.type);
-                            setToggleDelete(!toggleDelete);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <td className="p-4 text-nowrap">No data</td>
-            )} */}
             {!isLoading ? (
               datas ? (
                 datas.length > 0 ? (
