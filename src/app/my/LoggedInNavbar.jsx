@@ -189,7 +189,7 @@ export default function LoggedInNavbar() {
                 {loading && <div className="rounded-full lg:w-12 md:w-10 sm:w-8 lg:h-12 md:h-10 sm:h-8"></div>}
               </div>
             </Link>
-            <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">Free</span>
+            <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">{userData?.username ? "Free" : "Guest"}</span>
           </div>
 
           {/* Mobile */}
@@ -248,7 +248,7 @@ export default function LoggedInNavbar() {
                 </Link>
               </li>
               <Link href={"/my/profile"} className={pathname.startsWith("/my/profile") ? classMobileActive : classMobileHover}>
-                <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${!userData && "animate-pulse"}`}>
+                <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
                   {!loading && userData?.avatar !== undefined && (
                     <img className={`rounded-full object-cover object-center w-7`} src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"} alt="User Profile" />
                   )}

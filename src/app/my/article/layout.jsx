@@ -4,6 +4,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { fetchArticles } from "@/app/api/article/route";
 import LoggedInNavbar from "../LoggedInNavbar";
 import TopBar from "../TopBar";
+import { usePathname, useRouter } from "next/navigation";
 
 export const ArticleContext = createContext();
 
@@ -128,6 +129,18 @@ export const ArticleProvider = ({ children }) => {
 };
 
 export default function MyArticleLayout({ children }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!token) {
+      if (pathname != "/my/article" && pathname != "/my/library") {
+        router.push("/auth/login");
+        return;
+      }
+    }
+  }, [router]);
+
   return (
     <>
       <LoggedInNavbar />
