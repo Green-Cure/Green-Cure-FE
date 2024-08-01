@@ -12,6 +12,7 @@ import Link from "next/link";
 import request from "@/app/utils/request";
 import { getUserData } from "@/app/utils/getUserData";
 import { UserContext } from "@/contexts/UserContext";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const [showProfileNavbar, setShowProfileNavbar] = useState("1");
@@ -20,20 +21,21 @@ export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
     request
       .delete("/auth/logout")
       .then(function (response) {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            toast.success("Logout Successfully");
             localStorage.clear();
             window.location.href = "/auth/login";
           } else {
-            window.alert("Logout gagal");
+            toast.error("Logout Failed Credentials Must Valid");
           }
         } else {
-          window.alert("Logout gagal");
+          toast.error("Logout Failed Credentials Must Valid");
         }
       })
       .catch(function (err) {

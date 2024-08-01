@@ -3,11 +3,13 @@
 import { UserContext } from "@/contexts/UserContext";
 import axios from "axios";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { host } from "../utils/urlApi";
+import toast from "react-hot-toast";
 
 export default function LoggedInNavbar() {
+  const router = useRouter();
   const pathname = usePathname();
 
   const { userData, setUserData } = useContext(UserContext);
@@ -34,9 +36,11 @@ export default function LoggedInNavbar() {
           .then((response) => {
             setUserData(response);
             setLoading(false);
+            console.log(userData);
           })
           .catch(function (err) {
-            console.log(err);
+            console.error(err);
+            toast.error("Something Went Wrong");
           });
       } else {
         setUserData(null);
@@ -45,7 +49,7 @@ export default function LoggedInNavbar() {
     } else {
       setLoading(false);
     }
-  }, [userData, setUserData]);
+  }, [userData, setUserData, router]);
 
   const getUserData = async () => {
     let userData;
@@ -54,10 +58,9 @@ export default function LoggedInNavbar() {
       .then((response) => {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
-            console.log(response.data);
             userData = response.data.data[0].user;
           } else {
-            window.alert("Gagal mengambil data user");
+            toast.error("Something Went Wrong");
             return null;
           }
         }
@@ -68,7 +71,7 @@ export default function LoggedInNavbar() {
             userData = null;
           }
         }
-        console.log(err);
+        console.error(err);
       });
 
     return userData;

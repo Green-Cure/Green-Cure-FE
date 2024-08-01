@@ -132,15 +132,6 @@ export default function MyArticleLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (!token) {
-      if (pathname != "/my/article" && pathname != "/my/library") {
-        router.push("/auth/login");
-        return;
-      }
-    }
-  }, [router]);
-
   return (
     <>
       <LoggedInNavbar />
