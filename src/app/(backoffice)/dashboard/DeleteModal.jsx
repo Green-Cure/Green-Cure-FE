@@ -1,4 +1,4 @@
-export default function DeleteModal({ toggleDelete, handleToggleDeleteModal, handleDelete, id, label }) {
+export default function DeleteModal({ toggleDelete, handleToggleDeleteModal, handleDelete, id, label, type }) {
   return (
     <div id="popup-modal" tabIndex="-1" className={`${toggleDelete ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-full bg-gray-900/50`}>
       <div className="relative p-4 w-full max-w-md max-h-full m-auto">
@@ -23,8 +23,11 @@ export default function DeleteModal({ toggleDelete, handleToggleDeleteModal, han
               data-modal-hide="popup-modal"
               type="button"
               className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-              onClick={() => {
-                handleDelete(id);
+              onClick={(e) => {
+                if (type?.length > 0) {
+                  handleDelete(e, id, type);
+                }
+                handleDelete(e, id);
               }}
             >
               Yes, I&apos;m sure

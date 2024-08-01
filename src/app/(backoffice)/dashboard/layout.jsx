@@ -13,6 +13,7 @@ import request from "@/app/utils/request";
 import { UserContext } from "@/contexts/UserContext";
 import { getUserData } from "@/app/utils/getUserData";
 import { getRole } from "@/app/utils/getRole";
+import toast from "react-hot-toast";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -32,20 +33,21 @@ export default function DashboardLayout({ children }) {
     setIsProfileDropdown(!isProfileDropdown);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
     request
       .delete("/auth/logout")
       .then(function (response) {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            toast.success("Logout Successfully");
             localStorage.clear();
             window.location.href = "/auth/login";
           } else {
-            window.alert("Logout gagal");
+            toast.error("Logout Failed Credentials Must Valid");
           }
         } else {
-          window.alert("Logout gagal");
+          toast.error("Logout Failed Credentials Must Valid");
         }
       })
       .catch(function (err) {
