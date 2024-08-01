@@ -1,23 +1,40 @@
 "use client";
 
+import { hostNoPrefix } from "@/app/utils/urlApi";
 import InputRichEditor from "@/components/form/InputRichEditor";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 
-export default function InputArticle({ article, handleSubmit }) {
+export default function InputArticle({ article, handleSubmit, currThumbnail = null, errors, isLoading }) {
   const router = useRouter();
 
   const newArticle = article ? article : {};
 
   const [title, setTitle] = useState(article ? article.title : "");
   const [content, setContent] = useState(article ? article.content : "");
-  const [thumbnail, setThumbnail] = useState(article ? article.image : null);
+  const [thumbnail, setThumbnail] = useState(null);
+
+  useEffect(() => {
+    setTitle(article ? article.title : "");
+    setThumbnail(null);
+    setContent(article ? article.content : null);
+  }, [article]);
 
   return (
     <>
-      <div className="border rounded-xl lg:p-4 md:p-3 p-2">
+      {currThumbnail !== null && (
+        <div className="border rounded-xl lg:p-4 md:p-3 p-2">
+          <div className="flex flex-col">
+            <label htmlFor="type" className="text-gcPrimary-1000 gcHeading7p">
+              Current Thumbnail
+            </label>
+            <img src={`${hostNoPrefix}uploads/${currThumbnail}`} alt="Current Thumbnail" className="rounded-xl max-w-96 max-h-60 object-cover object-center mt-1" />
+          </div>
+        </div>
+      )}
+      <div className="border rounded-xl lg:p-4 md:p-3 p-2 mt-3">
         <form
           action=""
           method="POST"
@@ -44,6 +61,7 @@ export default function InputArticle({ article, handleSubmit }) {
                 value={title}
                 className="block w-full rounded-xl border py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
               />
+              {errors.title && <small className="text-red-600">{errors.title}</small>}
             </div>
 
             <div className="col-span-6 sm:col-span-2">
@@ -58,9 +76,10 @@ export default function InputArticle({ article, handleSubmit }) {
                 accept={"image/*"}
                 type={"file"}
                 required={article ? false : true}
-                onChange={(e) => setThumbnail(e.target.files)}
+                onChange={(e) => setThumbnail(e.target.files[0])}
                 className="block w-full rounded-xl border py-2.5 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
               />
+              {errors.image && <small className="text-red-600">{errors.image}</small>}
             </div>
 
             <div className="col-span-6 sm:col-span-6">
@@ -70,6 +89,7 @@ export default function InputArticle({ article, handleSubmit }) {
               <div id="content" className="mt-1">
                 <InputRichEditor value={content} onChange={setContent} />
               </div>
+              {errors.content && <small className="text-red-600">{errors.content}</small>}
             </div>
 
             <div className="sm:col-span-6 flex gap-2">

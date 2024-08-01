@@ -95,7 +95,9 @@ export default function DashboardLibrary() {
         .get("plants")
         .then(function (response) {
           if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
-            plantData = response.data.data;
+            if (response.data.data.length > 0) {
+              plantData = response.data.data;
+            }
           } else if (response.data.statusCode === 500) {
             console.error("INTERNAL_SERVER_ERROR");
             toast.dismiss();
@@ -105,26 +107,37 @@ export default function DashboardLibrary() {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
-      console.log(plantData);
       return plantData;
     };
 
     const getPlantDiseasesDatas = async () => {
       let plantDiseasesData = null;
-      await request.get("plant-diseases").then(function (response) {
-        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
-          plantDiseasesData = response.data.data;
-        } else if (response.data.statusCode === 500) {
-          console.error("INTERNAL_SERVER_ERROR");
-          toast.dismiss();
+      await request
+        .get("plant-diseases")
+        .then(function (response) {
+          if (response.data) {
+            if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+              if (response.data.data.length > 0) {
+                plantDiseasesData = response.data.data;
+              }
+            } else if (response.data.statusCode === 500) {
+              console.error("INTERNAL_SERVER_ERROR");
+              toast.dismiss();
+              toast.error("Server Error");
+            } else {
+              toast.error("An unexpected error occurred");
+            }
+          } else {
+            toast.error("An unexpected error occurred");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
           toast.error("Server Error");
-        } else {
-          toast.error("An unexpected error occurred");
-        }
-      });
-      console.log(plantDiseasesData);
+          return;
+        });
       return plantDiseasesData;
     };
 
@@ -133,32 +146,54 @@ export default function DashboardLibrary() {
       let plantDiseasesData = null;
       await getPlantsDatas().then(
         (response) => {
-          plantData = addTypesToDatas(response, "plant");
+          if (response) {
+            plantData = addTypesToDatas(response, "plant");
+          }
         },
         () => null
       );
       await getPlantDiseasesDatas().then(
         (response) => {
-          plantDiseasesData = addTypesToDatas(response, "plant-diseases");
+          if (response) {
+            plantDiseasesData = addTypesToDatas(response, "plant-diseases");
+          }
         },
         () => null
       );
-      setDatas(plantData.concat(plantDiseasesData).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+
+      if (plantData && plantDiseasesData) {
+        setDatas(plantData.concat(plantDiseasesData).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      } else if (plantData && !plantDiseasesData) {
+        setDatas(plantData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      } else if (!plantData && plantDiseasesData) {
+        setDatas(plantDiseasesData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      } else {
+        setDatas(null);
+      }
+
       setIsLoading(false);
     };
 
-    if (displayData == "Plant") {
+    if (displayData === "Plant") {
       getPlantsDatas().then(
         (response) => {
-          setDatas(addTypesToDatas(response, "plant").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+          if (response) {
+            setDatas(addTypesToDatas(response, "plant").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+          } else {
+            setDatas(null);
+          }
           setIsLoading(false);
         },
         () => null
       );
-    } else if (displayData == "Plant Diseases") {
+    } else if (displayData === "Plant Diseases") {
       getPlantDiseasesDatas().then(
         (response) => {
-          setDatas(addTypesToDatas(response, "plant-diseases").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+          if (response) {
+            setDatas(addTypesToDatas(response, "plant-diseases").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+          } else {
+            setDatas(null);
+          }
           setIsLoading(false);
         },
         () => null
@@ -166,7 +201,7 @@ export default function DashboardLibrary() {
     } else {
       getDataAll();
     }
-  }, [isLoading, displayData]);
+  }, [isLoading, displayData, setIsLoading]);
 
   return (
     <>
@@ -265,63 +300,69 @@ export default function DashboardLibrary() {
             </tr>
           </thead>
           <tbody>
-            {isLoading ? (
-              <td className="p-4">Loading...</td>
-            ) : datas.length > 1 ? (
-              datas.map((data) => {
-                return (
-                  <tr className="bg-white border-b hover:bg-gray-50" key={data.id}>
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                        <label htmlFor="checkbox-table-search-3" className="sr-only">
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900">
-                      <h4
-                        className="text-wrap line-clamp-3 hover:underline cursor-pointer"
-                        onClick={() => {
-                          router.push(`/dashboard/library/detailLibrary/${data.type}/${data.id}`);
-                        }}
-                      >
-                        {data.name}
-                      </h4>
-                    </th>
-                    <td className="px-6 py-4">
-                      <img className="max-h-24" src={`${hostNoPrefix}uploads/${data.image}`} alt="Data Thumbnails" />
-                    </td>
-                    <td className="px-6 py-4">{formatDate(data.createdAt)}</td>
-                    <td className="px-6 py-4 ">
-                      <div className="flex gap-3 items-center justify-start">
-                        <button
-                          type="button"
-                          className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                          onClick={() => {
-                            router.push(`/dashboard/library/editLibrary/${data.type}/${data.id}`);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                          onClick={() => {
-                            setIdDelete(data.id);
-                            setTypeDelete(data.type);
-                            setToggleDelete(!toggleDelete);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+            {!isLoading ? (
+              datas ? (
+                datas.length > 0 ? (
+                  datas.map((data) => {
+                    return (
+                      <tr className="bg-white border-b hover:bg-gray-50" key={data.id}>
+                        <td className="w-4 p-4">
+                          <div className="flex items-center">
+                            <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                            <label htmlFor="checkbox-table-search-3" className="sr-only">
+                              checkbox
+                            </label>
+                          </div>
+                        </td>
+                        <th scope="row" className="px-6 py-4 font-medium text-gray-900">
+                          <h4
+                            className="text-wrap line-clamp-3 hover:underline cursor-pointer"
+                            onClick={() => {
+                              router.push(`/dashboard/library/detailLibrary/${data.type}/${data.id}`);
+                            }}
+                          >
+                            {data.name}
+                          </h4>
+                        </th>
+                        <td className="px-6 py-4">
+                          <img className="max-h-24" src={`${hostNoPrefix}uploads/${data.image}`} alt="Data Thumbnails" />
+                        </td>
+                        <td className="px-6 py-4">{formatDate(data.createdAt)}</td>
+                        <td className="px-6 py-4 ">
+                          <div className="flex gap-3 items-center justify-start">
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={() => {
+                                router.push(`/dashboard/library/editLibrary/${data.type}/${data.id}`);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={() => {
+                                setIdDelete(data.id);
+                                setTypeDelete(data.type);
+                                setToggleDelete(!toggleDelete);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <td className="p-4 text-nowrap">No data</td>
+                )
+              ) : (
+                <td className="p-4 text-nowrap">No data</td>
+              )
             ) : (
-              <td className="p-4 text-nowrap">No data</td>
+              <td className="p-4">Loading...</td>
             )}
           </tbody>
         </table>

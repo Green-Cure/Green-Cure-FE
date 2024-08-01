@@ -7,7 +7,6 @@ export const getUserData = async () => {
     .then(function (response) {
       if (response.data) {
         if (response.data.statusCode === 200 || response.data.statusCode === 201) {
-          console.log(response.data);
           userData = response.data.data[0].user;
         } else {
           // window.alert("Gagal mengambil data user");
