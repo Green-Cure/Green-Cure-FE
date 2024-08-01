@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiEyeOff, FiEye } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
@@ -39,18 +40,19 @@ export default function Login() {
             localStorage.setItem("token", response.data.data[0].token);
             const role = await getRole();
             localStorage.setItem("role", role);
+            toast.success("Login Successfully");
             if (role == "1") {
               router.push("/dashboard");
             } else if (role == "2" || role == "3") {
               router.push("/my");
             } else {
-              window.alert("Role tidak valid");
+              toast.error("Something Went Wrong");
             }
           } else {
-            window.alert("Login gagal");
+            toast.error("Login Failed Credentials Must Valid");
           }
         } else {
-          window.alert("Login gagal");
+          toast.error("Login Failed Credentials Must Valid");
         }
       })
       .catch(function (err) {

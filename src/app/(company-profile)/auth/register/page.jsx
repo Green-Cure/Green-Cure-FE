@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import request from "@/app/utils/request";
 import React, { useState } from "react";
 import { FiEyeOff, FiEye } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 export default function Register() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -30,6 +33,7 @@ export default function Register() {
   const handleChangePhone = (event) => {
     setPhone(event.target.value);
   };
+
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
@@ -37,9 +41,18 @@ export default function Register() {
   const handleClickType = () => {
     setTypeInput(!typeInput);
   };
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    username: "",
+    phone: "",
+    name: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     request
       .post("auth/register", {
         email: email,
@@ -48,17 +61,35 @@ export default function Register() {
         phone: phone,
         name: name,
       })
-      .then(function (response) {
-        console.info(response.response.data);
-        if (response.response.data.statusCode === 200 || response.response.data.statusCode === 201) {
-          localStorage.setItem("token", response.data);
-          router.push("/my");
+      .then(function (res) {
+        if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+          toast.success(res.data.message);
+          router.push("/auth/login");
+        } else if (res.response.data.statusCode === 422) {
+          const newErrors = {
+            email: "",
+            password: "",
+            username: "",
+            phone: "",
+            name: "",
+          };
+
+          res.response.data.messages.forEach((message) => {
+            newErrors[message.field] = message.message;
+          });
+
+          setErrors(newErrors);
+          toast.error("Something Went Wrong");
+        } else if (res.response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
         } else {
-          window.alert("Register gagal");
+          toast.error("An unexpected error occurred");
         }
       })
-      .catch(function (err) {
-        console.log(err);
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -99,6 +130,23 @@ export default function Register() {
                   onChange={handleChangeName}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {errors.name && <small className="text-red-600">{errors.name}</small>}
+              </div>
+            </div>
+            <div>
+              <div className="mt-2">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  placeholder="Username"
+                  required
+                  value={username}
+                  onChange={handleChangeUsername}
+                  className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
+                />
+                {errors.username && <small className="text-red-600">{errors.username}</small>}
               </div>
             </div>
 
@@ -115,6 +163,23 @@ export default function Register() {
                   onChange={handleChangeEmail}
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
+                {errors.email && <small className="text-red-600">{errors.email}</small>}
+              </div>
+            </div>
+            <div>
+              <div className="mt-2">
+                <input
+                  id="phone"
+                  name="phone"
+                  type="phone"
+                  autoComplete="phone"
+                  placeholder="No Handphone"
+                  required
+                  value={phone}
+                  onChange={handleChangePhone}
+                  className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
+                />
+                {errors.phone && <small className="text-red-600">{errors.phone}</small>}
               </div>
             </div>
 
@@ -132,15 +197,26 @@ export default function Register() {
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
                 {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
+                {errors.password && <small className="text-red-600">{errors.password}</small>}
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-gcPrimary-1000 px-3 py-3 text-base font-bold leading-6 text-gcNeutrals-baseWhite shadow-sm hover:bg-gcNeutrals-baseWhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-1000 hover:text-gcPrimary-1000 transition"
+                className={`flex w-full justify-center rounded-[10px] bg-gcPrimary-1000 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gcPrimary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-600 ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
               >
-                Register
+                {isLoading ? (
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
           </form>
