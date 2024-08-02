@@ -65,6 +65,15 @@ export default function Profile() {
     }
   }, [userData, setUserData]);
 
+  useEffect(() => {
+    if (loading) {
+      toast.loading("Loading...");
+    }
+    if (!loading) {
+      toast.dismiss();
+    }
+  }, [loading, setLoading]);
+
   return (
     <>
       <LoggedInNavbar />
@@ -128,21 +137,19 @@ export default function Profile() {
                   </Link>
                 </li>
                 <li className="relative border-b border-b-gcPrimary-1000">
-                  <Link href={"#"} className="hover:text-gcPrimary-900">
+                  <button type="button" onClick={handleLogout} className="hover:text-gcPrimary-900">
                     Log Out
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>
           </div>
         </TopBar>
-        {loading ? (
-          "Loading..."
-        ) : (
+        {!loading && (
           <>
             <ProfileDataSection userData={userData} />
             <ProfileNavbar showProfileNavbar={showProfileNavbar} setShowProfileNavbar={setShowProfileNavbar} />
-            {showProfileNavbar == "1" && <ProfilePost />}
+            {showProfileNavbar == "1" && <ProfilePost userData={userData} />}
             {showProfileNavbar == "2" && <ProfileMonitoring />}
             {showProfileNavbar == "3" && <ProfileSaved />}
           </>

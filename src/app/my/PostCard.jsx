@@ -1,24 +1,29 @@
-export default function PostCard() {
+import { formatTime } from "../utils/formatTimestamp";
+import { hostNoPrefix } from "../utils/urlApi";
+
+export default function PostCard({ data, handleReplyClick = () => {}, showReplyPost = false, idReplyPost }) {
+  if (!data) {
+    return;
+  }
+
   return (
     <div className="border-b lg:pb-2 lg:mt-8 mt-4">
       <header className="flex justify-between">
         <div className="flex justify-center items-center gap-3">
-          <img className="w-12 rounded-full" src="https://placehold.co/100x100" alt="Post Avatar" />
+          <img className="w-12 rounded-full" src={data.author.avatar !== null ? `${hostNoPrefix}uploads/${data.author.avatar}` : "/avatars/default-avatar.svg"} alt="Post Avatar" />
           <div>
-            <h3 className="gcContentAccent1p text-gcPrimary-1000">Name</h3>
-            <h4 className="gcContentBody2p text-gcSecondary-400 xl:-mt-1">@username</h4>
+            <h3 className="gcContentAccent1p text-gcPrimary-1000">{data.author.name}</h3>
+            <h4 className="gcContentBody2p text-gcSecondary-400 xl:-mt-1">@{data.author.username}</h4>
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <h3 className="gcContentAccent2p text-gcPrimary-1000">1 hours ago</h3>
+          <h3 className="gcContentAccent2p text-gcPrimary-1000">{formatTime(data.createdAt)}</h3>
         </div>
       </header>
-      <div className="pl-16 place-self-end flex flex-col">
-        <div className="bg-gradient-to-r from-gcPrimary-200 to-gcPrimary-100 rounded-3xl px-8 py-6">
-          <h1 className="gcContentBody2p text-gcPrimary-1000 text-justify">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque quos quisquam quia cupiditate impedit, eaque accusantium esse quam nisi explicabo voluptates eligendi vitae temporibus placeat voluptate corporis soluta, aut
-            quo architecto, sapiente ab nostrum rem blanditiis illo! Iure, dolorem ducimus id, quod, pariatur nihil laborum ipsa a laboriosam maxime nam.
-          </h1>
+      <div className="pl-16 place-self-end flex flex-col mt-1">
+        <div className="bg-gradient-to-r from-gcPrimary-200 to-gcPrimary-100 rounded-3xl px-6 py-4">
+          <h1 className="gcContentBody2p text-gcPrimary-1000 text-justify">{data.content}</h1>
+          {data.image && <img src={`${hostNoPrefix}uploads/${data.image}`} alt="Forum Picture" className="w-full md:max-w-max lg:max-h-60 md:max-h-56 max-h-48 object-cover object-center mt-3" />}
         </div>
         <div className="py-3 px-6 flex justify-between">
           <div className="flex gap-2 lg:gap-4 items-start">
@@ -33,14 +38,21 @@ export default function PostCard() {
               </svg>
               <h3 className="mt-1 text-gcPrimary-1000 gcHeading4p">23k</h3>
             </button>
-            <button>
-              <svg className="xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4 hover:fill-gcPrimary-900 fill-gcPrimary-1000 transition" width="39" height="37" viewBox="0 0 39 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <button type="button" onClick={() => handleReplyClick(data.id)}>
+              <svg
+                className={`xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4  transition ${showReplyPost && idReplyPost == data.id ? "fill-gcPrimary-900" : "hover:fill-gcPrimary-900 fill-gcPrimary-1000"}`}
+                width="39"
+                height="37"
+                viewBox="0 0 39 37"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M0.515625 7.38943C0.515625 3.51045 3.56366 0.365906 7.32359 0.365906H31.8323C35.5922 0.365906 38.6402 3.51045 38.6402 7.38943V21.4365C38.6402 25.3154 35.5922 28.46 31.8323 28.46H21.4511L13.1113 35.9884C11.3857 37.5462 8.68518 36.282 8.68518 33.9165V28.46H7.32359C3.56366 28.46 0.515625 25.3154 0.515625 21.4365V7.38943ZM7.32359 3.99682C5.06762 3.99682 4.14654 5.06203 4.14654 7.38943V13.9818V21.4365C4.14654 23.7638 5.06762 25.6506 7.32359 25.6506H11.4084V33.7926L20.4279 25.6506H31.8323C34.0882 25.6506 35.0093 23.7638 35.0093 21.4365V7.62774C35.0093 5.30034 34.0882 3.99682 31.8323 3.99682H7.32359Z"
                   fill=""
                 />
               </svg>
-              <h3 className="mt-1 text-gcPrimary-1000 gcHeading4p">20</h3>
+              <h3 className="mt-1 text-gcPrimary-1000 gcHeading4p">{data.replies_count}</h3>
             </button>
             <button>
               <svg className="xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4 hover:fill-gcPrimary-900 fill-gcPrimary-1000 transition" width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">

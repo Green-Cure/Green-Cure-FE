@@ -59,6 +59,10 @@
     @apply font-Poppins xl:text-base md:text-sm text-xs font-semibold;
   }
 
+  .gcContentAccent3p {
+    @apply font-Poppins xl:text-sm md:text-xs text-xs font-semibold;
+  }
+
   .gcContentBody1p {
     @apply font-Poppins xl:text-lg md:text-sm text-xs font-medium;
   }
@@ -73,6 +77,10 @@
 
   .gcContentBody4p {
     @apply font-Poppins xl:text-xl md:text-lg sm:text-base text-sm font-medium;
+  }
+
+  .gcContentBody5p {
+    @apply font-Poppins xl:text-sm md:text-xs text-xs font-medium;
   }
 
   .gcContentAccent1pi {

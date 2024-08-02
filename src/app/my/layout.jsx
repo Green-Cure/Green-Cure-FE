@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRole } from "../utils/getRole";
+import toast from "react-hot-toast";
 
 export default function MyLayout({ children }) {
   const router = useRouter();
@@ -53,5 +54,14 @@ export default function MyLayout({ children }) {
     });
   });
 
-  return <>{loading ? "Loading..." : children}</>;
+  useEffect(() => {
+    if (loading) {
+      toast.loading("Loading...");
+    }
+    if (!loading) {
+      toast.dismiss();
+    }
+  }, [loading, setLoading]);
+
+  return <>{!loading && children}</>;
 }

@@ -30,13 +30,11 @@ export default function LoggedInNavbar() {
   useEffect(() => {
     if (!userData) {
       const data = getUserData();
-      console.log(data);
       if (data) {
         data
           .then((response) => {
             setUserData(response);
             setLoading(false);
-            console.log(userData);
           })
           .catch(function (err) {
             console.error(err);

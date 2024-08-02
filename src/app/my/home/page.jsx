@@ -3,12 +3,15 @@
 import Link from "next/link";
 import LoggedInNavbar from "../LoggedInNavbar";
 import WeatherCard from "./WeatherCard";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import request from "@/app/utils/request";
+import { UserContext } from "@/contexts/UserContext";
+import { getUserData } from "@/app/utils/getUserData";
 
 export default function MyHome() {
   const [dataWheather, setDataWheather] = useState();
   const [loading, setLoading] = useState(true);
+  const { userData, setUserData } = useContext(UserContext);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -159,6 +162,28 @@ export default function MyHome() {
     setLoading(false);
   }, [dataWheather]);
 
+  useEffect(() => {
+    if (!userData) {
+      const data = getUserData();
+      if (data) {
+        data.then(
+          (response) => {
+            setUserData(response);
+            setLoading(false);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      } else {
+        setLoading(false);
+        setUserData(null);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userData, setUserData]);
+
   return (
     <>
       <LoggedInNavbar />
@@ -169,7 +194,7 @@ export default function MyHome() {
           <>
             <div className="flex flex-row justify-between xl:mt-12 lg:mt-14 md:mt-12 sm:mt-11 mt-10 relative">
               <div className="text-gcPrimary-1000">
-                <h1 className="gcHeading1p">Hi Miftah,</h1>
+                <h1 className="gcHeading1p">Hi {userData?.name.split(" ")[0]},</h1>
                 <h3 className="gcContentBody4p">Tanamanmu Membutuhkanmu</h3>
               </div>
               <div className="place-self-center sm:block hidden">
