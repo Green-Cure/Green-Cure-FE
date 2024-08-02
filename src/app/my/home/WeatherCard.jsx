@@ -4,32 +4,32 @@ export default function WeatherCard({ dataWheather }) {
       className={`w-full h-full rounded-2xl sm:mt-0 mt-1.5 flex justify-between relative transition-all ${
         dataWheather?.condition.toLowerCase().includes("sunny")
           ? "bg-weather-radial-cerah"
-          : dataWheather?.condition.toLowerCase().includes("berawan")
+          : dataWheather?.condition.toLowerCase().includes("cloudy")
           ? "bg-weather-radial-berawan"
           : dataWheather?.condition.toLowerCase().includes("rain")
           ? "bg-weather-radial-hujan"
-          : dataWheather?.condition.toLowerCase().includes("badai")
+          : dataWheather?.condition.toLowerCase().includes("storm")
           ? "bg-weather-radial-badai"
-          : dataWheather?.condition.toLowerCase().includes("bersalju")
+          : dataWheather?.condition.toLowerCase().includes("snowy")
           ? "bg-weather-radial-bersalju"
           : "bg-weather-radial-berawan"
       }`}
     >
-      <div className="flex sm:flex-col flex-row sm:items-start items-center gap-5 sm:gap-0 m-5">
+      <div className="flex sm:flex-col flex-row sm:items-start items-center gap-4 sm:gap-0 m-5 lg:pr-32 md:pr-20 sm:pr-12 pr-16">
         <h1 className="xl:text-8xl lg:text-7xl md:text-6xl sm:text-5xl text-4xl font-light font-Poppins text-gcNeutrals-baseWhite gcDropShadow">{dataWheather?.temperature}&deg;</h1>
-        <h3 className="font-semibold text-xl md:text-2xl lg:text-3xl xl:text-4xl gcDropShadow text-gcNeutrals-baseWhite capitalize">{dataWheather?.condition}</h3>
+        <h3 className="font-semibold text-base md:text-xl lg:text-2xl xl:text-3xl gcDropShadow text-gcNeutrals-baseWhite capitalize">{dataWheather?.condition}</h3>
       </div>
       <img
         src={`/images/${
           dataWheather?.condition.toLowerCase().includes("sunny")
             ? "weather-sun.png"
-            : dataWheather?.condition.toLowerCase().includes("berawan")
+            : dataWheather?.condition.toLowerCase().includes("cloudy")
             ? "weather-clouds.png"
             : dataWheather?.condition.toLowerCase().includes("rain")
             ? "weather-rainy.png"
-            : dataWheather?.condition.toLowerCase().includes("badai")
+            : dataWheather?.condition.toLowerCase().includes("storm")
             ? "weather-thunderstorm.png"
-            : dataWheather?.condition.toLowerCase().includes("bersalju")
+            : dataWheather?.condition.toLowerCase().includes("snowy")
             ? "weather-snow.png"
             : "weather-sun.png"
         }`}
