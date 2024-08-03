@@ -1,87 +1,62 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import DeleteModal from "../DeleteModal";
 import { useRouter } from "next/navigation";
+import request from "@/app/utils/request";
+import toast from "react-hot-toast";
+import { hostNoPrefix } from "@/app/utils/urlApi";
 
 export default function DashboardUsers() {
   const router = useRouter();
   const [toggleDelete, setToggleDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
     setToggleDelete(!toggleDelete);
   };
 
-  const users = [
-    {
-      id: 1,
-      name: "Administrator",
-      username: "admin",
-      email: "developer@dev.com",
-      avatar: null,
-      phone: "0812312312",
-      role: "1",
-      deletedAt: null,
-      createdAt: "2024-07-25T03:57:19.522+00:00",
-      updatedAt: "2024-07-25T03:57:19.568+00:00",
-    },
-    {
-      id: 2,
-      name: "Administrator",
-      username: "admin",
-      email: "developer@dev.com",
-      avatar: null,
-      phone: "0812312312",
-      role: "1",
-      deletedAt: null,
-      createdAt: "2024-07-25T03:57:19.522+00:00",
-      updatedAt: "2024-07-25T03:57:19.568+00:00",
-    },
-    {
-      id: 3,
-      name: "Administrator",
-      username: "admin",
-      email: "developer@dev.com",
-      avatar: null,
-      phone: "0812312312",
-      role: "1",
-      deletedAt: null,
-      createdAt: "2024-07-25T03:57:19.522+00:00",
-      updatedAt: "2024-07-25T03:57:19.568+00:00",
-    },
-    {
-      id: 4,
-      name: "Administrator",
-      username: "admin",
-      email: "developer@dev.com",
-      avatar: null,
-      phone: "0812312312",
-      role: "1",
-      deletedAt: null,
-      createdAt: "2024-07-25T03:57:19.522+00:00",
-      updatedAt: "2024-07-25T03:57:19.568+00:00",
-    },
-    {
-      id: 5,
-      name: "Administrator",
-      username: "admin",
-      email: "developer@dev.com",
-      avatar: null,
-      phone: "0812312312",
-      role: "1",
-      deletedAt: null,
-      createdAt: "2024-07-25T03:57:19.522+00:00",
-      updatedAt: "2024-07-25T03:57:19.568+00:00",
-    },
-  ];
-
-  const handleDelete = (id) => {
-    console.log("Delete triggered with id", id);
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    handleToggleDeleteModal();
+    toast.error("This feature is under devlopement");
   };
+
+  useEffect(() => {
+    request
+      .get("user")
+      .then(function (response) {
+        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+          if (response.data.data.length > 0) {
+            setUsers(response.data.data);
+          } else {
+            setUsers([]);
+          }
+          toast.dismiss();
+          setIsLoading(false);
+        } else if (response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+          setIsLoading(false);
+        } else {
+          toast.dismiss();
+          toast.error("An unexpected error occurred");
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoading(false);
+      });
+  }, [isLoading, setIsLoading, users]);
 
   return (
     <>
@@ -150,58 +125,70 @@ export default function DashboardUsers() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
-              return (
-                <tr key={user.id} className="bg-white border-b hover:bg-gray-50">
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap ">
-                    <img className="w-10 h-10 rounded-full" src="https://placehold.co/50x50" alt="User Profile" />
-                    <Link href={`/dashboard/users/detailUser/${user.id}`}>
-                      <div className="ps-3 hover:underline cursor-pointer">
-                        <div className="text-base font-semibold">{user.name}</div>
-                        <div className="font-normal text-gray-500">{user.email}</div>
-                      </div>
-                    </Link>
-                  </th>
-                  <td className="px-6 py-4">{user.role == "1" ? "Admin" : user.role == "2" ? "Member" : user.role == "3" ? "Non-Member" : "None"}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div className={`h-2.5 w-2.5 rounded-full me-2 ${user.deletedAt ? "bg-red-500" : "bg-green-500"}`}></div> {user.deletedAt ? "Offline" : "Online"}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-3 items-center justify-start">
-                      <button
-                        type="button"
-                        className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                        onClick={() => {
-                          router.push(`/dashboard/users/editUser/${user.id}`);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                        onClick={() => {
-                          setToggleDelete(!toggleDelete);
-                          setIdDelete(user.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {!isLoading ? (
+              users ? (
+                users.length > 0 ? (
+                  users.map((user) => {
+                    return (
+                      <tr key={user.id} className="bg-white border-b hover:bg-gray-50">
+                        <td className="w-4 p-4">
+                          <div className="flex items-center">
+                            <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                            <label htmlFor="checkbox-table-search-1" className="sr-only">
+                              checkbox
+                            </label>
+                          </div>
+                        </td>
+                        <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap ">
+                          <img className="w-10 h-10 rounded-full" src={user.avatar ? `${hostNoPrefix}uploads/${user.avatar}` : "/avatars/default-avatar.svg"} alt="User Profile" />
+                          <Link href={`/dashboard/users/detailUser/${user.id}`}>
+                            <div className="ps-3 hover:underline cursor-pointer">
+                              <div className="text-base font-semibold">{user.name}</div>
+                              <div className="font-normal text-gray-500">{user.email}</div>
+                            </div>
+                          </Link>
+                        </th>
+                        <td className="px-6 py-4">{user.role == "1" ? "Admin" : user.role == "2" ? "Guest" : user.role == "3" ? "Member" : "None"}</td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center">
+                            <div className={`h-2.5 w-2.5 rounded-full me-2 ${user.deletedAt ? "bg-red-500" : "bg-green-500"}`}></div> {user.deletedAt ? "Offline" : "Online"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex gap-3 items-center justify-start">
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={() => {
+                                router.push(`/dashboard/users/editUser/${user.id}`);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={(e) => {
+                                setToggleDelete(!toggleDelete);
+                                setIdDelete(user.id);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <td className="p-4 text-nowrap">No data</td>
+                )
+              ) : (
+                <td className="p-4 text-nowrap">No data</td>
+              )
+            ) : (
+              <td className="p-4">Loading...</td>
+            )}
           </tbody>
         </table>
 

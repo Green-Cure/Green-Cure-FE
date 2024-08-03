@@ -96,7 +96,7 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
     }
 
     request
-      .post(`forum/${idPost}/reply`, payload)
+      .post(`forum/${idPost}/replies`, payload)
       .then(function (res) {
         if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
           toast.dismiss();
@@ -274,7 +274,7 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
         </div>
 
         {replies.length > 0 && (
-          <div className="relative z-[11] mt-4">
+          <div className="relative z-[11] mt-4 pb-20">
             {data.replies.map((replyData, index) => {
               return <MyForumReplyCard data={replyData} key={index} />;
             })}

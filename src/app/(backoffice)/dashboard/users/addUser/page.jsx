@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function AddUser() {
@@ -13,13 +14,29 @@ export default function AddUser() {
   const [roleId, setRoleId] = useState("");
   const [typeInput, setTypeInput] = useState(true);
 
-  const handleSubmit = () => {
-    console.log("Submit Triggered");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.error("This feature is under devlopement");
   };
 
   const handleClickType = () => {
     setTypeInput(!typeInput);
   };
+
+  const roleDatas = [
+    {
+      id: "1",
+      name: "Admin",
+    },
+    {
+      id: "2",
+      name: "Guest",
+    },
+    {
+      id: "3",
+      name: "Member",
+    },
+  ];
 
   return (
     <>
@@ -111,12 +128,12 @@ export default function AddUser() {
                   <option value="" disabled>
                     Select One
                   </option>
-                  {/* {roleDatas &&
-                  roleDatas.map((data, index) => (
-                    <option key={index} value={data.id}>
-                      {data.name}
-                    </option>
-                  ))} */}
+                  {roleDatas &&
+                    roleDatas.map((data, index) => (
+                      <option key={index} value={data.id}>
+                        {data.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div className="col-span-3">

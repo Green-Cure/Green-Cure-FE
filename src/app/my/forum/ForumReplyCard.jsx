@@ -4,7 +4,7 @@ import { hostNoPrefix } from "@/app/utils/urlApi";
 export default function MyForumReplyCard({ data }) {
   return (
     <>
-      <div className="lg:mt-8 mt-4 z-[11] relative pb-20">
+      <div className="lg:mt-8 mt-4 z-[11] relative">
         <header className="flex flex-row-reverse justify-between">
           <div className="flex flex-row-reverse justify-center items-center gap-3 text-right">
             {data && <img className="w-10 rounded-full" src={data.author.avatar !== null ? `${hostNoPrefix}uploads/${data.author.avatar}` : "/avatars/default-avatar.svg"} alt="Post Avatar" />}
