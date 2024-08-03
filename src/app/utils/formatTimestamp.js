@@ -17,7 +17,7 @@ export const formatTime = (timestamp) => {
 
   if (hours >= 24) {
     const dateOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
-    const formattedDate = timestamp.toLocaleDateString("en-US", dateOptions);
+    const formattedDate = new Date(timestamp).toLocaleDateString("en-US", dateOptions);
     return formattedDate;
   } else if (hours > 0) {
     return `${hours} hours ago`;
