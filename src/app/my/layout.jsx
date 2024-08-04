@@ -57,8 +57,7 @@ export default function MyLayout({ children }) {
   useEffect(() => {
     if (loading) {
       toast.loading("Loading...");
-    }
-    if (!loading) {
+    } else {
       toast.dismiss();
     }
   }, [loading, setLoading]);

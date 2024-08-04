@@ -9,7 +9,6 @@ import { UserContext } from "@/contexts/UserContext";
 import { getUserData } from "@/app/utils/getUserData";
 
 export default function MyHome() {
-  const [dataWheather, setDataWheather] = useState();
   const [loading, setLoading] = useState(true);
   const { userData, setUserData } = useContext(UserContext);
 
@@ -139,30 +138,6 @@ export default function MyHome() {
   ];
 
   useEffect(() => {
-    if (!dataWheather) {
-      request
-        .get("/weather-today")
-        .then(function (response) {
-          if (response.data) {
-            setDataWheather(response.data.data);
-            return;
-          } else {
-            console.log(response);
-            if (response.code == "ERR_NETWORK") {
-              return;
-            }
-            return;
-          }
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    }
-
-    setLoading(false);
-  }, [dataWheather]);
-
-  useEffect(() => {
     if (!userData) {
       const data = getUserData();
       if (data) {
@@ -189,7 +164,13 @@ export default function MyHome() {
       <LoggedInNavbar />
       <section className="sm:ml-12 md:ml-16 lg:ml-20 lg:px-14 md:px-12 sm:px-10 px-4 mb-20">
         {loading ? (
-          "Loading..."
+          <div className="flex justify-center items-center h-screen">
+            <div className="flex flex-row gap-2">
+              <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce"></div>
+              <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.3s]"></div>
+              <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.5s]"></div>
+            </div>
+          </div>
         ) : (
           <>
             <div className="flex flex-row justify-between xl:mt-12 lg:mt-14 md:mt-12 sm:mt-11 mt-10 relative">
@@ -281,7 +262,7 @@ export default function MyHome() {
               </div>
               <div className="sm:w-2/5 w-full">
                 <h1 className="sm:hidden block gcHeading3p text-gcPrimary-1000">Cuaca</h1>
-                <WeatherCard dataWheather={dataWheather} />
+                <WeatherCard />
               </div>
             </div>
 

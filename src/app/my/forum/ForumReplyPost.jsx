@@ -49,7 +49,7 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
       }
     }
     window.scrollTo(0, 0);
-  }, [showReplyPost]);
+  }, [showReplyPost, idPost]);
 
   const getPostData = async () => {
     let post = null;
@@ -180,7 +180,7 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
           </button>
         </div>
 
-        {data && (
+        {data && !isLoading && (
           <div className="lg:pb-2 lg:mt-8 mt-4 z-[11] relative">
             <header className="flex justify-between">
               <div className="flex justify-center items-center gap-3">
@@ -273,7 +273,7 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
           </div>
         </div>
 
-        {replies.length > 0 && (
+        {replies.length > 0 && !isLoading && (
           <div className="relative z-[11] mt-4 pb-20">
             {data.replies.map((replyData, index) => {
               return <MyForumReplyCard data={replyData} key={index} />;
@@ -281,7 +281,9 @@ export default function MyForumReplyPost({ showReplyPost, handleSetShowReplyPost
           </div>
         )}
 
-        {!isLoading && replies.length <= 0 && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">No data</h1>}
+        {isLoading && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">Loading...</h1>}
+
+        {!isLoading && replies.length <= 0 && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">No data reply</h1>}
       </div>
     </div>
   );

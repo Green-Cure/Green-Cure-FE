@@ -24,7 +24,7 @@ export default function Profile() {
   const handleLogout = async (e) => {
     e.preventDefault();
     request
-      .delete("/auth/logout")
+      .delete("auth/logout")
       .then(function (response) {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {

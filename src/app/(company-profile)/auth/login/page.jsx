@@ -30,7 +30,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     request
-      .post("/auth/authenticated", {
+      .post("auth/authenticated", {
         email: email,
         password: password,
       })
