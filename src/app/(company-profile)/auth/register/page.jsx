@@ -197,8 +197,8 @@ export default function Register() {
                   className="block w-full rounded-xl border-0 py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none"
                 />
                 {typeInput ? <FiEye className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} /> : <FiEyeOff className="text-xl absolute top-1/2 -translate-y-1/2 right-3" onClick={handleClickType} />}
-                {errors.password && <small className="text-red-600">{errors.password}</small>}
               </div>
+              {errors.password && <small className="text-red-600">{errors.password}</small>}
             </div>
 
             <div>
