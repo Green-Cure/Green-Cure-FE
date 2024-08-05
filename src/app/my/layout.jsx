@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRole } from "../utils/getRole";
 import toast from "react-hot-toast";
+import { ArticleProvider } from "@/contexts/ArticleContext";
 
 export default function MyLayout({ children }) {
   const router = useRouter();
@@ -16,13 +17,13 @@ export default function MyLayout({ children }) {
     let role = localStorage.getItem("role");
 
     if (!token) {
-      if (pathname != "/my/article" && pathname != "/my/library") {
+      if (!pathname.startsWith("/my/article") && !pathname.startsWith("/my/library")) {
         router.push("/auth/login");
         return;
       }
     }
 
-    if (!role && pathname != "/my/article" && pathname != "/my/library" && token) {
+    if (!role && !pathname.startsWith("/my/article") && !pathname.startsWith("/my/library") && token) {
       role = getRole();
     }
 
@@ -62,5 +63,9 @@ export default function MyLayout({ children }) {
     }
   }, [loading, setLoading]);
 
-  return <>{!loading && children}</>;
+  return (
+    <>
+      <ArticleProvider>{!loading && children}</ArticleProvider>
+    </>
+  );
 }
