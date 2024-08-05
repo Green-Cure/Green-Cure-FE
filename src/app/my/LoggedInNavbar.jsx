@@ -57,10 +57,7 @@ export default function LoggedInNavbar() {
       })
       .then((response) => {
         if (response.data) {
-          if (
-            response.data.statusCode === 200 ||
-            response.data.statusCode === 201
-          ) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
             userData = response.data.data[0].user;
           } else {
             toast.error("Something Went Wrong");
@@ -83,14 +80,7 @@ export default function LoggedInNavbar() {
   return (
     <>
       <nav className="fixed z-50 left-0 bottom-0 right-0 top-auto sm:top-0 sm:bottom-auto w-full sm:right-auto sm:w-14 md:w-16 lg:w-20 flex flex-col">
-        <svg
-          className="relative w-full h-full place-self-start hidden sm:block"
-          width="132"
-          height="1062"
-          viewBox="0 0 132 1062"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg className="relative w-full h-full place-self-start hidden sm:block" width="132" height="1062" viewBox="0 0 132 1062" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -98,27 +88,13 @@ export default function LoggedInNavbar() {
             fill="url(#paint0_linear_125_392)"
           />
           <defs>
-            <linearGradient
-              id="paint0_linear_125_392"
-              x1="66"
-              y1="0"
-              x2="66"
-              y2="1062"
-              gradientUnits="userSpaceOnUse"
-            >
+            <linearGradient id="paint0_linear_125_392" x1="66" y1="0" x2="66" y2="1062" gradientUnits="userSpaceOnUse">
               <stop stopColor="#2D947F" />
               <stop offset="1" stopColor="#56C596" />
             </linearGradient>
           </defs>
         </svg>
-        <svg
-          className="relative w-full h-full place-self-end block sm:hidden"
-          width="390"
-          height="56"
-          viewBox="0 0 390 56"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg className="relative w-full h-full place-self-end block sm:hidden" width="390" height="56" viewBox="0 0 390 56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -126,14 +102,7 @@ export default function LoggedInNavbar() {
             fill="url(#paint0_linear_239_184)"
           />
           <defs>
-            <linearGradient
-              id="paint0_linear_239_184"
-              x1="0"
-              y1="42.5"
-              x2="390"
-              y2="42.5"
-              gradientUnits="userSpaceOnUse"
-            >
+            <linearGradient id="paint0_linear_239_184" x1="0" y1="42.5" x2="390" y2="42.5" gradientUnits="userSpaceOnUse">
               <stop stopColor="#2D947F" />
               <stop offset="0.504828" stopColor="#2D947F" />
               <stop offset="1" stopColor="#56C596" />
@@ -146,14 +115,7 @@ export default function LoggedInNavbar() {
           <ul className="lg:gap-12 md:gap-10 sm:gap-9 sm:flex-col justify-center items-center sm:w-auto sm:h-auto w-full h-full sm:flex hidden">
             <li className="border-b md:mt-3 lg:mt-4 sm:mt-3 pb-2.5 sm:block hidden">
               <Link href={"/my"}>
-                <svg
-                  width="60"
-                  height="60"
-                  className="lg:h-11 md:h-9 sm:h-8 h-6 gcDropShadow"
-                  viewBox="0 0 53 53"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="60" height="60" className="lg:h-11 md:h-9 sm:h-8 h-6 gcDropShadow" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -164,22 +126,9 @@ export default function LoggedInNavbar() {
               </Link>
             </li>
 
-            <li
-              className={`w-full justify-center items-center flex ${
-                pathname.startsWith("/my/library")
-                  ? classDesktopActive
-                  : classDesktopHover
-              }`}
-            >
+            <li className={`w-full justify-center items-center flex ${pathname.startsWith("/my/library") ? classDesktopActive : classDesktopHover}`}>
               <Link href={"/my/library"}>
-                <svg
-                  className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow"
-                  width="61"
-                  height="45"
-                  viewBox="0 0 61 45"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow" width="61" height="45" viewBox="0 0 61 45" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M28.5547 7.46528V44.7917C26.651 42.9253 22.8437 39.1927 14.2773 39.1927C10.283 39.172 6.31039 39.7696 2.50615 40.9634C2.21995 41.057 1.91516 41.0826 1.61689 41.038C1.31863 40.9935 1.03543 40.88 0.790664 40.7071C0.545895 40.5342 0.346558 40.3067 0.209088 40.0434C0.071618 39.7801 -4.74901e-05 39.4885 2.71097e-08 39.1927V5.59896C-4.4334e-05 5.34124 0.0543548 5.08631 0.15977 4.85022C0.265185 4.61413 0.419332 4.40201 0.612498 4.22721C3.27665 1.8178 9.15082 0 14.2773 0C21.2942 0 25.3727 3.7401 27.5648 5.74873L27.9422 6.094C28.1353 6.26874 28.2894 6.48079 28.3948 6.71679C28.5002 6.9528 28.5547 7.20764 28.5547 7.46528ZM32.362 7.46528V44.7917C34.2656 42.9253 38.0729 39.1927 46.6393 39.1927C50.6336 39.172 54.6063 39.7696 58.4105 40.9634C58.6967 41.0572 59.0016 41.083 59.2999 41.0385C59.5983 40.994 59.8816 40.8806 60.1264 40.7076C60.3712 40.5347 60.5706 40.3071 60.708 40.0437C60.8454 39.7802 60.9169 39.4886 60.9166 39.1927V5.59896C60.9167 5.34124 60.8623 5.08631 60.7569 4.85022C60.6515 4.61413 60.4973 4.40201 60.3041 4.22721C57.64 1.81826 51.7663 0 46.6393 0C39.6234 0 35.5434 3.7401 33.3519 5.74873C33.22 5.87004 33.0953 5.98482 32.9745 6.094C32.7814 6.26874 32.6272 6.48079 32.5218 6.71679C32.4164 6.9528 32.362 7.20764 32.362 7.46528Z"
                     fill="#F5F5F5"
@@ -188,22 +137,9 @@ export default function LoggedInNavbar() {
               </Link>
             </li>
 
-            <li
-              className={`w-full justify-center items-center flex ${
-                pathname.startsWith("/my/forum")
-                  ? classDesktopActive
-                  : classDesktopHover
-              }`}
-            >
+            <li className={`w-full justify-center items-center flex ${pathname.startsWith("/my/forum") ? classDesktopActive : classDesktopHover}`}>
               <Link href={"/my/forum"}>
-                <svg
-                  className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow"
-                  width="52"
-                  height="52"
-                  viewBox="0 0 52 52"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow" width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M25.9792 0C32.861 0 39.4857 2.72768 44.3438 7.61151C49.2279 12.4979 51.9583 19.0937 51.9583 26.0038C51.9583 35.0961 47.1756 43.5389 39.3818 48.2409C31.5881 52.9429 21.8978 53.2027 13.8469 48.9163H13.7664C12.9896 48.6046 12.3635 48.059 11.6361 47.6954C10.8333 47.3576 9.92144 47.3057 9.09271 47.5681C7.16765 48.2409 5.21921 48.7864 3.21882 49.254C2.17965 49.28 1.8679 48.6565 1.8679 47.6434C2.33553 45.5911 2.95903 43.5623 3.68904 41.5906C3.97221 40.7333 3.89687 39.8241 3.45523 39.0161L2.93564 38.0056C1.01059 34.3427 0 30.2642 0 26.1363V25.9779C0 19.0937 2.72521 12.4694 7.6093 7.61151C12.4934 2.72768 19.0921 0 25.9792 0ZM37.953 22.6787C36.1344 22.6787 34.6302 24.1594 34.6302 26.0038C34.6302 27.8223 36.1344 29.329 37.953 29.329C39.7975 29.329 41.2783 27.8223 41.2783 26.0038C41.2783 24.1594 39.7975 22.6787 37.953 22.6787ZM25.9792 22.6787C24.1346 22.6787 22.6512 24.1594 22.6512 26.0038C22.6512 27.8223 24.1346 29.329 25.9792 29.329C27.8237 29.329 29.3019 27.8223 29.3019 26.0038C29.3019 24.1594 27.8237 22.6787 25.9792 22.6787ZM14.0002 22.6787C12.1556 22.6787 10.6748 24.1594 10.6748 26.0038C10.6748 27.8223 12.1556 29.329 14.0002 29.329C15.8187 29.329 17.3281 27.8223 17.3281 26.0038C17.3281 24.1594 15.8187 22.6787 14.0002 22.6787Z"
                     fill="#F5F5F5"
@@ -212,22 +148,9 @@ export default function LoggedInNavbar() {
               </Link>
             </li>
 
-            <li
-              className={`w-full justify-center items-center flex ${
-                pathname.startsWith("/my/saved")
-                  ? classDesktopActive
-                  : classDesktopHover
-              }`}
-            >
+            <li className={`w-full justify-center items-center flex ${pathname.startsWith("/my/saved") ? classDesktopActive : classDesktopHover}`}>
               <Link href={"/my/saved"}>
-                <svg
-                  className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow"
-                  width="45"
-                  height="53"
-                  viewBox="0 0 45 53"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="lg:h-9 md:h-7 sm:h-6 h-6 gcDropShadow" width="45" height="53" viewBox="0 0 45 53" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M40.9219 0C41.4609 0 41.9766 0.105089 42.4688 0.315268C43.2422 0.618859 43.8574 1.0976 44.3145 1.75149C44.7715 2.40538 45 3.12932 45 3.92333V49.0767C45 49.8707 44.7715 50.5946 44.3145 51.2485C43.8574 51.9024 43.2422 52.3811 42.4688 52.6847C42.0234 52.8716 41.5078 52.965 40.9219 52.965C39.7969 52.965 38.8242 52.5913 38.0039 51.844L22.5 36.9914L6.99609 51.844C6.15234 52.6147 5.17969 53 4.07812 53C3.53906 53 3.02344 52.8949 2.53125 52.6847C1.75781 52.3811 1.14258 51.9024 0.685547 51.2485C0.228516 50.5946 0 49.8707 0 49.0767V3.92333C0 3.12932 0.228516 2.40538 0.685547 1.75149C1.14258 1.0976 1.75781 0.618859 2.53125 0.315268C3.02344 0.105089 3.53906 0 4.07812 0H40.9219Z"
                     fill="#F5F5F5"
@@ -238,14 +161,7 @@ export default function LoggedInNavbar() {
 
             <li className="lg:mt-6 md:mt-3 sm:mt-1 ml-3">
               <Link href={"/my/detection"}>
-                <svg
-                  className="lg:h-11 md:h-9 sm:h-8 h-6 gcDropShadow"
-                  width="83"
-                  height="75"
-                  viewBox="0 0 83 75"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="lg:h-11 md:h-9 sm:h-8 h-6 gcDropShadow" width="83" height="75" viewBox="0 0 83 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -253,14 +169,7 @@ export default function LoggedInNavbar() {
                     fill="url(#paint0_linear_194_164)"
                   />
                   <defs>
-                    <linearGradient
-                      id="paint0_linear_194_164"
-                      x1="41.2778"
-                      y1="0"
-                      x2="41.2778"
-                      y2="74.3"
-                      gradientUnits="userSpaceOnUse"
-                    >
+                    <linearGradient id="paint0_linear_194_164" x1="41.2778" y1="0" x2="41.2778" y2="74.3" gradientUnits="userSpaceOnUse">
                       <stop stopColor="#2D947F" />
                       <stop offset="1" stopColor="#329D9C" />
                     </linearGradient>
@@ -269,70 +178,29 @@ export default function LoggedInNavbar() {
               </Link>
             </li>
           </ul>
-          <div
-            className={`items-center justify-center lg:mt-20 md:mt-16 sm:mt-12 sm:flex-col flex-row gap-2 sm:flex hidden `}
-          >
-            <Link
-              href={"/my/profile"}
-              className={`w-full justify-center items-center flex ${
-                pathname.startsWith("/my/profile")
-                  ? classDesktopActive
-                  : classDesktopHover
-              }`}
-            >
-              <div
-                className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${
-                  loading && "animate-pulse"
-                }`}
-              >
+          <div className={`items-center justify-center lg:mt-20 md:mt-16 sm:mt-12 sm:flex-col flex-row gap-2 sm:flex hidden `}>
+            <Link href={"/my/profile"} className={`w-full justify-center items-center flex ${pathname.startsWith("/my/profile") ? classDesktopActive : classDesktopHover}`}>
+              <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
                 {!loading && userData?.avatar !== undefined && (
                   <img
-                    className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 ${
-                      !userData.avatar && "p-2"
-                    }`}
-                    src={
-                      userData.avatar
-                        ? `${host}/uploads/${userData.avatar}`
-                        : "/avatars/default-avatar.svg"
-                    }
+                    className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 ${!userData.avatar && "p-2"}`}
+                    src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"}
                     alt="User Profile"
                   />
                 )}
-                {!loading && userData?.avatar === undefined && (
-                  <img
-                    className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 p-2`}
-                    src={"/avatars/default-avatar.svg"}
-                    alt="User Profile"
-                  />
-                )}
-                {loading && (
-                  <div className="rounded-full lg:w-12 md:w-10 sm:w-8 lg:h-12 md:h-10 sm:h-8"></div>
-                )}
+                {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 p-2`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
+                {loading && <div className="rounded-full lg:w-12 md:w-10 sm:w-8 lg:h-12 md:h-10 sm:h-8"></div>}
               </div>
             </Link>
-            <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">
-              {userData?.username ? "Free" : "Guest"}
-            </span>
+            <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">{userData?.username ? "Free" : "Guest"}</span>
           </div>
 
           {/* Mobile */}
           <ul className="sm:hidden flex w-full h-full justify-between">
             <div className="flex justify-between items-center gap-10">
               <li>
-                <Link
-                  href={"/my"}
-                  className={
-                    pathname == "/my" ? classMobileActive : classMobileHover
-                  }
-                >
-                  <svg
-                    className="gcDropShadow h-[27px]"
-                    width="24"
-                    height="26"
-                    viewBox="0 0 24 26"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                <Link href={"/my"} className={pathname == "/my" ? classMobileActive : classMobileHover}>
+                  <svg className="gcDropShadow h-[27px]" width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M13.9333 0.724645C13.3923 0.256664 12.7075 0 12 0C11.2925 0 10.6077 0.256664 10.0667 0.724645L1.06667 8.51799C0.732612 8.80695 0.464079 9.1673 0.279837 9.57385C0.0955946 9.98041 9.0305e-05 10.4234 0 10.8717V23.6052C0 24.9271 1.04533 26 2.33333 26H6.33333C6.95217 26 7.54566 25.7477 7.98325 25.2986C8.42083 24.8495 8.66667 24.2403 8.66667 23.6052V18.1273C8.66667 17.1967 9.38933 16.4413 10.2893 16.4167H13.7107C14.145 16.4285 14.5577 16.6139 14.8608 16.9334C15.1639 17.2529 15.3335 17.6813 15.3333 18.1273V23.6052C15.3333 24.9271 16.3787 26 17.6667 26H21.6667C22.2855 26 22.879 25.7477 23.3166 25.2986C23.7542 24.8495 24 24.2403 24 23.6052V10.8704C23.9999 10.422 23.9044 9.97904 23.7202 9.57248C23.5359 9.16593 23.2674 8.80558 22.9333 8.51663L13.9333 0.724645Z"
                       fill="#F5F5F5"
@@ -341,22 +209,8 @@ export default function LoggedInNavbar() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href={"/my/forum"}
-                  className={
-                    pathname.startsWith("/my/forum")
-                      ? classMobileActive
-                      : classMobileHover
-                  }
-                >
-                  <svg
-                    className="gcDropShadow h-[27px]"
-                    width="52"
-                    height="52"
-                    viewBox="0 0 52 52"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                <Link href={"/my/forum"} className={pathname.startsWith("/my/forum") ? classMobileActive : classMobileHover}>
+                  <svg className="gcDropShadow h-[27px]" width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M25.9792 0C32.861 0 39.4857 2.72768 44.3438 7.61151C49.2279 12.4979 51.9583 19.0937 51.9583 26.0038C51.9583 35.0961 47.1756 43.5389 39.3818 48.2409C31.5881 52.9429 21.8978 53.2027 13.8469 48.9163H13.7664C12.9896 48.6046 12.3635 48.059 11.6361 47.6954C10.8333 47.3576 9.92144 47.3057 9.09271 47.5681C7.16765 48.2409 5.21921 48.7864 3.21882 49.254C2.17965 49.28 1.8679 48.6565 1.8679 47.6434C2.33553 45.5911 2.95903 43.5623 3.68904 41.5906C3.97221 40.7333 3.89687 39.8241 3.45523 39.0161L2.93564 38.0056C1.01059 34.3427 0 30.2642 0 26.1363V25.9779C0 19.0937 2.72521 12.4694 7.6093 7.61151C12.4934 2.72768 19.0921 0 25.9792 0ZM37.953 22.6787C36.1344 22.6787 34.6302 24.1594 34.6302 26.0038C34.6302 27.8223 36.1344 29.329 37.953 29.329C39.7975 29.329 41.2783 27.8223 41.2783 26.0038C41.2783 24.1594 39.7975 22.6787 37.953 22.6787ZM25.9792 22.6787C24.1346 22.6787 22.6512 24.1594 22.6512 26.0038C22.6512 27.8223 24.1346 29.329 25.9792 29.329C27.8237 29.329 29.3019 27.8223 29.3019 26.0038C29.3019 24.1594 27.8237 22.6787 25.9792 22.6787ZM14.0002 22.6787C12.1556 22.6787 10.6748 24.1594 10.6748 26.0038C10.6748 27.8223 12.1556 29.329 14.0002 29.329C15.8187 29.329 17.3281 27.8223 17.3281 26.0038C17.3281 24.1594 15.8187 22.6787 14.0002 22.6787Z"
                       fill="#F5F5F5"
@@ -368,14 +222,7 @@ export default function LoggedInNavbar() {
             <div className="-mt-2 ml-1">
               <li className="">
                 <Link href={"/my/detection"}>
-                  <svg
-                    className="h-[42px]"
-                    width="43"
-                    height="39"
-                    viewBox="0 0 43 39"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg className="h-[42px]" width="43" height="39" viewBox="0 0 43 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"
@@ -383,14 +230,7 @@ export default function LoggedInNavbar() {
                       fill="url(#paint0_linear_194_227)"
                     />
                     <defs>
-                      <linearGradient
-                        id="paint0_linear_194_227"
-                        x1="21.5"
-                        y1="0"
-                        x2="21.5"
-                        y2="38.7"
-                        gradientUnits="userSpaceOnUse"
-                      >
+                      <linearGradient id="paint0_linear_194_227" x1="21.5" y1="0" x2="21.5" y2="38.7" gradientUnits="userSpaceOnUse">
                         <stop stopColor="#2D947F" />
                         <stop offset="1" stopColor="#329D9C" />
                       </linearGradient>
@@ -401,22 +241,8 @@ export default function LoggedInNavbar() {
             </div>
             <div className="flex justify-between items-center gap-6">
               <li className="">
-                <Link
-                  href={"/my/library"}
-                  className={
-                    pathname.startsWith("/my/library")
-                      ? classMobileActive
-                      : classMobileHover
-                  }
-                >
-                  <svg
-                    className="gcDropShadow h-[27px]"
-                    width="61"
-                    height="45"
-                    viewBox="0 0 61 45"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                <Link href={"/my/library"} className={pathname.startsWith("/my/library") ? classMobileActive : classMobileHover}>
+                  <svg className="gcDropShadow h-[27px]" width="61" height="45" viewBox="0 0 61 45" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M28.5547 7.46528V44.7917C26.651 42.9253 22.8437 39.1927 14.2773 39.1927C10.283 39.172 6.31039 39.7696 2.50615 40.9634C2.21995 41.057 1.91516 41.0826 1.61689 41.038C1.31863 40.9935 1.03543 40.88 0.790664 40.7071C0.545895 40.5342 0.346558 40.3067 0.209088 40.0434C0.071618 39.7801 -4.74901e-05 39.4885 2.71097e-08 39.1927V5.59896C-4.4334e-05 5.34124 0.0543548 5.08631 0.15977 4.85022C0.265185 4.61413 0.419332 4.40201 0.612498 4.22721C3.27665 1.8178 9.15082 0 14.2773 0C21.2942 0 25.3727 3.7401 27.5648 5.74873L27.9422 6.094C28.1353 6.26874 28.2894 6.48079 28.3948 6.71679C28.5002 6.9528 28.5547 7.20764 28.5547 7.46528ZM32.362 7.46528V44.7917C34.2656 42.9253 38.0729 39.1927 46.6393 39.1927C50.6336 39.172 54.6063 39.7696 58.4105 40.9634C58.6967 41.0572 59.0016 41.083 59.2999 41.0385C59.5983 40.994 59.8816 40.8806 60.1264 40.7076C60.3712 40.5347 60.5706 40.3071 60.708 40.0437C60.8454 39.7802 60.9169 39.4886 60.9166 39.1927V5.59896C60.9167 5.34124 60.8623 5.08631 60.7569 4.85022C60.6515 4.61413 60.4973 4.40201 60.3041 4.22721C57.64 1.81826 51.7663 0 46.6393 0C39.6234 0 35.5434 3.7401 33.3519 5.74873C33.22 5.87004 33.0953 5.98482 32.9745 6.094C32.7814 6.26874 32.6272 6.48079 32.5218 6.71679C32.4164 6.9528 32.362 7.20764 32.362 7.46528Z"
                       fill="#F5F5F5"
@@ -424,37 +250,12 @@ export default function LoggedInNavbar() {
                   </svg>
                 </Link>
               </li>
-              <Link
-                href={"/my/profile"}
-                className={
-                  pathname.startsWith("/my/profile")
-                    ? classMobileActive
-                    : classMobileHover
-                }
-              >
-                <div
-                  className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${
-                    loading && "animate-pulse"
-                  }`}
-                >
+              <Link href={"/my/profile"} className={pathname.startsWith("/my/profile") ? classMobileActive : classMobileHover}>
+                <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
                   {!loading && userData?.avatar !== undefined && (
-                    <img
-                      className={`rounded-full object-cover object-center w-7`}
-                      src={
-                        userData.avatar
-                          ? `${host}/uploads/${userData.avatar}`
-                          : "/avatars/default-avatar.svg"
-                      }
-                      alt="User Profile"
-                    />
+                    <img className={`rounded-full object-cover object-center w-7`} src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"} alt="User Profile" />
                   )}
-                  {!loading && userData?.avatar === undefined && (
-                    <img
-                      className={`rounded-full object-cover object-center w-7 p-1`}
-                      src={"/avatars/default-avatar.svg"}
-                      alt="User Profile"
-                    />
-                  )}
+                  {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center w-7 p-1`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
                   {loading && <div className="rounded-full w-7 h-7"></div>}
                 </div>
               </Link>

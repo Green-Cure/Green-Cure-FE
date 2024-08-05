@@ -115,10 +115,14 @@ export default function Forum() {
   };
 
   const handleReplyClick = (id) => {
-    if (!showReplyPost) {
+    if (idReplyPost !== id && showReplyPost) {
       setIdReplyPost(id);
+    } else {
+      if (!showReplyPost) {
+        setIdReplyPost(id);
+      }
+      setShowReplyPost(!showReplyPost);
     }
-    setShowReplyPost(!showReplyPost);
   };
 
   const handleSubmitAddPost = (e, data) => {
@@ -206,7 +210,8 @@ export default function Forum() {
         <div className="sm:w-3/5 xl:w-2/3 w-full">
           <TopBar pageName={"Forum"} />
           <div className="px-5 mb-20">
-            {!isLoading && posts === null && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">No data</h1>}
+            {isLoading && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">Loading...</h1>}
+            {!isLoading && posts === null && <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">No data forum</h1>}
             {!isLoading && posts !== null && (
               <>
                 {posts.map((post, index) => (
