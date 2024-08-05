@@ -52,7 +52,9 @@ export default function LoggedInNavbar() {
   const getUserData = async () => {
     let userData;
     await axios
-      .get(`${host}auth/my`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } })
+      .get(`${host}auth/my`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
       .then((response) => {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
