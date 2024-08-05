@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -59,7 +60,7 @@ export default function Navbar() {
               <ul className="flex md:gap-3 lg:gap-6 flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
                 <li>
                   <Link
-                    href={"#"}
+                    href={"/my/article"}
                     className={`gcBody2p gcDropShadow py-2 px-3 text-gcNeutrals-600 rounded block relative md:p-0 ${
                       pathname == "/article"
                         ? "md:bg-transparent w-fit font-semibold"
@@ -71,7 +72,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={"#"}
+                    href={"/my/library"}
                     className={`gcBody2p gcDropShadow py-2 px-3 text-gcNeutrals-600 rounded block relative md:p-0 ${
                       pathname == "/library"
                         ? "md:bg-transparent w-fit font-semibold"
@@ -82,16 +83,41 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href={"#"}
-                    className={`gcBody2p gcDropShadow py-2 px-3 text-gcNeutrals-600 rounded block relative md:p-0 ${
-                      pathname == "/more"
-                        ? "md:bg-transparent w-fit font-semibold"
-                        : "md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcNeutrals-600 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-medium"
-                    }`}
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="dropdownNavbar"
+                    className="flex items-center justify-between w-full py-2 px-3 rounded hover:bg-gray-100 md:border-0 md:p-0 md:w-auto gcBody2p gcDropShadow text-gcNeutrals-600 relative font-medium md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcNeutrals-600 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center after:top-full"
+                    onClick={() => setIsMoreOpen(!isMoreOpen)}
                   >
                     More
-                  </Link>
+                    <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                  </button>
+                  <div id="dropdownNavbar" className={`-z-10 font-normal overflow-hidden bg-gcNeutrals-baseWhite divide-y divide-gray-100 rounded-lg shadow w-52 absolute transition-all ${isMoreOpen ? "top-full" : "-top-full opacity-0"}`}>
+                    <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                          Privacy Policy
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                          Terms and Conditions
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                          Cookie Policy
+                        </a>
+                      </li>
+                    </ul>
+                    <div className="py-1">
+                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 gcBody2p">
+                        API Reference
+                      </a>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -110,9 +136,9 @@ export default function Navbar() {
                   </button>
                 </Link>
               </div>
-              <li>
+              <li className="shadow-sm">
                 <Link
-                  href={"#"}
+                  href={"/my/article"}
                   className={`gcBody2p gcDropShadow block py-2 px-3 rounded border transition md:p-0 ${
                     pathname == "/article" ? "text-gcNeutrals-baseWhite bg-gcNeutrals-600 md:bg-transparent" : "text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 md:hover:bg-transparent"
                   }`}
@@ -121,9 +147,9 @@ export default function Navbar() {
                   Article
                 </Link>
               </li>
-              <li>
+              <li className="shadow-sm">
                 <Link
-                  href={"#"}
+                  href={"/my/library"}
                   className={`gcBody2p gcDropShadow block py-2 px-3 rounded border transition md:p-0 ${
                     pathname == "/library" ? "text-gcNeutrals-baseWhite bg-gcNeutrals-600 md:bg-transparent" : "text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 md:hover:bg-transparent"
                   }`}
@@ -131,15 +157,45 @@ export default function Navbar() {
                   Library
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={"#"}
-                  className={`gcBody2p gcDropShadow block py-2 px-3 rounded border transition md:p-0 ${
-                    pathname == "/more" ? "text-gcNeutrals-baseWhite bg-gcNeutrals-600 md:bg-transparent" : "text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 md:hover:bg-transparent"
-                  }`}
+              <li className="relative rounded border shadow-sm">
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="dropdownNavbar"
+                  className="flex items-center justify-between w-full py-2 px-3 rounded md:p-0 md:w-auto gcBody2p gcDropShadow relative font-medium text-gcNeutrals-600 hover:text-gcNeutrals-baseWhite hover:bg-gcNeutrals-600 md:border-0 transition"
+                  onClick={() => setIsMoreOpen(!isMoreOpen)}
                 >
                   More
-                </Link>
+                  <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                  </svg>
+                </button>
+                <div
+                  id="dropdownNavbar"
+                  className={`font-normal bg-gcNeutrals-baseWhite divide-y divide-gcNeutrals-600 rounded-b-lg shadow left-0 right-0 absolute transition-all duration-400 ${isMoreOpen ? "top-full z-50" : "-top-1 opacity-0 -z-10"}`}
+                >
+                  <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
+                    <li>
+                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                        Privacy Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                        Terms and Conditions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                        Cookie Policy
+                      </a>
+                    </li>
+                  </ul>
+                  <div className="py-1">
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                      API Reference
+                    </a>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoggedInNavbar from "../LoggedInNavbar";
 import ProfileDataSection from "./ProfileDataSection";
 import ProfileNavbar from "./ProfileNavbar";
@@ -9,10 +9,70 @@ import ProfileMonitoring from "./ProfileMonitoring";
 import ProfileSaved from "./ProfileSaved";
 import TopBar from "../TopBar";
 import Link from "next/link";
+import request from "@/app/utils/request";
+import { getUserData } from "@/app/utils/getUserData";
+import { UserContext } from "@/contexts/UserContext";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const [showProfileNavbar, setShowProfileNavbar] = useState("1");
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const { userData, setUserData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    request
+      .delete("auth/logout")
+      .then(function (response) {
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            toast.success("Logout Successfully");
+            localStorage.clear();
+            window.location.href = "/auth/login";
+          } else {
+            toast.error("Logout Failed Credentials Must Valid");
+          }
+        } else {
+          toast.error("Logout Failed Credentials Must Valid");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (!userData) {
+      const data = getUserData();
+      if (data) {
+        data.then(
+          (response) => {
+            setUserData(response);
+            setLoading(false);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      } else {
+        setLoading(false);
+        setUserData(null);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userData, setUserData]);
+
+  useEffect(() => {
+    if (loading) {
+      toast.loading("Loading...");
+    }
+    if (!loading) {
+      toast.dismiss();
+    }
+  }, [loading, setLoading]);
 
   return (
     <>
@@ -39,12 +99,13 @@ export default function Profile() {
                   </Link>
                 </li>
                 <li className="relative">
-                  <Link
-                    href={"#"}
+                  <button
+                    type="button"
+                    onClick={handleLogout}
                     className="md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcSecondary-500 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-medium"
                   >
                     Log Out
-                  </Link>
+                  </button>
                 </li>
               </ul>
               <button className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent2p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500">
@@ -76,19 +137,23 @@ export default function Profile() {
                   </Link>
                 </li>
                 <li className="relative border-b border-b-gcPrimary-1000">
-                  <Link href={"#"} className="hover:text-gcPrimary-900">
+                  <button type="button" onClick={handleLogout} className="hover:text-gcPrimary-900">
                     Log Out
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>
           </div>
         </TopBar>
-        <ProfileDataSection />
-        <ProfileNavbar showProfileNavbar={showProfileNavbar} setShowProfileNavbar={setShowProfileNavbar} />
-        {showProfileNavbar == "1" && <ProfilePost />}
-        {showProfileNavbar == "2" && <ProfileMonitoring />}
-        {showProfileNavbar == "3" && <ProfileSaved />}
+        {!loading && (
+          <>
+            <ProfileDataSection userData={userData} />
+            <ProfileNavbar showProfileNavbar={showProfileNavbar} setShowProfileNavbar={setShowProfileNavbar} />
+            {showProfileNavbar == "1" && <ProfilePost userData={userData} />}
+            {showProfileNavbar == "2" && <ProfileMonitoring />}
+            {showProfileNavbar == "3" && <ProfileSaved />}
+          </>
+        )}
       </section>
     </>
   );

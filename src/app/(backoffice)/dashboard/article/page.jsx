@@ -1,146 +1,84 @@
 "use client";
 
 import { formatDate } from "@/app/utils/formatTimestamp";
-import request from "@/app/utils/requests";
+import request from "@/app/utils/request";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import DeleteModal from "../DeleteModal";
+import toast from "react-hot-toast";
+import { hostNoPrefix } from "@/app/utils/urlApi";
 
 export default function DashboardArticle() {
   const router = useRouter();
   const [toggleDelete, setToggleDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
-
-  const [articles, setArticles] = useState([
-    {
-      id: 1,
-      userId: 101,
-      title: "Cara Menanam dan Merawat Tanaman Herbal untuk Pemula",
-      slug: "cara-menanam-dan-merawat-tanaman-herbal-untuk-pemula",
-      image: "https://cdn.pixabay.com/photo/2017/07/20/17/56/herbs-2523119_1280.jpg",
-      content: "Panduan lengkap untuk menanam dan merawat tanaman herbal seperti kemangi, rosemary, dan sage.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 2,
-      userId: 102,
-      title: "11 Tanaman di Sekitar Rumah yang Bermanfaat",
-      slug: "11-tanaman-di-sekitar-rumah-yang-bermanfaat",
-      image: "https://cdn.pixabay.com/photo/2017/05/07/22/36/ivy-2293830_960_720.jpg",
-      content: "Daftar tanaman yang bisa ditanam di sekitar rumah untuk keindahan dan manfaat kesehatan.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 3,
-      userId: 103,
-      title: "Cara Merawat Pohon Tabebuya agar Rajin Berbunga",
-      slug: "cara-merawat-pohon-tabebuya-agar-rajin-berbunga",
-      image: "https://portalberita.lumajangkab.go.id/files/berita/WhatsApp_Image_2023-11-23_at_6_41_08_PM.jpeg",
-      content: "Tips dan trik untuk merawat pohon tabebuya agar selalu berbunga dengan subur.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 4,
-      userId: 104,
-      title: "16 Macam Tumbuhan Herbal dan Manfaatnya",
-      slug: "16-macam-tumbuhan-herbal-dan-manfaatnya",
-      image: "https://cdn.rri.co.id/berita/Sendawar/o/1720751413156-IMG_1539/4p6l0cpkdmmxh4b.jpeg",
-      content: "Penjelasan tentang 16 jenis tumbuhan herbal dan manfaat kesehatannya.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 5,
-      userId: 105,
-      title: "Panduan Menanam Tanaman Hias di Dalam Rumah",
-      slug: "panduan-menanam-tanaman-hias-di-dalam-rumah",
-      image: "https://awsimages.detik.net.id/community/media/visual/2022/02/18/tanaman-lidah-mertua_169.jpeg?w=600&q=90",
-      content: "Langkah-langkah menanam dan merawat tanaman hias di dalam rumah agar tetap sehat dan indah.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 6,
-      userId: 106,
-      title: "Tips Merawat Tanaman Buah di Pekarangan Rumah",
-      slug: "tips-merawat-tanaman-buah-di-pekarangan-rumah",
-      image: "https://imgx.sonora.id/crop/0x0:0x0/x/photo/2023/03/21/when-to-plant-apple-trees-1200x6-20230321092358.jpeg",
-      content: "Cara merawat tanaman buah seperti mangga dan jambu di pekarangan rumah.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 7,
-      userId: 107,
-      title: "Cara Menanam Tanaman Obat di Pot Kecil",
-      slug: "cara-menanam-tanaman-obat-di-pot-kecil",
-      image: "https://asset.kompas.com/crops/Xdw_vhHr1KcIPW0YhmGynKrJyfg=/100x67:900x600/750x500/data/photo/2021/10/07/615eb844d5aa6.jpg",
-      content: "Panduan menanam tanaman obat seperti lidah buaya dan jahe di pot kecil.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 8,
-      userId: 108,
-      title: "Merawat Tanaman Hias Daun agar Tetap Segar",
-      slug: "merawat-tanaman-hias-daun-agar-tetap-segar",
-      image: "https://pict.sindonews.net/dyn/850/pena/news/2020/11/19/166/238336/ini-lima-tanaman--hias--yang--sering-dibeli-dan-viral-aic.png",
-      content: "Tips merawat tanaman hias daun seperti monstera dan philodendron agar tetap segar.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 9,
-      userId: 109,
-      title: "Cara Menanam Tanaman Hidroponik di Rumah",
-      slug: "cara-menanam-tanaman-hidroponik-di-rumah",
-      image: "https://asset.kompas.com/crops/Pi7ZX5WH1dLkCpENMVOQfLBivD8=/107x156:834x640/750x500/data/photo/2022/09/29/63354297c3995.jpg",
-      content: "Langkah-langkah menanam tanaman hidroponik di rumah dengan mudah.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-    {
-      id: 10,
-      userId: 110,
-      title: "Panduan Merawat Tanaman Kaktus dan Sukulen",
-      slug: "panduan-merawat-tanaman-kaktus-dan-sukulen",
-      image: "https://asset-a.grid.id/crop/0x0:0x0/x/photo/2021/08/05/sukulenjpg-20210805122230.jpg",
-      content: "Cara merawat tanaman kaktus dan sukulen agar tetap sehat dan tumbuh subur.",
-      createdAt: "2023-07-23T00:00:00Z",
-      updatedAt: "2023-07-23T00:00:00Z",
-      deletedAt: null,
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [articles, setArticles] = useState(null);
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
     setToggleDelete(!toggleDelete);
   };
 
-  const handleDelete = (slug) => {
-    request
-      .delete(`articles/${slug}`)
-      .then(function (response) {
-        return console.log(response.response.data);
-        const data = response.response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const handleDelete = (e, slug) => {
+    e.preventDefault();
+    setIsLoading(true);
+    handleToggleDeleteModal();
+    toast.loading("Deleting data...");
+
+    request.delete(`articles/${slug}`).then(function (res) {
+      if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+        toast.dismiss();
+        toast.success(res.data.message);
+        setIsLoading(false);
+      } else if (res.response.data.statusCode === 422) {
+        toast.dismiss();
+        toast.error("Something Went Wrong");
+        setIsLoading(false);
+      } else if (res.response.data.statusCode === 500) {
+        console.error("INTERNAL_SERVER_ERROR");
+        toast.dismiss();
+        toast.error("Server Error");
+        setIsLoading(false);
+      } else {
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoading(false);
+      }
+    });
   };
+
+  useEffect(() => {
+    request
+      .get("articles")
+      .then(function (response) {
+        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+          if (response.data.data.length > 0) {
+            setArticles(response.data.data);
+          } else {
+            setArticles(null);
+          }
+          toast.dismiss();
+          setIsLoading(false);
+        } else if (response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+          setIsLoading(false);
+        } else {
+          toast.dismiss();
+          toast.error("An unexpected error occurred");
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoading(false);
+      });
+  }, [isLoading, setIsLoading, articles]);
 
   return (
     <>
@@ -209,61 +147,73 @@ export default function DashboardArticle() {
             </tr>
           </thead>
           <tbody>
-            {articles.map((article) => {
-              return (
-                <tr className="bg-white border-b hover:bg-gray-50" key={article.id}>
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                      <label htmlFor="checkbox-table-search-3" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <th scope="row" className="px-6 py-4 font-medium text-gray-900">
-                    <h4
-                      className="text-wrap line-clamp-3 hover:underline cursor-pointer"
-                      onClick={() => {
-                        router.push(`/dashboard/article/detailArticle/${article.slug}`);
-                      }}
-                    >
-                      {article.title}
-                    </h4>
-                  </th>
-                  <td className="px-6 py-4">
-                    <img className="max-h-24" src={`${article.image}`} alt="Article Thumbnails" />
-                  </td>
-                  <td className="px-6 py-4">{formatDate(article.createdAt)}</td>
-                  <td className="px-6 py-4 ">
-                    <div className="flex gap-3 items-center justify-start">
-                      <button
-                        type="button"
-                        className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                        onClick={() => {
-                          router.push(`/dashboard/article/editArticle/${article.slug}`);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                        onClick={() => {
-                          setToggleDelete(!toggleDelete);
-                          setIdDelete(article.slug);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {!isLoading ? (
+              articles ? (
+                articles.length > 0 ? (
+                  articles.map((article) => {
+                    return (
+                      <tr className="bg-white border-b hover:bg-gray-50" key={article.id}>
+                        <td className="w-4 p-4">
+                          <div className="flex items-center">
+                            <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                            <label htmlFor="checkbox-table-search-3" className="sr-only">
+                              checkbox
+                            </label>
+                          </div>
+                        </td>
+                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 text-wrap break-all">
+                          <h4
+                            className="text-wrap line-clamp-3 hover:underline cursor-pointer"
+                            onClick={() => {
+                              router.push(`/dashboard/article/detailArticle/${article.slug}`);
+                            }}
+                          >
+                            {article.title}
+                          </h4>
+                        </th>
+                        <td className="px-6 py-4">
+                          <img className="max-h-24" src={`${hostNoPrefix}uploads/${article.image}`} alt="Article Thumbnails" />
+                        </td>
+                        <td className="px-6 py-4">{formatDate(article.createdAt)}</td>
+                        <td className="px-6 py-4 ">
+                          <div className="flex gap-3 items-center justify-start">
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={() => {
+                                router.push(`/dashboard/article/editArticle/${article.slug}`);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
+                              onClick={() => {
+                                setToggleDelete(!toggleDelete);
+                                setIdDelete(article.slug);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <td className="p-4 text-nowrap">No data</td>
+                )
+              ) : (
+                <td className="p-4 text-nowrap">No data</td>
+              )
+            ) : (
+              <td className="p-4">Loading...</td>
+            )}
           </tbody>
         </table>
 
-        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} />
+        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} label={"article"} />
       </div>
 
       <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">

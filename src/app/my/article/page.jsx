@@ -2,12 +2,12 @@
 
 import MyArticleSlider from "./MyArticleSlider";
 import { useContext } from "react";
-import { ArticleContext } from "./layout";
 import MyArticleMore from "./MyArticleMore";
 import MyArticleTrending from "./MyArticleTrending";
+import { ArticleContext } from "@/contexts/ArticleContext";
 
 export default function MyArticle() {
-  const { articles, loading, error, meta } = useContext(ArticleContext);
+  const { articles } = useContext(ArticleContext);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

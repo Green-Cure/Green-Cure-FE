@@ -1,11 +1,29 @@
 "use client";
 
+<<<<<<< HEAD
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function LoggedInNavbar() {
   const pathname = usePathname();
 
+=======
+import { UserContext } from "@/contexts/UserContext";
+import axios from "axios";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { host } from "../utils/urlApi";
+import toast from "react-hot-toast";
+
+export default function LoggedInNavbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const { userData, setUserData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+
+>>>>>>> 2df9b30980a5bcf84c06e9885d6bb371e2be10a5
   const classDesktopHover =
     "before:block before:absolute relative before:bg-gcNeutrals-baseWhite before:w-2 md:before:h-7 sm:before:h-6 before:rounded-r-md before:top-1/2 before:-translate-y-1/2 before:-left-full transition-all md:hover:before:left-3 lg:hover:before:left-1 sm:hover:before:left-4 before:transition-all";
 
@@ -18,6 +36,59 @@ export default function LoggedInNavbar() {
   const classMobileActive =
     "relative text-xl w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcNeutrals-baseWhite after:w-4 after:left-1/2 after:-translate-x-1/2 after:scale-x-100 after:transition after:duration-300 after:origin-center after:rounded-lg after:-bottom-2";
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    if (!userData) {
+      const data = getUserData();
+      if (data) {
+        data
+          .then((response) => {
+            setUserData(response);
+            setLoading(false);
+          })
+          .catch(function (err) {
+            console.error(err);
+            toast.error("Something Went Wrong");
+          });
+      } else {
+        setUserData(null);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userData, setUserData, router]);
+
+  const getUserData = async () => {
+    let userData;
+    await axios
+      .get(`${host}auth/my`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
+            userData = response.data.data[0].user;
+          } else {
+            toast.error("Something Went Wrong");
+            return null;
+          }
+        }
+      })
+      .catch(function (err) {
+        if (err.response) {
+          if (err.response.data.statusCode == 401) {
+            userData = null;
+          }
+        }
+        console.error(err);
+      });
+
+    return userData;
+  };
+
+>>>>>>> 2df9b30980a5bcf84c06e9885d6bb371e2be10a5
   return (
     <>
       <nav className="fixed z-50 left-0 bottom-0 right-0 top-auto sm:top-0 sm:bottom-auto w-full sm:right-auto sm:w-14 md:w-16 lg:w-20 flex flex-col">
@@ -121,11 +192,27 @@ export default function LoggedInNavbar() {
           </ul>
           <div className={`items-center justify-center lg:mt-20 md:mt-16 sm:mt-12 sm:flex-col flex-row gap-2 sm:flex hidden `}>
             <Link href={"/my/profile"} className={`w-full justify-center items-center flex ${pathname.startsWith("/my/profile") ? classDesktopActive : classDesktopHover}`}>
+<<<<<<< HEAD
               <div className="flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1">
                 <img className="rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8" src="https://placehold.co/45x45" alt="User Profile" />
               </div>
             </Link>
             <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">Free</span>
+=======
+              <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
+                {!loading && userData?.avatar !== undefined && (
+                  <img
+                    className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 ${!userData.avatar && "p-2"}`}
+                    src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"}
+                    alt="User Profile"
+                  />
+                )}
+                {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center lg:w-12 md:w-10 sm:w-8 p-2`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
+                {loading && <div className="rounded-full lg:w-12 md:w-10 sm:w-8 lg:h-12 md:h-10 sm:h-8"></div>}
+              </div>
+            </Link>
+            <span className="p-1 bg-gcPrimary-1000 rounded-xl lg:px-3 sm:px-2 font-bold text-gcNeutrals-baseWhite lg:text-sm sm:text-xs sm:block hidden">{userData?.username ? "Free" : "Guest"}</span>
+>>>>>>> 2df9b30980a5bcf84c06e9885d6bb371e2be10a5
           </div>
 
           {/* Mobile */}
@@ -184,8 +271,17 @@ export default function LoggedInNavbar() {
                 </Link>
               </li>
               <Link href={"/my/profile"} className={pathname.startsWith("/my/profile") ? classMobileActive : classMobileHover}>
+<<<<<<< HEAD
                 <div className="flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1">
                   <img className="rounded-full object-cover object-center w-7" src="https://placehold.co/45x45" alt="User Profile" />
+=======
+                <div className={`flex justify-center items-center bg-gcNeutrals-baseWhite rounded-full h-max w-max p-1 ${loading && "animate-pulse"}`}>
+                  {!loading && userData?.avatar !== undefined && (
+                    <img className={`rounded-full object-cover object-center w-7`} src={userData.avatar ? `${host}/uploads/${userData.avatar}` : "/avatars/default-avatar.svg"} alt="User Profile" />
+                  )}
+                  {!loading && userData?.avatar === undefined && <img className={`rounded-full object-cover object-center w-7 p-1`} src={"/avatars/default-avatar.svg"} alt="User Profile" />}
+                  {loading && <div className="rounded-full w-7 h-7"></div>}
+>>>>>>> 2df9b30980a5bcf84c06e9885d6bb371e2be10a5
                 </div>
               </Link>
             </div>
