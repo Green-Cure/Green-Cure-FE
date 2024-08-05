@@ -82,43 +82,54 @@ export default function Library() {
     }
   };
 
-  const renderDetails = (item) => (
-    <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-col sm:flex-row sm:space-x-4 items-center sm:items-center">
-      <div className="flex justify-center items-center w-24 h-24">
-        <img
-          src={`${hostNoPrefix}uploads/${item.image}`}
-          alt={item.name}
-          className="object-cover rounded-lg"
-        />
+  const renderDetails = (item) => {
+    const getMaxDescriptionLength = () => {
+      if (window.innerWidth < 640) return 40; // sm
+      if (window.innerWidth < 1024) return 70; // md
+      return 500; // lg and above
+    };
+
+    const maxLength = getMaxDescriptionLength();
+    const shortDescription =
+      item.description.length > maxLength
+        ? item.description.slice(0, maxLength) + "..."
+        : item.description;
+
+    return (
+      <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-row items-center sm:items-start">
+        <div className="flex justify-center items-center w-32 h-32 sm:w-36 sm:h-36 mb-4 sm:mb-0">
+          <img
+            src={`${hostNoPrefix}uploads/${item.image}`}
+            alt={item.name}
+            className="object-cover rounded-lg w-full h-full"
+          />
+        </div>
+        <div className="flex-1 text-left ml-4">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000 mb-2">
+            {item.name}
+          </h2>
+          <p className="text-gcPrimary-1000 text-base sm:text-lg mb-2">
+            <em>{item.latin}</em>
+          </p>
+          <p className="text-gcPrimary-1000 text-sm sm:text-base">
+            {shortDescription}
+          </p>
+          <Link
+            href={{
+              pathname: `/my/library/${
+                item.latin ? "plants" : "plant-diseases"
+              }/${item.id}`,
+            }}
+            legacyBehavior
+          >
+            <a className="text-white bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-3 sm:px-4 py-2 rounded-full inline-block mt-4">
+              Read More
+            </a>
+          </Link>
+        </div>
       </div>
-      <div className="flex-1 text-center sm:text-left">
-        <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000 mb-2">
-          {item.name}
-        </h2>
-        <p className="text-gcPrimary-1000 text-base sm:text-lg mb-2">
-          <em>{item.description}</em>
-        </p>
-        <p className="text-gcPrimary-1000 text-sm sm:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius
-          augue non ante lacinia, vel bibendum velit ornare. Sed a eleifend
-          nulla. Vestibulum a arcu arcu. Fusce sit amet ante non augue vehicula
-          vehicula vel ac nibh....
-        </p>
-        <Link
-          href={{
-            pathname: `/my/library/${
-              item.latin ? "plants" : "plant-diseases"
-            }/${item.id}`,
-          }}
-          legacyBehavior
-        >
-          <a className="text-white bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-3 sm:px-4 py-2 rounded-full inline-block mt-4">
-            Read More
-          </a>
-        </Link>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
@@ -198,10 +209,10 @@ export default function Library() {
             </div>
             {!isLoading && filteredPlants && filteredPlants.length > 0 && (
               <div className="mt-10">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
                   Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-900 text-base sm:text-lg">
+                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl">
                   {filteredPlants.map((plant) => (
                     <li key={plant.name} onClick={() => handleItemClick(plant)}>
                       {plant.name}
@@ -216,10 +227,10 @@ export default function Library() {
             <hr className="border-t border-gray-300 mt-4" />
             {!isLoading && filteredDiseases && filteredDiseases.length > 0 && (
               <div className="mt-10">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
                   Penyakit Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-900 text-base sm:text-lg">
+                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl">
                   {filteredDiseases.map((disease) => (
                     <li
                       key={disease.name}
