@@ -11,7 +11,20 @@ export default function MyArticle() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
     const month = months[date.getUTCMonth()];
     const day = date.getUTCDate();
@@ -21,7 +34,9 @@ export default function MyArticle() {
   };
 
   const getLatestArticles = (data, count) => {
-    return data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, count);
+    return data
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, count);
   };
 
   const getRandomArticles = (data, count) => {
