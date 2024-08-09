@@ -30,7 +30,7 @@ export default function Navbar() {
               <Link href={"/auth/register"} className="gcDropShadow">
                 <button
                   type="button"
-                  className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-4 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
+                  className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
                 >
                   Sign Up
                 </button>
@@ -38,7 +38,7 @@ export default function Navbar() {
               <Link href={"/auth/login"} className="gcDropShadow">
                 <button
                   type="button"
-                  className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-4 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-3xl md:rounded-lg text-sm px-4 md:px-6 md:py-2 text-center md:inline-block hidden"
+                  className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-3xl md:rounded-lg text-sm px-4 md:px-6 md:py-2 text-center md:inline-block hidden"
                 >
                   Log in
                 </button>
@@ -126,12 +126,12 @@ export default function Navbar() {
             <ul className="font-medium flex flex-col p-4 md:p-0 border bg-gradient-to-r mb-3 from-gcNeutrals-baseWhite to-neutral-100 border-gray-200 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 gap-2">
               <div className="flex justify-center items-center gap-6 mb-4">
                 <Link href={"/auth/register"}>
-                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-4 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
+                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
                     Sign Up
                   </button>
                 </Link>
                 <Link href={"/auth/login"}>
-                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-4 focus:outline-none rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center">
+                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center">
                     Log in
                   </button>
                 </Link>

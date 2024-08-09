@@ -53,7 +53,7 @@ export default function Profile() {
             setLoading(false);
           },
           (err) => {
-            console.log(err);
+            console.error(err);
           }
         );
       } else {

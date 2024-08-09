@@ -175,7 +175,7 @@ export default function MyHome() {
             </div>
 
             <div className="mt-5">
-              <h1 className="gcHeading3p text-gcPrimary-1000 hover:underline cursor-pointer" onClick={() => router.push("/my/article")}>
+              <h1 className="gcHeading3p text-gcPrimary-1000 hover:underline cursor-pointer w-max" onClick={() => router.push("/my/article")}>
                 Articles
               </h1>
               <div className="flex flex-col m-auto p-auto sm:mt-3 mt-1.5 xl:mt-3 relative group/item">
