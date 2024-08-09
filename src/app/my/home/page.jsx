@@ -10,8 +10,10 @@ import { getUserData } from "@/app/utils/getUserData";
 import { ArticleContext } from "@/contexts/ArticleContext";
 import { getArticlesData } from "@/app/utils/getArticlesData";
 import { hostNoPrefix } from "@/app/utils/urlApi";
+import { useRouter } from "next/navigation";
 
 export default function MyHome() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { userData, setUserData } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticleContext);
@@ -32,131 +34,16 @@ export default function MyHome() {
     if (!articles) {
       getArticlesData().then(
         (res) => {
-          console.log(res);
           if (res) {
             setArticles(res);
           }
         },
         (err) => {
-          console.log(err);
+          console.error(err);
         }
       );
     }
-    console.log(articles);
   }, [articles]);
-
-  // const articles = [
-  //   {
-  //     id: 1,
-  //     userId: 101,
-  //     title: "Cara Menanam dan Merawat Tanaman Herbal untuk Pemula",
-  //     slug: "cara-menanam-dan-merawat-tanaman-herbal-untuk-pemula",
-  //     image: "https://cdn.pixabay.com/photo/2017/07/20/17/56/herbs-2523119_1280.jpg",
-  //     content: "Panduan lengkap untuk menanam dan merawat tanaman herbal seperti kemangi, rosemary, dan sage.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     userId: 102,
-  //     title: "11 Tanaman di Sekitar Rumah yang Bermanfaat",
-  //     slug: "11-tanaman-di-sekitar-rumah-yang-bermanfaat",
-  //     image: "https://cdn.pixabay.com/photo/2017/05/07/22/36/ivy-2293830_960_720.jpg",
-  //     content: "Daftar tanaman yang bisa ditanam di sekitar rumah untuk keindahan dan manfaat kesehatan.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     userId: 103,
-  //     title: "Cara Merawat Pohon Tabebuya agar Rajin Berbunga",
-  //     slug: "cara-merawat-pohon-tabebuya-agar-rajin-berbunga",
-  //     image: "https://portalberita.lumajangkab.go.id/files/berita/WhatsApp_Image_2023-11-23_at_6_41_08_PM.jpeg",
-  //     content: "Tips dan trik untuk merawat pohon tabebuya agar selalu berbunga dengan subur.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 4,
-  //     userId: 104,
-  //     title: "16 Macam Tumbuhan Herbal dan Manfaatnya",
-  //     slug: "16-macam-tumbuhan-herbal-dan-manfaatnya",
-  //     image: "https://cdn.rri.co.id/berita/Sendawar/o/1720751413156-IMG_1539/4p6l0cpkdmmxh4b.jpeg",
-  //     content: "Penjelasan tentang 16 jenis tumbuhan herbal dan manfaat kesehatannya.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 5,
-  //     userId: 105,
-  //     title: "Panduan Menanam Tanaman Hias di Dalam Rumah",
-  //     slug: "panduan-menanam-tanaman-hias-di-dalam-rumah",
-  //     image: "https://awsimages.detik.net.id/community/media/visual/2022/02/18/tanaman-lidah-mertua_169.jpeg?w=600&q=90",
-  //     content: "Langkah-langkah menanam dan merawat tanaman hias di dalam rumah agar tetap sehat dan indah.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 6,
-  //     userId: 106,
-  //     title: "Tips Merawat Tanaman Buah di Pekarangan Rumah",
-  //     slug: "tips-merawat-tanaman-buah-di-pekarangan-rumah",
-  //     image: "https://imgx.sonora.id/crop/0x0:0x0/x/photo/2023/03/21/when-to-plant-apple-trees-1200x6-20230321092358.jpeg",
-  //     content: "Cara merawat tanaman buah seperti mangga dan jambu di pekarangan rumah.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 7,
-  //     userId: 107,
-  //     title: "Cara Menanam Tanaman Obat di Pot Kecil",
-  //     slug: "cara-menanam-tanaman-obat-di-pot-kecil",
-  //     image: "https://asset.kompas.com/crops/Xdw_vhHr1KcIPW0YhmGynKrJyfg=/100x67:900x600/750x500/data/photo/2021/10/07/615eb844d5aa6.jpg",
-  //     content: "Panduan menanam tanaman obat seperti lidah buaya dan jahe di pot kecil.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 8,
-  //     userId: 108,
-  //     title: "Merawat Tanaman Hias Daun agar Tetap Segar",
-  //     slug: "merawat-tanaman-hias-daun-agar-tetap-segar",
-  //     image: "https://pict.sindonews.net/dyn/850/pena/news/2020/11/19/166/238336/ini-lima-tanaman--hias--yang--sering-dibeli-dan-viral-aic.png",
-  //     content: "Tips merawat tanaman hias daun seperti monstera dan philodendron agar tetap segar.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 9,
-  //     userId: 109,
-  //     title: "Cara Menanam Tanaman Hidroponik di Rumah",
-  //     slug: "cara-menanam-tanaman-hidroponik-di-rumah",
-  //     image: "https://asset.kompas.com/crops/Pi7ZX5WH1dLkCpENMVOQfLBivD8=/107x156:834x640/750x500/data/photo/2022/09/29/63354297c3995.jpg",
-  //     content: "Langkah-langkah menanam tanaman hidroponik di rumah dengan mudah.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  //   {
-  //     id: 10,
-  //     userId: 110,
-  //     title: "Panduan Merawat Tanaman Kaktus dan Sukulen",
-  //     slug: "panduan-merawat-tanaman-kaktus-dan-sukulen",
-  //     image: "https://asset-a.grid.id/crop/0x0:0x0/x/photo/2021/08/05/sukulenjpg-20210805122230.jpg",
-  //     content: "Cara merawat tanaman kaktus dan sukulen agar tetap sehat dan tumbuh subur.",
-  //     createdAt: "2023-07-23T00:00:00Z",
-  //     updatedAt: "2023-07-23T00:00:00Z",
-  //     deletedAt: null,
-  //   },
-  // ];
 
   useEffect(() => {
     if (!userData) {
@@ -288,64 +175,76 @@ export default function MyHome() {
             </div>
 
             <div className="mt-5">
-              <h1 className="gcHeading3p text-gcPrimary-1000">Articles</h1>
+              <h1 className="gcHeading3p text-gcPrimary-1000 hover:underline cursor-pointer w-max" onClick={() => router.push("/my/article")}>
+                Articles
+              </h1>
               <div className="flex flex-col m-auto p-auto sm:mt-3 mt-1.5 xl:mt-3 relative group/item">
-                <div ref={articleSliderContainerRef} className="flex overflow-x-scroll no-scrollbar scroll-smooth">
-                  <div className="flex flex-nowrap gap-4">
-                    {articles &&
-                      articles.map((article) => {
-                        return (
-                          <div key={article.id} className="inline-block">
-                            <div className="w-80 max-w-xs overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out pb-2">
-                              <img className="rounded-xl object-cover object-center xl:h-60 lg:h-65 md:h-52 h-48 w-full mb-2" src={`${hostNoPrefix}uploads/${article.image}`} alt={article.slug} />
-                              <Link href={`/my/article/${article.slug}`} className="hover:underline text-gcPrimary-1000">
-                                <h2 className="gcContentBody2p text-gcPrimary-1000 px-2">{article.title}</h2>
-                              </Link>
+                {articles && articles.length > 0 ? (
+                  <div ref={articleSliderContainerRef} className="flex overflow-x-scroll no-scrollbar scroll-smooth">
+                    <div className="flex flex-nowrap gap-4">
+                      {articles &&
+                        articles.map((article, index) => {
+                          if (index > 5) return;
+                          return (
+                            <div key={article.id} className="inline-block">
+                              <div className="w-80 max-w-xs overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out pb-2">
+                                <img className="rounded-xl object-cover object-center xl:h-60 lg:h-65 md:h-52 h-48 w-full mb-2" src={`${hostNoPrefix}uploads/${article.image}`} alt={article.slug} />
+                                <Link href={`/my/article/${article.slug}`} className="hover:underline text-gcPrimary-1000">
+                                  <h2 className="gcContentBody2p text-gcPrimary-1000 px-2">{article.title}</h2>
+                                </Link>
+                              </div>
                             </div>
+                          );
+                        })}
+                      {articles && articles.length > 4 && (
+                        <div className="inline-block">
+                          <div className="w-80 xl:h-60 lg:h-65 md:h-52 h-48 max-w-xs overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out pb-2 bg-gcSecondary-200 flex justify-center items-center">
+                            <Link href={"/my/article"} className="gcContentAccent1p text-gcPrimary-1000 hover:underline">
+                              Selengkapnya
+                            </Link>
                           </div>
-                        );
-                      })}
-                    {/* {articles.length >= 6 && ( */}
-                    <div className="inline-block">
-                      <div className="w-80 xl:h-60 lg:h-65 md:h-52 h-48 max-w-xs overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out pb-2 bg-gcSecondary-200 flex justify-center items-center">
-                        <Link href={"/my/article"} className="gcContentAccent1p text-gcPrimary-1000 hover:underline">
-                          Selengkapnya
-                        </Link>
-                      </div>
+                        </div>
+                      )}
                     </div>
-                    {/* )} */}
                   </div>
-                </div>
-                <button
-                  onClick={() => handleScroll(500)}
-                  className="bg-gcSecondary-400 xl:w-12 xl:h-12 lg:w-11 lg:h-11 sm:h-10 sm:w-10 p-2 xl:p-3 hidden sm:flex justify-center items-center absolute right-0 top-1/2  -translate-y-1/2 translate-x-1/2 z-30 rounded-full invisible group-hover/item:visible"
-                >
-                  <svg className="" width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M19.6217 3.53342L21.4988 5.3746L25.9784 9.76862L31.4198 15.106L36.0978 19.6945C36.857 20.4392 37.6036 21.1922 38.3756 21.9287L38.4093 21.9618V19.0366L36.5322 20.8778L32.0526 25.2718L26.6112 30.6092L21.9332 35.1976C21.174 35.9424 20.4063 36.6789 19.6554 37.4319L19.6217 37.465C19.2378 37.8415 19.0058 38.3959 19.0058 38.9297C19.0058 39.4386 19.2336 40.0427 19.6217 40.3943C20.0224 40.7543 20.5497 41.0232 21.1149 40.9984C21.6759 40.9736 22.2032 40.7874 22.6081 40.3943L24.4852 38.5532L28.9649 34.1591L34.4063 28.8218L39.0842 24.2333C39.8435 23.4885 40.6112 22.7521 41.362 21.999L41.3958 21.9659C42.2014 21.1757 42.2014 19.831 41.3958 19.0407C40.7672 18.4201 40.1387 17.8078 39.5145 17.1913L35.0348 12.7973L29.5934 7.4599L24.9155 2.87142C24.1562 2.12667 23.4054 1.37365 22.6377 0.637177L22.6039 0.604076C22.2201 0.227566 21.6548 0 21.1107 0C20.5919 0 19.976 0.223427 19.6175 0.604076C19.2505 0.997139 18.9763 1.51432 19.0016 2.06875C19.0311 2.61903 19.2167 3.13622 19.6217 3.53342Z"
-                      fill="#FAFAFA"
-                    />
-                    <path
-                      d="M38.9264 18.0022H3.5696C3.09303 18.0022 2.61233 17.9972 2.13577 18.0022H2.0736C1.54317 18.0022 0.983727 18.282 0.606621 18.7316C0.24609 19.1662 -0.0232697 19.8756 0.00159454 20.5C0.0264549 21.1444 0.200504 21.8138 0.606621 22.2684C1.01273 22.718 1.51002 22.9978 2.0736 22.9978L37.4304 22.9978C37.907 22.9978 38.3877 23.0028 38.8642 22.9978H38.9264C39.4568 22.9978 40.0163 22.718 40.3934 22.2684C40.7539 21.8338 41.0233 21.1244 40.9984 20.5C40.9735 19.8556 40.7995 19.1862 40.3934 18.7316C39.9831 18.287 39.4858 18.0022 38.9264 18.0022Z"
-                      fill="#FAFAFA"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => handleScroll(-500)}
-                  className="bg-gcSecondary-400 xl:w-12 xl:h-12 lg:w-11 lg:h-11 sm:h-10 sm:w-10 p-2 xl:p-3 hidden sm:flex justify-center items-center absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 rounded-full invisible group-hover/item:visible rotate-180"
-                >
-                  <svg className="w-8" width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M19.6217 3.53342L21.4988 5.3746L25.9784 9.76862L31.4198 15.106L36.0978 19.6945C36.857 20.4392 37.6036 21.1922 38.3756 21.9287L38.4093 21.9618V19.0366L36.5322 20.8778L32.0526 25.2718L26.6112 30.6092L21.9332 35.1976C21.174 35.9424 20.4063 36.6789 19.6554 37.4319L19.6217 37.465C19.2378 37.8415 19.0058 38.3959 19.0058 38.9297C19.0058 39.4386 19.2336 40.0427 19.6217 40.3943C20.0224 40.7543 20.5497 41.0232 21.1149 40.9984C21.6759 40.9736 22.2032 40.7874 22.6081 40.3943L24.4852 38.5532L28.9649 34.1591L34.4063 28.8218L39.0842 24.2333C39.8435 23.4885 40.6112 22.7521 41.362 21.999L41.3958 21.9659C42.2014 21.1757 42.2014 19.831 41.3958 19.0407C40.7672 18.4201 40.1387 17.8078 39.5145 17.1913L35.0348 12.7973L29.5934 7.4599L24.9155 2.87142C24.1562 2.12667 23.4054 1.37365 22.6377 0.637177L22.6039 0.604076C22.2201 0.227566 21.6548 0 21.1107 0C20.5919 0 19.976 0.223427 19.6175 0.604076C19.2505 0.997139 18.9763 1.51432 19.0016 2.06875C19.0311 2.61903 19.2167 3.13622 19.6217 3.53342Z"
-                      fill="#FAFAFA"
-                    />
-                    <path
-                      d="M38.9264 18.0022H3.5696C3.09303 18.0022 2.61233 17.9972 2.13577 18.0022H2.0736C1.54317 18.0022 0.983727 18.282 0.606621 18.7316C0.24609 19.1662 -0.0232697 19.8756 0.00159454 20.5C0.0264549 21.1444 0.200504 21.8138 0.606621 22.2684C1.01273 22.718 1.51002 22.9978 2.0736 22.9978L37.4304 22.9978C37.907 22.9978 38.3877 23.0028 38.8642 22.9978H38.9264C39.4568 22.9978 40.0163 22.718 40.3934 22.2684C40.7539 21.8338 41.0233 21.1244 40.9984 20.5C40.9735 19.8556 40.7995 19.1862 40.3934 18.7316C39.9831 18.287 39.4858 18.0022 38.9264 18.0022Z"
-                      fill="#FAFAFA"
-                    />
-                  </svg>
-                </button>
+                ) : (
+                  <h1 className="text-gcPrimary-1000 gcContentAccent1p text-center my-8">No article data</h1>
+                )}
+
+                {articles && articles.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => handleScroll(500)}
+                      className="bg-gcSecondary-400 xl:w-12 xl:h-12 lg:w-11 lg:h-11 sm:h-10 sm:w-10 p-2 xl:p-3 hidden sm:flex justify-center items-center absolute right-0 top-1/2  -translate-y-1/2 translate-x-1/2 z-30 rounded-full invisible group-hover/item:visible"
+                    >
+                      <svg className="" width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M19.6217 3.53342L21.4988 5.3746L25.9784 9.76862L31.4198 15.106L36.0978 19.6945C36.857 20.4392 37.6036 21.1922 38.3756 21.9287L38.4093 21.9618V19.0366L36.5322 20.8778L32.0526 25.2718L26.6112 30.6092L21.9332 35.1976C21.174 35.9424 20.4063 36.6789 19.6554 37.4319L19.6217 37.465C19.2378 37.8415 19.0058 38.3959 19.0058 38.9297C19.0058 39.4386 19.2336 40.0427 19.6217 40.3943C20.0224 40.7543 20.5497 41.0232 21.1149 40.9984C21.6759 40.9736 22.2032 40.7874 22.6081 40.3943L24.4852 38.5532L28.9649 34.1591L34.4063 28.8218L39.0842 24.2333C39.8435 23.4885 40.6112 22.7521 41.362 21.999L41.3958 21.9659C42.2014 21.1757 42.2014 19.831 41.3958 19.0407C40.7672 18.4201 40.1387 17.8078 39.5145 17.1913L35.0348 12.7973L29.5934 7.4599L24.9155 2.87142C24.1562 2.12667 23.4054 1.37365 22.6377 0.637177L22.6039 0.604076C22.2201 0.227566 21.6548 0 21.1107 0C20.5919 0 19.976 0.223427 19.6175 0.604076C19.2505 0.997139 18.9763 1.51432 19.0016 2.06875C19.0311 2.61903 19.2167 3.13622 19.6217 3.53342Z"
+                          fill="#FAFAFA"
+                        />
+                        <path
+                          d="M38.9264 18.0022H3.5696C3.09303 18.0022 2.61233 17.9972 2.13577 18.0022H2.0736C1.54317 18.0022 0.983727 18.282 0.606621 18.7316C0.24609 19.1662 -0.0232697 19.8756 0.00159454 20.5C0.0264549 21.1444 0.200504 21.8138 0.606621 22.2684C1.01273 22.718 1.51002 22.9978 2.0736 22.9978L37.4304 22.9978C37.907 22.9978 38.3877 23.0028 38.8642 22.9978H38.9264C39.4568 22.9978 40.0163 22.718 40.3934 22.2684C40.7539 21.8338 41.0233 21.1244 40.9984 20.5C40.9735 19.8556 40.7995 19.1862 40.3934 18.7316C39.9831 18.287 39.4858 18.0022 38.9264 18.0022Z"
+                          fill="#FAFAFA"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleScroll(-500)}
+                      className="bg-gcSecondary-400 xl:w-12 xl:h-12 lg:w-11 lg:h-11 sm:h-10 sm:w-10 p-2 xl:p-3 hidden sm:flex justify-center items-center absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 rounded-full invisible group-hover/item:visible rotate-180"
+                    >
+                      <svg className="w-8" width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M19.6217 3.53342L21.4988 5.3746L25.9784 9.76862L31.4198 15.106L36.0978 19.6945C36.857 20.4392 37.6036 21.1922 38.3756 21.9287L38.4093 21.9618V19.0366L36.5322 20.8778L32.0526 25.2718L26.6112 30.6092L21.9332 35.1976C21.174 35.9424 20.4063 36.6789 19.6554 37.4319L19.6217 37.465C19.2378 37.8415 19.0058 38.3959 19.0058 38.9297C19.0058 39.4386 19.2336 40.0427 19.6217 40.3943C20.0224 40.7543 20.5497 41.0232 21.1149 40.9984C21.6759 40.9736 22.2032 40.7874 22.6081 40.3943L24.4852 38.5532L28.9649 34.1591L34.4063 28.8218L39.0842 24.2333C39.8435 23.4885 40.6112 22.7521 41.362 21.999L41.3958 21.9659C42.2014 21.1757 42.2014 19.831 41.3958 19.0407C40.7672 18.4201 40.1387 17.8078 39.5145 17.1913L35.0348 12.7973L29.5934 7.4599L24.9155 2.87142C24.1562 2.12667 23.4054 1.37365 22.6377 0.637177L22.6039 0.604076C22.2201 0.227566 21.6548 0 21.1107 0C20.5919 0 19.976 0.223427 19.6175 0.604076C19.2505 0.997139 18.9763 1.51432 19.0016 2.06875C19.0311 2.61903 19.2167 3.13622 19.6217 3.53342Z"
+                          fill="#FAFAFA"
+                        />
+                        <path
+                          d="M38.9264 18.0022H3.5696C3.09303 18.0022 2.61233 17.9972 2.13577 18.0022H2.0736C1.54317 18.0022 0.983727 18.282 0.606621 18.7316C0.24609 19.1662 -0.0232697 19.8756 0.00159454 20.5C0.0264549 21.1444 0.200504 21.8138 0.606621 22.2684C1.01273 22.718 1.51002 22.9978 2.0736 22.9978L37.4304 22.9978C37.907 22.9978 38.3877 23.0028 38.8642 22.9978H38.9264C39.4568 22.9978 40.0163 22.718 40.3934 22.2684C40.7539 21.8338 41.0233 21.1244 40.9984 20.5C40.9735 19.8556 40.7995 19.1862 40.3934 18.7316C39.9831 18.287 39.4858 18.0022 38.9264 18.0022Z"
+                          fill="#FAFAFA"
+                        />
+                      </svg>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </>

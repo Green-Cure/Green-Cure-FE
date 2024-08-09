@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function MyArticleMore({ articles }) {
+  if (!articles) return;
   return (
     <>
       <div className="sm:w-3/5 w-full sm:mt-0 mt-1">
