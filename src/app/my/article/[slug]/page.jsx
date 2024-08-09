@@ -15,10 +15,7 @@ export default function MyArticleDetail({ params }) {
     request
       .get(`articles/${params.slug}`)
       .then(function (response) {
-        console.log(response.data);
-
         if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
-          console.log(response.data);
           if (response.data.data) {
             setArticleDetail(response.data.data);
           } else {
@@ -32,7 +29,6 @@ export default function MyArticleDetail({ params }) {
         console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
-        // setLoading(false);
       });
 
     request
@@ -52,14 +48,16 @@ export default function MyArticleDetail({ params }) {
         console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
-        // setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [setRelatedArticles]);
 
   if (articleDetail) {
     return (
       <>
-        <div className="flex flex-col">
+        <div className="flex flex-col pb-10">
           <h1 className="gcHeading2p text-gcPrimary-1000 mt-5 sm:px-0 px-4">{articleDetail.title}</h1>
           <div className="mt-5 flex sm:flex-row flex-col lg:gap-10 sm:gap-8 gap-6">
             <div className="sm:w-3/4 w-full flex flex-col">
@@ -80,21 +78,23 @@ export default function MyArticleDetail({ params }) {
             </div>
             <div className="sm:w-1/4 w-full flex flex-col sm:px-0 px-4">
               <h1 className="gcHeading3p text-gcPrimary-1000">Related</h1>
-              {relatedArticles.map((articleDetail) => {
-                return (
-                  <div key={articleDetail.id} className="flex xl:flex-row flex-col-reverse justify-between sm:justify-center xl:items-center items-start xl:py-4 py-2 border-b border-gcSecondary-400 gap-3">
-                    <div className="xl:w-3/5 w-full">
-                      <Link href={`/my/article/${articleDetail.slug}`} className="hover:underline text-gcPrimary-1000">
-                        <h2 className="gcContentAccent1p text-gcPrimary-1000">{articleDetail.title}</h2>
-                      </Link>
-                      <h4 className="text-gcSecondary-600 gcContentBody2p">{formatDate(articleDetail.createdAt)}</h4>
+              {relatedArticles &&
+                relatedArticles.length > 0 &&
+                relatedArticles.map((articleDetail) => {
+                  return (
+                    <div key={articleDetail.id} className="flex xl:flex-row flex-col-reverse justify-between sm:justify-center xl:items-center items-start xl:py-4 py-2 border-b border-gcSecondary-400 gap-3">
+                      <div className="xl:w-3/5 w-full">
+                        <Link href={`/my/article/${articleDetail.slug}`} className="hover:underline text-gcPrimary-1000">
+                          <h2 className="gcContentAccent1p text-gcPrimary-1000">{articleDetail.title}</h2>
+                        </Link>
+                        <h4 className="text-gcSecondary-600 gcContentBody2p">{formatDate(articleDetail.createdAt)}</h4>
+                      </div>
+                      <div className="xl:w-2/5 w-full h-40 md:h-36 sm:h-32 flex justify-center items-center rounded-xl">
+                        <img className="rounded-xl object-cover object-center xl:h-36 xl:w-60 w-full h-full" src={`${hostNoPrefix}uploads/${articleDetail.image}`} alt={articleDetail.slug} />
+                      </div>
                     </div>
-                    <div className="xl:w-2/5 w-full h-40 md:h-36 sm:h-32 flex justify-center items-center rounded-xl">
-                      <img className="rounded-xl object-cover object-center xl:h-36 xl:w-60 w-full h-full" src={`${hostNoPrefix}uploads/${articleDetail.image}`} alt={articleDetail.slug} />
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         </div>

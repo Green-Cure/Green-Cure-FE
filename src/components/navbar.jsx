@@ -32,7 +32,7 @@ export default function Navbar() {
                   type="button"
                   className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-4 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
                 >
-                  Sign in
+                  Sign Up
                 </button>
               </Link>
               <Link href={"/auth/login"} className="gcDropShadow">
@@ -127,7 +127,7 @@ export default function Navbar() {
               <div className="flex justify-center items-center gap-6 mb-4">
                 <Link href={"/auth/register"}>
                   <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-4 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
-                    Sign in
+                    Sign Up
                   </button>
                 </Link>
                 <Link href={"/auth/login"}>
