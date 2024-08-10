@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function TopBar({ children, pageName }) {
+export default function TopBar({ children, pageName, isBorder = true }) {
   const router = useRouter();
 
   return (
     <>
-      <div className="flex justify-between border-b border-b-[#A09CAB] lg:py-4 md:py-3 py-2 sm:mx-0 mx-4">
+      <div className={`flex justify-between lg:py-4 md:py-3 py-2 sm:mx-0 mx-4 ${isBorder ? "border-b border-b-[#A09CAB]" : ""}`}>
         <button type="button" onClick={() => router.back()} className="flex justify-center items-center lg:gap-6 gap-3">
           <svg className="xl:w-9 lg:w-8 md:w-7 w-5" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path

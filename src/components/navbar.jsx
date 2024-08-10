@@ -9,6 +9,8 @@ export default function Navbar() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const pathname = usePathname();
 
+  const isLogin = !!localStorage.getItem("token");
+
   return (
     <>
       <nav className="bg-gradient-to-r from-gcNeutrals-baseWhite to-neutral-100 fixed w-full z-20 top-0 start-0 border-b border-gray-200">
@@ -27,22 +29,36 @@ export default function Navbar() {
           </a>
           <div className="flex md:gap-12 lg:gap-16">
             <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse md:gap-4">
-              <Link href={"/auth/register"} className="gcDropShadow">
-                <button
-                  type="button"
-                  className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
-                >
-                  Sign Up
-                </button>
-              </Link>
-              <Link href={"/auth/login"} className="gcDropShadow">
-                <button
-                  type="button"
-                  className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-3xl md:rounded-lg text-sm px-4 md:px-6 md:py-2 text-center md:inline-block hidden"
-                >
-                  Log in
-                </button>
-              </Link>
+              {isLogin ? (
+                <Link href={"/my"} className="gcDropShadow">
+                  <button
+                    type="button"
+                    className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
+                  >
+                    Go to Home
+                  </button>
+                </Link>
+              ) : (
+                <>
+                  <Link href={"/auth/register"} className="gcDropShadow">
+                    <button
+                      type="button"
+                      className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-3xl md:rounded-lg text-sm px-4 py-0 md:px-6 md:py-2 text-center md:inline-block hidden"
+                    >
+                      Sign Up
+                    </button>
+                  </Link>
+                  <Link href={"/auth/login"} className="gcDropShadow">
+                    <button
+                      type="button"
+                      className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-3xl md:rounded-lg text-sm px-4 md:px-6 md:py-2 text-center md:inline-block hidden"
+                    >
+                      Log in
+                    </button>
+                  </Link>
+                </>
+              )}
+
               <button
                 data-collapse-toggle="navbar-sticky"
                 type="button"
@@ -125,16 +141,26 @@ export default function Navbar() {
           <div className={"w-full md:hidden transition-all duration-300 relative -z-30" + (isNavOpen ? "mt-0" : " -mt-96")} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 border bg-gradient-to-r mb-3 from-gcNeutrals-baseWhite to-neutral-100 border-gray-200 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 gap-2">
               <div className="flex justify-center items-center gap-6 mb-4">
-                <Link href={"/auth/register"}>
-                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
-                    Sign Up
-                  </button>
-                </Link>
-                <Link href={"/auth/login"}>
-                  <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center">
-                    Log in
-                  </button>
-                </Link>
+                {isLogin ? (
+                  <Link href={"/my"}>
+                    <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
+                      Go to Home
+                    </button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href={"/auth/register"}>
+                      <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none rounded-lg px-4 py-2 md:px-6 md:py-2 text-center">
+                        Sign Up
+                      </button>
+                    </Link>
+                    <Link href={"/auth/login"}>
+                      <button type="button" className="gcHeading4p text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center">
+                        Log in
+                      </button>
+                    </Link>
+                  </>
+                )}
               </div>
               <li className="shadow-sm">
                 <Link
