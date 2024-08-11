@@ -17,10 +17,8 @@ export default function MyArticleLayout({ children }) {
 
   useEffect(() => {
     if (!articles) {
-      console.log(getArticlesData());
       getArticlesData().then(
         (res) => {
-          console.log(res);
           if (res) {
             setArticles(res);
           }
@@ -30,7 +28,7 @@ export default function MyArticleLayout({ children }) {
         }
       );
     }
-  }, [articles]);
+  }, [articles, router]);
 
   return (
     <>

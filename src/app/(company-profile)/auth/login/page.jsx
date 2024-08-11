@@ -14,6 +14,7 @@ export default function Login() {
   const [typeInput, setTypeInput] = useState(true);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -29,6 +30,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     request
       .post("auth/authenticated", {
         email: email,
@@ -56,7 +58,10 @@ export default function Login() {
         }
       })
       .catch(function (err) {
-        console.log(err);
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -121,9 +126,19 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-gcPrimary-1000 px-3 py-3 text-base font-bold leading-6 text-gcNeutrals-baseWhite shadow-sm hover:bg-gcNeutrals-baseWhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-1000 hover:text-gcPrimary-1000 transition"
+                className={`flex w-full justify-center rounded-md bg-gcPrimary-1000 px-3 py-3 text-base font-bold leading-6 text-gcNeutrals-baseWhite shadow-sm hover:bg-gcNeutrals-baseWhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gcPrimary-1000 hover:text-gcPrimary-1000 transition ${
+                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
               >
-                Login
+                {isLoading ? (
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
           </form>
