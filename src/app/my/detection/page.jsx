@@ -1,77 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import LoggedInNavbar from "../LoggedInNavbar";
 import { useRouter } from "next/navigation";
 
 export default function Detection() {
   const router = useRouter();
+  const [isLoading, setIsloading] = useState(false);
+  const [imageFile, setImageFile] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  const handleSvgClick = () => {
-    router.push("/my");
-  };
-
-  const SaveButtonClick = () => {
-    router.push("detection/result");
+  const handleSubmit = () => {
+    console.log("Summit Button Clicked!");
   };
 
   return (
     <>
       <LoggedInNavbar />
       <section className="sm:ml-12 md:ml-16 lg:ml-20">
-        <div className="flex sm:flex-row sm:justify-between sm:p-9 relative">
-          <svg
-            onClick={handleSvgClick}
-            width="40"
-            height="40"
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-[40px] h-[40px] pl-4 cursor-pointer"
-          >
-            <path
-              d="M2.02303 21.9655H36.5175C36.9824 21.9655 37.4514 21.9694 37.9163 21.9655H37.977C38.4945 21.9655 39.0403 21.749 39.4082 21.4011C39.7599 21.0649 40.0227 20.516 39.9984 20.0328C39.9742 19.5341 39.8044 19.0162 39.4082 18.6644C39.012 18.3165 38.5268 18.1001 37.977 18.1001H3.48253C3.01759 18.1001 2.54861 18.0962 2.08367 18.1001H2.02303C1.50553 18.1001 0.959732 18.3165 0.591823 18.6644C0.240087 19.0007 -0.022705 19.5496 0.00155274 20.0328C0.0258104 20.5314 0.195614 21.0494 0.591823 21.4011C0.992075 21.7452 1.47723 21.9655 2.02303 21.9655Z"
-              fill="#205072"
-            />
-            <path
-              d="M21.4053 36.0429L19.6099 34.3055L15.325 30.1592L10.1202 25.1227L5.64562 20.7929C4.91937 20.0902 4.20521 19.3796 3.46686 18.6846L3.43458 18.6534V21.4137L5.23004 19.6763L9.51494 15.53L14.7198 10.4936L19.1943 6.16377C19.9206 5.46101 20.6549 4.76605 21.3731 4.05548L21.4053 4.02425C21.7725 3.66897 21.9944 3.1458 21.9944 2.64215C21.9944 2.16193 21.7765 1.59191 21.4053 1.26005C21.022 0.920387 20.5177 0.666612 19.977 0.690037C19.4404 0.713462 18.9361 0.889153 18.5487 1.26005L16.7533 2.99744L12.4684 7.14373L7.26355 12.1802L2.78902 16.51C2.06276 17.2127 1.32844 17.9077 0.610256 18.6183L0.577978 18.6495C-0.192659 19.3952 -0.192659 20.6641 0.577978 21.4098C1.17915 21.9954 1.78033 22.5733 2.37747 23.155L6.66238 27.3013L11.8672 32.3377L16.3417 36.6675C17.068 37.3703 17.7862 38.0809 18.5205 38.7758L18.5528 38.807C18.9199 39.1623 19.4606 39.3771 19.9811 39.3771C20.4774 39.3771 21.0664 39.1662 21.4094 38.807C21.7604 38.4361 22.0227 37.9481 21.9984 37.4249C21.9702 36.9057 21.7927 36.4177 21.4053 36.0429Z"
-              fill="#205072"
-            />
-          </svg>
+        <div className="flex justify-between items-center sm:px-10 lg:py-4 md:py-3 py-2 sm:mx-0 mx-4">
+          <button type="button" onClick={() => router.back()} className="flex justify-center items-center lg:gap-6 gap-3">
+            <svg className="xl:w-9 lg:w-8 md:w-7 w-5" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2.02303 21.9982H36.5175C36.9824 21.9982 37.4514 22.0022 37.9163 21.9982H37.977C38.4945 21.9982 39.0403 21.7744 39.4082 21.4147C39.7599 21.0671 40.0227 20.4996 39.9984 20C39.9742 19.4845 39.8044 18.9489 39.4082 18.5853C39.012 18.2256 38.5268 18.0018 37.977 18.0018H3.48253C3.01759 18.0018 2.54861 17.9978 2.08367 18.0018H2.02303C1.50553 18.0018 0.959732 18.2256 0.591823 18.5853C0.240087 18.9329 -0.022705 19.5004 0.00155274 20C0.0258104 20.5155 0.195614 21.0511 0.591823 21.4147C0.992075 21.7704 1.47723 21.9982 2.02303 21.9982Z"
+                fill="#205072"
+              />
+              <path
+                d="M21.4053 36.5528L19.6099 34.7565L15.325 30.4696L10.1202 25.2625L5.64562 20.7859C4.91937 20.0593 4.20521 19.3246 3.46686 18.6061L3.43458 18.5738V21.4277L5.23004 19.6314L9.51494 15.3446L14.7198 10.1374L19.1943 5.66083C19.9206 4.93425 20.6549 4.21574 21.3731 3.48108L21.4053 3.44879C21.7725 3.08146 21.9944 2.54056 21.9944 2.01984C21.9944 1.52334 21.7765 0.934 21.4053 0.590891C21.022 0.239708 20.5177 -0.0226692 19.977 0.00155029C19.4404 0.0257698 18.9361 0.207416 18.5487 0.590891L16.7533 2.38717L12.4684 6.67401L7.26355 11.8812L2.78902 16.3578C2.06276 17.0843 1.32844 17.8029 0.610256 18.5375L0.577978 18.5698C-0.192659 19.3408 -0.192659 20.6527 0.577978 21.4237C1.17915 22.0292 1.78033 22.6266 2.37747 23.228L6.66238 27.5149L11.8672 32.722L16.3417 37.1986C17.068 37.9252 17.7862 38.6599 18.5205 39.3784L18.5528 39.4107C18.9199 39.778 19.4606 40 19.9811 40C20.4774 40 21.0664 39.782 21.4094 39.4107C21.7604 39.0272 22.0227 38.5226 21.9984 37.9817C21.9702 37.4448 21.7927 36.9403 21.4053 36.5528Z"
+                fill="#205072"
+              />
+            </svg>
+          </button>
+
           <button
-            className="w-[164px] h-[70px] bg-gcPrimary-600 rounded-full invisible sm:visible"
-            onClick={SaveButtonClick}
+            disabled={isLoading}
+            type="button"
+            className={`bg-gcPrimary-600 hover:bg-gcPrimary-700 transition lg:py-2.5 lg:px-10 sm:py-2 sm:px-8 py-2 px-6 text-gcNeutrals-baseWhite gcContentAccent1p rounded-3xl ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            onClick={handleSubmit}
           >
-            <span className="text-gcNeutrals-baseWhite font-semibold text-[20px]">
-              Save
-            </span>
+            {isLoading ? (
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
 
-        <div className="sm:flex-row flex sm:mb-4 justify-center font-bold ">
-          <h1 className="sm:text-[60px]  sm:text-gcPrimary-1000 font-bold text-[20px] text-slate-900">
-            Detect Your Plant Disease
-          </h1>
+        <div className="sm:flex-row flex sm:mb-4 justify-center font-bold lg:mt-6 md:mt-5 sm:mt-4 mt-3">
+          <h1 className="gcHeading1p sm:text-gcPrimary-1000 text-gcNeutrals-baseWhite">Detect Your Plant Disease</h1>
         </div>
 
-        <div className="flex justify-center sm:h-[600px] relative pt-4 sm:bottom-5">
-          <div className="sm:w-[1000px] sm:h-[500px] border-dashed sm:border-gcPrimary-1000 sm:border-4 flex items-center justify-center sm:pb-[65px] flex-col sm:cursor-pointer w-[250px] h-[350px] border-gcPrimary-700 border-4">
-            <div className="sm:w-[220px] sm:h-[220px] sm:bg-gcPrimary-1000 sm:rounded-3xl sm:flex sm:justify-center sm:items-center sm:pb-6">
-              <svg
-                width="173"
-                height="129"
-                viewBox="0 0 173 129"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="sm:w-[140px] sm:h-[140px]"
-              >
-                <path
-                  d="M110.112 87.3577L82.4428 60.5955M82.4428 60.5955L54.7734 87.3577M82.4428 60.5955V120.81"
-                  stroke="#FAFAFA"
-                  stroke-width="16.0639"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+        <div className="flex justify-center relative sm:mt-10 mt-6 sm:bottom-5">
+          <div className="border-dashed sm:border-gcPrimary-1000 sm:border-4 flex items-center justify-center flex-col sm:cursor-pointer border-gcPrimary-700 border-4 relative w-full xl:mx-36 lg:mx-32 md:mx-28 sm:mx-24 mx-14 xl:py-20 lg:py-16 md:py-14 sm:py-12 py-10 xl:px-10 lg:px-9 md:px-8 sm:px-7 px-6 sm:h-auto h-[50vh]">
+            <div className="sm:bg-gcPrimary-1000 sm:rounded-3xl sm:flex sm:justify-center sm:items-center xl:p-7 lg:p-6 md:p-5 sm:p-4 p-3.5 h-max">
+              <svg width="173" height="129" viewBox="0 0 173 129" fill="none" xmlns="http://www.w3.org/2000/svg" className="xl:w-32 lg:w-28 md:w-24 sm:w-20 w-16 xl:h-32 lg:h-28 md:h-24 sm:h-20 h-16 object-cover object-center">
+                <path d="M110.112 87.3577L82.4428 60.5955M82.4428 60.5955L54.7734 87.3577M82.4428 60.5955V120.81" stroke="#FAFAFA" stroke-width="16.0639" stroke-linecap="round" stroke-linejoin="round" />
                 <path
                   d="M145.726 113.917C152.601 110.291 158.033 104.554 161.163 97.6116C164.293 90.6689 164.944 82.9155 163.012 75.5754C161.081 68.2352 156.677 61.7262 150.496 57.0757C144.315 52.4252 136.709 49.898 128.878 49.893H119.995C117.862 41.9104 113.885 34.4996 108.364 28.2176C102.842 21.9356 95.9206 16.946 88.1187 13.6238C80.3167 10.3017 71.8377 8.73341 63.3189 9.03699C54.8002 9.34056 46.4634 11.5081 38.9354 15.3765C31.4074 19.245 24.884 24.7137 19.8558 31.3717C14.8275 38.0296 11.4252 45.7034 9.90452 53.8162C8.38389 61.929 8.78455 70.2696 11.0764 78.2111C13.3682 86.1526 17.4915 93.4882 23.1364 99.6665"
                   stroke="#FAFAFA"
@@ -79,41 +65,19 @@ export default function Detection() {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-                <path
-                  d="M110.112 87.3577L82.4428 60.5955L54.7734 87.3577"
-                  stroke="#FAFAFA"
-                  stroke-width="16.0639"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+                <path d="M110.112 87.3577L82.4428 60.5955L54.7734 87.3577" stroke="#FAFAFA" stroke-width="16.0639" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
-            <input
-              type="file"
-              name=""
-              id=""
-              className="sm:w-[1000px] sm:h-[500px] invisible sm:visible absolute sm:top-4 sm:border-2 sm:opacity-0 sm:cursor-pointer"
-            />
-            <div className="sm:mt-6 invisible sm:visible">
-              <h1 className="sm:text-[40px] sm:text-gcPrimary-1000 sm:font-bold">
-                Tap to upload an image
-              </h1>
-              <h3 className="sm:text-[20px] sm:text-gcPrimary-1000">
-                File must be JPEG, JPG, or PNG and up to 40MB
-              </h3>
+            <input type="file" accept={"image/*"} name="Scan Image" id="scan-image-input" className="w-full h-full invisible sm:visible absolute sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:border-2 sm:opacity-0 sm:cursor-pointer" />
+            <div className="invisible sm:visible text-center mt-8">
+              <h1 className="sm:text-gcPrimary-1000 gcHeading3p">Tap to upload an image</h1>
+              <h3 className="sm:text-gcPrimary-1000 gcContentBody4p">File must be JPEG, JPG, or PNG and up to 40MB</h3>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center gap-9 sm:invisible pt-10">
-          <svg
-            width="35"
-            height="35"
-            viewBox="0 0 35 35"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-12 h-12"
-          >
+        <div className="flex justify-center gap-9 sm:invisible mt-10">
+          <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
             <path
               d="M32.0833 18.518C32.0804 20.6617 32.0643 22.4817 31.9433 23.9765C31.8018 25.712 31.5116 27.1615 30.8641 28.3647C30.5816 28.8922 30.2228 29.3752 29.7995 29.7982C28.5848 31.013 27.0389 31.5628 25.0789 31.8253C23.1641 32.0834 20.7083 32.0834 17.5773 32.0834H17.4227C14.2902 32.0834 11.8373 32.0834 9.921 31.8253C7.96246 31.5628 6.41517 31.013 5.20183 29.7982C4.12558 28.722 3.5685 27.3832 3.27392 25.7222C2.98225 24.0888 2.92975 22.0588 2.91954 19.5374C2.91663 18.8957 2.91663 18.2176 2.91663 17.5001V17.4213C2.91663 14.2888 2.91663 11.8359 3.17475 9.91966C3.43725 7.96112 3.98704 6.41383 5.20183 5.20049C6.41517 3.9857 7.96246 3.43591 9.921 3.17341C11.6243 2.94445 13.8148 2.9182 16.482 2.91528C16.752 2.91528 17.0109 3.02253 17.2018 3.21342C17.3927 3.40432 17.5 3.66323 17.5 3.9332C17.5 4.20317 17.3927 4.46208 17.2018 4.65298C17.0109 4.84387 16.752 4.95112 16.482 4.95112C13.7768 4.95403 11.7658 4.97737 10.1923 5.18883C8.45829 5.42216 7.41267 5.86549 6.63975 6.63841C5.86683 7.41132 5.42496 8.45841 5.19163 10.1938C4.95392 11.9584 4.951 14.2742 4.951 17.5001V18.6434L6.31017 17.4563C6.90594 16.9351 7.67753 16.6597 8.46871 16.6859C9.2599 16.7122 10.0115 17.0382 10.5714 17.5978L16.3902 23.4165C16.8416 23.8682 17.438 24.1462 18.0742 24.2014C18.7104 24.2566 19.3458 24.0856 19.8683 23.7184L20.2737 23.434C21.0273 22.9043 21.9384 22.646 22.8579 22.7014C23.7774 22.7568 24.651 23.1225 25.3356 23.7388L29.1754 27.1951C29.5618 26.3828 29.7923 25.3167 29.9148 23.8117C30.03 22.3942 30.046 20.6734 30.0475 18.518C30.0475 18.248 30.1547 17.9891 30.3456 17.7982C30.5365 17.6073 30.7954 17.5001 31.0654 17.5001C31.3353 17.5001 31.5943 17.6073 31.7852 17.7982C31.976 17.9891 32.0833 18.248 32.0833 18.518Z"
               fill="black"
@@ -126,14 +90,7 @@ export default function Detection() {
             />
           </svg>
           <button>
-            <svg
-              width="66"
-              height="66"
-              viewBox="0 0 66 66"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-20 h-20"
-            >
+            <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16">
               <circle cx="32.5926" cy="33.4075" r="25.2593" fill="" />
               <path
                 d="M66 33C66 51.2254 51.2254 66 33 66C14.7746 66 0 51.2254 0 33C0 14.7746 14.7746 0 33 0C51.2254 0 66 14.7746 66 33ZM3.92048 33C3.92048 49.0602 16.9398 62.0795 33 62.0795C49.0602 62.0795 62.0795 49.0602 62.0795 33C62.0795 16.9398 49.0602 3.92048 33 3.92048C16.9398 3.92048 3.92048 16.9398 3.92048 33Z"
@@ -141,14 +98,7 @@ export default function Detection() {
               />
             </svg>
           </button>
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-12 h-12"
-          >
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
             <g clip-path="url(#clip0_783_290)">
               <path
                 fill-rule="evenodd"
