@@ -7,12 +7,10 @@ import MyArticleTrending from "./MyArticleTrending";
 import { ArticleContext } from "@/contexts/ArticleContext";
 import { getArticlesData } from "@/app/utils/getArticlesData";
 import { useRouter } from "next/navigation";
-import request from "@/app/utils/request";
 
 export default function MyArticle() {
   const router = useRouter();
   const { articles, setArticles } = useContext(ArticleContext);
-  const [trending, setTrending] = useState(null);
   const [slides, setSlides] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,7 +20,9 @@ export default function MyArticle() {
         (res) => {
           if (res) {
             setArticles(res);
-            setSlides(getRandomArticles(res, 3));
+            if (res && res.length > 0) {
+              setSlides(getRandomArticles(res, 3));
+            }
           }
         },
         (err) => {
@@ -33,17 +33,6 @@ export default function MyArticle() {
         setIsLoading(false);
       });
   }, [router]);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    const month = months[date.getUTCMonth()];
-    const day = date.getUTCDate();
-    const year = date.getUTCFullYear();
-
-    return `${month} ${day}, ${year}`;
-  };
 
   const getRandomArticles = (data, count) => {
     return data.sort(() => 0.5 - Math.random()).slice(0, count);
