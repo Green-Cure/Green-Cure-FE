@@ -215,7 +215,7 @@ export default function Forum() {
             {!isLoading && posts !== null && (
               <>
                 {posts.map((post, index) => (
-                  <PostCard data={post} key={index} handleReplyClick={handleReplyClick} showReplyPost={showReplyPost} idReplyPost={idReplyPost} />
+                  <PostCard data={post} key={index} handleReplyClick={handleReplyClick} showReplyPost={showReplyPost} idReplyPost={idReplyPost} showReportButton={true} />
                 ))}
               </>
             )}
