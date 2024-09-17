@@ -212,7 +212,7 @@ export default function Library() {
                 <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
                   Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl">
+                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl cursor-pointer">
                   {filteredPlants.map((plant) => (
                     <li key={plant.name} onClick={() => handleItemClick(plant)}>
                       {plant.name}
@@ -230,7 +230,7 @@ export default function Library() {
                 <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
                   Penyakit Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl">
+                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl cursor-pointer">
                   {filteredDiseases.map((disease) => (
                     <li
                       key={disease.name}
