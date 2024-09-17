@@ -16,6 +16,7 @@ export default function DetailReport({ params }) {
   const [idDelete, setIdDelete] = useState("");
   const [labelModal, setLabelModal] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const { reportDatas, setReportDatas } = useContext(ReportDatasContext);
   const [data, setData] = useState(null);
 
@@ -88,10 +89,122 @@ export default function DetailReport({ params }) {
     setToggleDelete(!toggleDelete);
   };
 
-  const handleDelete = (e, id) => {
+  const handleDeleteForum = (e, id) => {
     e.preventDefault();
+    setIsLoadingDelete(true);
     handleToggleDeleteModal();
-    toast.error("This feature is under devlopement");
+    toast.loading("Deleting data...");
+
+    request.delete(`forum/${id}`).then(function (res) {
+      if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+        toast.dismiss();
+        toast.success(res.data.message);
+        handleDeleteReportForum(e, id);
+        setIsLoadingDelete(false);
+        router.push("/dashboard/report-posts");
+      } else if (res.response.data.statusCode === 422) {
+        toast.dismiss();
+        toast.error("Something Went Wrong");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 500) {
+        console.error("INTERNAL_SERVER_ERROR");
+        toast.dismiss();
+        toast.error("Server Error");
+        setIsLoadingDelete(false);
+      } else {
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoadingDelete(false);
+      }
+    });
+  };
+
+  const handleDeleteReportForum = (e, id) => {
+    e.preventDefault();
+    setIsLoadingDelete(true);
+    handleToggleDeleteModal();
+    toast.loading("Deleting data...");
+
+    request.delete(`report/forum/${id}`).then(function (res) {
+      if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+        toast.dismiss();
+        toast.success(res.data.message);
+        router.push("/dashboard/report-posts");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 422) {
+        toast.dismiss();
+        toast.error("Something Went Wrong");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 500) {
+        console.error("INTERNAL_SERVER_ERROR");
+        toast.dismiss();
+        toast.error("Server Error");
+        setIsLoadingDelete(false);
+      } else {
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoadingDelete(false);
+      }
+    });
+  };
+
+  const handleDeleteForumReplies = (e, id) => {
+    e.preventDefault();
+    setIsLoadingDelete(true);
+    handleToggleDeleteModal();
+    toast.loading("Deleting data...");
+
+    request.delete(`replies/${id}`).then(function (res) {
+      if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+        toast.dismiss();
+        toast.success(res.data.message);
+        handleDeleteReportForumReplies(e, id);
+        router.push("/dashboard/report-posts");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 422) {
+        toast.dismiss();
+        toast.error("Something Went Wrong");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 500) {
+        console.error("INTERNAL_SERVER_ERROR");
+        toast.dismiss();
+        toast.error("Server Error");
+        setIsLoadingDelete(false);
+      } else {
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoadingDelete(false);
+      }
+    });
+  };
+
+  const handleDeleteReportForumReplies = (e, id) => {
+    e.preventDefault();
+    setIsLoadingDelete(true);
+    handleToggleDeleteModal();
+    toast.loading("Deleting data...");
+
+    request.delete(`report/replies/${id}`).then(function (res) {
+      if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+        toast.dismiss();
+        toast.success(res.data.message);
+        router.push("/dashboard/report-posts");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 422) {
+        toast.dismiss();
+        toast.error("Something Went Wrong");
+        setIsLoadingDelete(false);
+      } else if (res.response.data.statusCode === 500) {
+        console.error("INTERNAL_SERVER_ERROR");
+        toast.dismiss();
+        toast.error("Server Error");
+        setIsLoadingDelete(false);
+      } else {
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoadingDelete(false);
+      }
+    });
   };
 
   return (
@@ -261,7 +374,13 @@ export default function DetailReport({ params }) {
         )}
       </div>
 
-      <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} label={labelModal} />
+      <DeleteModal
+        handleToggleDeleteModal={handleToggleDeleteModal}
+        toggleDelete={toggleDelete}
+        handleDelete={labelModal === "report" ? (data.type === "Forum" ? handleDeleteReportForum : handleDeleteReportForumReplies) : labelModal === "forum" ? handleDeleteForum : handleDeleteForumReplies}
+        id={idDelete}
+        label={labelModal}
+      />
     </>
   );
 }
