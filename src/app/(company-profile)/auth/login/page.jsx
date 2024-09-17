@@ -40,7 +40,7 @@ export default function Login() {
         if (response.data) {
           if (response.data.statusCode === 200 || response.data.statusCode === 201) {
             localStorage.setItem("token", response.data.data[0].token);
-            const role = await getRole();
+            const role = response.data.data[0].role;
             localStorage.setItem("role", role);
             toast.success("Login Successfully");
             if (role == "1") {
