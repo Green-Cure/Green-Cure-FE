@@ -7,9 +7,12 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const pathname = usePathname();
 
-  const isLogin = !!localStorage.getItem("token");
+  if (typeof window !== "undefined") {
+    setIsLogin(!!localStorage.getItem("token"));
+  }
 
   return (
     <>
