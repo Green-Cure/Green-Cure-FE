@@ -1,7 +1,59 @@
+import { useState } from "react";
 import { formatTime } from "../utils/formatTimestamp";
 import { hostNoPrefix } from "../utils/urlApi";
+import ForumReportModal from "./forum/ForumReportModal";
+import request from "@/app/utils/request";
+import toast from "react-hot-toast";
 
-export default function PostCard({ data, handleReplyClick = () => {}, showReplyPost = false, idReplyPost }) {
+export default function PostCard({ data, handleReplyClick = () => {}, showReplyPost = false, idReplyPost, showReportButton = false }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reason, setReason] = useState("");
+  const [errors, setErrors] = useState({
+    reason: "",
+  });
+
+  const handleForumReportSubmit = (e) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    request
+      .post(`report/forum/${data.id}`, {
+        reason: reason,
+      })
+      .then(function (res) {
+        if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+          toast.success(res.data.message);
+          setReason("");
+          setIsModalOpen(false);
+        } else if (res.response.data.statusCode === 422) {
+          const newErrors = {
+            reason: "",
+          };
+
+          res.response.data.messages.forEach((message) => {
+            newErrors[message.field] = message.message;
+          });
+
+          setErrors(newErrors);
+          toast.error("Something Went Wrong");
+        } else if (res.response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   if (!data) {
     return;
   }
@@ -63,16 +115,42 @@ export default function PostCard({ data, handleReplyClick = () => {}, showReplyP
               </svg>
             </button>
           </div>
-          <button>
-            <svg className="xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4 hover:fill-gcPrimary-900 fill-gcPrimary-1000 transition" width="31" height="35" viewBox="0 0 31 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M26.2334 0H4.62942C2.07707 0 0 2.01861 0 4.49912V32.9936C8.83843e-05 33.2743 0.0812461 33.5494 0.23424 33.7875C0.387234 34.0256 0.605921 34.2172 0.865423 34.3404C1.12492 34.4637 1.41482 34.5138 1.70213 34.4848C1.98945 34.4559 2.26264 34.3492 2.49063 34.1768L15.4314 24.3957L28.3722 34.1768C28.5998 34.3498 28.873 34.4568 29.1604 34.4858C29.4478 34.5147 29.7378 34.4643 29.9971 34.3403C30.2566 34.2171 30.4753 34.0255 30.6284 33.7874C30.7814 33.5493 30.8626 33.2743 30.8628 32.9936V4.49912C30.8628 2.01861 28.7857 0 26.2334 0ZM27.7765 29.9282L16.3789 21.3123C16.1083 21.1071 15.7749 20.9955 15.4317 20.9952C15.0884 20.9949 14.7549 21.106 14.4839 21.3108L3.08628 29.9282V4.49912C3.08628 3.67278 3.77915 2.99942 4.62942 2.99942H26.2334C27.0836 2.99942 27.7765 3.67278 27.7765 4.49912V29.9282Z"
-                fill=""
-              />
-            </svg>
-          </button>
+          <div className="flex gap-2 lg:gap-4 items-start">
+            {showReportButton && (
+              <button
+                className="group"
+                onClick={() => {
+                  setIsModalOpen(!isModalOpen);
+                }}
+              >
+                <svg
+                  className="xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4 group-hover:child:fill-gcPrimary-900 child:fill-gcPrimary-1000 transition child:transition"
+                  width="33"
+                  height="33"
+                  viewBox="0 0 33 33"
+                  fill=""
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.1829 0.375H9.81708L0.375 9.81708V23.1829L9.81708 32.625H23.1829L32.625 23.1829V9.81708L23.1829 0.375ZM16.5 25.9958C15.21 25.9958 14.1708 24.9567 14.1708 23.6667C14.1708 22.3767 15.21 21.3375 16.5 21.3375C17.79 21.3375 18.8292 22.3767 18.8292 23.6667C18.8292 24.9567 17.79 25.9958 16.5 25.9958ZM18.2917 18.2917H14.7083V7.54167H18.2917V18.2917Z"
+                    fill="#205072"
+                  />
+                </svg>
+              </button>
+            )}
+
+            <button>
+              <svg className="xl:w-7 xl:h-7 md:h-6 md:w-6 sm:h-5 sm:w-5 h-4 w-4 hover:fill-gcPrimary-900 fill-gcPrimary-1000 transition" width="31" height="35" viewBox="0 0 31 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M26.2334 0H4.62942C2.07707 0 0 2.01861 0 4.49912V32.9936C8.83843e-05 33.2743 0.0812461 33.5494 0.23424 33.7875C0.387234 34.0256 0.605921 34.2172 0.865423 34.3404C1.12492 34.4637 1.41482 34.5138 1.70213 34.4848C1.98945 34.4559 2.26264 34.3492 2.49063 34.1768L15.4314 24.3957L28.3722 34.1768C28.5998 34.3498 28.873 34.4568 29.1604 34.4858C29.4478 34.5147 29.7378 34.4643 29.9971 34.3403C30.2566 34.2171 30.4753 34.0255 30.6284 33.7874C30.7814 33.5493 30.8626 33.2743 30.8628 32.9936V4.49912C30.8628 2.01861 28.7857 0 26.2334 0ZM27.7765 29.9282L16.3789 21.3123C16.1083 21.1071 15.7749 20.9955 15.4317 20.9952C15.0884 20.9949 14.7549 21.106 14.4839 21.3108L3.08628 29.9282V4.49912C3.08628 3.67278 3.77915 2.99942 4.62942 2.99942H26.2334C27.0836 2.99942 27.7765 3.67278 27.7765 4.49912V29.9282Z"
+                  fill=""
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
+      {isModalOpen && showReportButton && <ForumReportModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleForumReportSubmit} reason={reason} setReason={setReason} errors={errors} isLoading={isLoading} />}
     </div>
   );
 }

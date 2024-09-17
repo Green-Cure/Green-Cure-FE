@@ -71,9 +71,15 @@ module.exports = {
         "weather-radial-hujan": "radial-gradient(circle at right bottom, #DDE7FF 17%, #A1B2D3 67%, #7C92BF 97%, #7C92BF 100%)",
         "weather-radial-badai": "radial-gradient(circle at right bottom, #A8BBEA 17%, #7C92BF 67%, #506183 97%, #506183 100%)",
         "weather-radial-bersalju": "radial-gradient(circle at right bottom, #D8FFEC 17%, #B8CDE8 67%, #90B1F2 97%, #90B1F2 100%)",
-        'custom-gradient-detection': 'linear-gradient(153.68deg, rgba(0, 0, 0, 0) -22.88%, #2D947F 106.43%)',
+        "custom-gradient-detection": "linear-gradient(153.68deg, rgba(0, 0, 0, 0) -22.88%, #2D947F 106.43%)",
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    function ({ addVariant }) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+  ],
 };
