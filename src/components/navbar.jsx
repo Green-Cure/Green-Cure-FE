@@ -10,7 +10,7 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const pathname = usePathname();
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && localStorage.getItem("token")) {
     setIsLogin(!!localStorage.getItem("token"));
   }
 
