@@ -5,6 +5,7 @@ import { hostNoPrefix } from "@/app/utils/urlApi";
 import { useEffect, useState } from "react";
 import request from "@/app/utils/request";
 import { formatDate } from "@/app/utils/formatTimestamp";
+import toast from "react-hot-toast";
 
 export default function MyArticleTrending() {
   const [trending, setTrending] = useState(null);
