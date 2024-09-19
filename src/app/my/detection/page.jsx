@@ -3,15 +3,58 @@
 import React, { useState } from "react";
 import LoggedInNavbar from "../LoggedInNavbar";
 import { useRouter } from "next/navigation";
+import request from "@/app/utils/request";
+import toast from "react-hot-toast";
 
 export default function Detection() {
   const router = useRouter();
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [errors, setErrors] = useState({
+    image: "",
+  });
 
-  const handleSubmit = () => {
-    console.log("Summit Button Clicked!");
+  const handleSubmit = (e) => {
+    setIsLoading(true);
+
+    e.preventDefault();
+
+    request
+      .post("scan", {
+        image: imageFile,
+      })
+      .then(function (res) {
+        if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+          toast.success(res.data.message);
+          setImageUrl("");
+          setImageFile("");
+          setErrors({
+            image: "",
+          });
+          router.push(`/my/detection/result/${res.data.data.id}`);
+        } else if (res.response.data.statusCode === 422) {
+          const newErrors = {
+            image: "",
+          };
+
+          res.response.data.messages.forEach((message) => {
+            newErrors[message.field] = message.message;
+          });
+
+          setErrors(newErrors);
+          toast.error("Something Went Wrong");
+        } else if (res.response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -36,7 +79,7 @@ export default function Detection() {
             disabled={isLoading}
             type="button"
             className={`bg-gcPrimary-600 hover:bg-gcPrimary-700 transition lg:py-2.5 lg:px-10 sm:py-2 sm:px-8 py-2 px-6 text-gcNeutrals-baseWhite gcContentAccent1p rounded-3xl ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={handleSubmit}
+            onClick={(e) => handleSubmit(e)}
           >
             {isLoading ? (
               <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -57,7 +100,7 @@ export default function Detection() {
           <div
             className={`flex items-center justify-center flex-col sm:cursor-pointer border-gcPrimary-700 relative w-full xl:mx-36 lg:mx-32 md:mx-28 sm:mx-24 mx-14 xl:py-20 lg:py-16 md:py-14 sm:py-12 py-10 xl:px-10 lg:px-9 md:px-8 sm:px-7 px-6 sm:h-auto h-[50vh] group ${
               !(imageUrl && imageUrl.length > 0) && "border-dashed sm:border-gcPrimary-1000 sm:border-4 border-4"
-            }`}
+            } ${isLoading ? "cursor-not-allowed" : "sm:cursor-pointer"}`}
           >
             <div className="sm:bg-gcPrimary-1000 sm:rounded-3xl sm:flex sm:justify-center sm:items-center xl:p-7 lg:p-6 md:p-5 sm:p-4 p-3.5 h-max sm:group-hover:bg-gcPrimary-900 transition">
               <svg width="173" height="129" viewBox="0 0 173 129" fill="none" xmlns="http://www.w3.org/2000/svg" className="xl:w-32 lg:w-28 md:w-24 sm:w-20 w-16 xl:h-32 lg:h-28 md:h-24 sm:h-20 h-16 object-cover object-center">
@@ -77,13 +120,14 @@ export default function Detection() {
               accept={"image/*"}
               name="Scan Image"
               id="scan-image-input"
-              className="w-full h-full z-50 invisible sm:visible absolute sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:border-2 sm:opacity-0 sm:cursor-pointer"
+              disabled={isLoading}
+              className={`w-full h-full z-50 invisible sm:visible absolute sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:border-2 sm:opacity-0 ${isLoading ? "cursor-not-allowed" : "sm:cursor-pointer"}`}
               onChange={(e) => {
                 setImageFile(e.target.files[0]);
                 setImageUrl(URL.createObjectURL(e.target.files[0]));
               }}
             />
-            <div className="invisible sm:visible text-center mt-8">
+            <div className={`invisible sm:visible text-center mt-8 ${imageUrl && imageUrl.length > 0 && "opacity-0"}`}>
               <h1 className="sm:text-gcPrimary-1000 gcHeading3p">Tap to upload an image</h1>
               <h3 className="sm:text-gcPrimary-1000 gcContentBody4p">File must be JPEG, JPG, or PNG and up to 40MB</h3>
             </div>
@@ -94,6 +138,7 @@ export default function Detection() {
             )}
           </div>
         </div>
+        {errors.image && <small className="text-red-600 text-center mx-auto flex justify-center">{errors.image}</small>}
 
         <div className="flex justify-center gap-9 sm:invisible mt-10">
           <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
