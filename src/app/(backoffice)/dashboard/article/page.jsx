@@ -2,7 +2,7 @@
 
 import { formatDate } from "@/app/utils/formatTimestamp";
 import request from "@/app/utils/request";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import DeleteModal from "../DeleteModal";
@@ -20,8 +20,12 @@ export default function DashboardArticle() {
   const [meta, setMeta] = useState(null);
   const [pageItems, setPageItems] = useState([]);
 
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  let page = "";
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    page = urlParams.get("page");
+  }
+
   useEffect(() => {
     if (!page) {
       router.push("/dashboard/article?page=1", undefined, { shallow: true });
