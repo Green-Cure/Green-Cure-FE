@@ -7,6 +7,7 @@ import LoggedInNavbar from "../LoggedInNavbar";
 import { hostNoPrefix } from "@/app/utils/urlApi";
 import toast from "react-hot-toast";
 import request from "@/app/utils/request";
+import { useRouter } from "next/navigation";
 
 export default function Library() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -15,6 +16,7 @@ export default function Library() {
   const [plants, setPlants] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [filter, setFilter] = useState("all");
+  const router = useRouter();
 
   const filteredPlants =
     filter === "all" || filter === "plants"
@@ -83,6 +85,26 @@ export default function Library() {
         setIsLoading(false);
       });
   }, []);
+
+  const handleSearchNavigation = () => {
+    const firstPlant = filteredPlants.length > 0 ? filteredPlants[0] : null;
+    const firstDisease =
+      filteredDiseases.length > 0 ? filteredDiseases[0] : null;
+
+    if (firstPlant) {
+      router.push(`/my/library/plants/${firstPlant.id}`);
+    } else if (firstDisease) {
+      router.push(`/my/library/plant-diseases/${firstDisease.id}`);
+    } else {
+      toast.error("No results found.");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchNavigation();
+    }
+  };
 
   const handleItemClick = (item) => {
     if (selectedItem?.name === item.name) {
@@ -156,6 +178,7 @@ export default function Library() {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                onClick={handleSearchNavigation}
               >
                 <path
                   d="M11 2C6.03 2 2 6.03 2 11C2 15.97 6.03 20 11 20C13.19 20 15.19 19.21 16.74 17.93L20.29 21.48C20.68 21.87 21.31 21.87 21.7 21.48C22.09 21.09 22.09 20.46 21.7 20.07L18.15 16.52C19.42 14.97 20.21 12.97 20.21 11C20.21 6.03 16.18 2 11 2ZM11 4C14.86 4 18 7.14 18 11C18 14.86 14.86 18 11 18C7.14 18 4 14.86 4 11C4 7.14 7.14 4 11 4Z"
@@ -166,6 +189,7 @@ export default function Library() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleKeyPress}
                 placeholder="Search plants or diseases...."
                 className="w-full rounded-full border border-gray-300 py-3 px-5 pl-12 focus:outline-none focus:ring-2 focus:ring-gcPrimary-600 placeholder:text-gcSecondary-600 bg-gradient-to-r from-gcPrimary-200 to-gcNeutrals-baseWhite text-lg"
               />
