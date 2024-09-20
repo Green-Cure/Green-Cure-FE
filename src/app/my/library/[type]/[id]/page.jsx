@@ -11,6 +11,10 @@ const DetailLibrary = ({ params }) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleBackResult = () => {
+    router.push("/my/library");
+  };
+
   useEffect(() => {
     request
       .get(`${params.type}/${params.id}`)
@@ -46,53 +50,46 @@ const DetailLibrary = ({ params }) => {
             <img
               src={`${hostNoPrefix}uploads/${data.image}`}
               alt={data.name}
-              className="object-cover bg-cover object-center w-full h-[350px] sm:h-[400px]"
+              className="object-cover bg-cover object-center w-full h-[220px] sm:h-[200px] md:h-[250px] lg:h-[280px]"
             />
             <div className="bg-gradient-to-br from-transparent to-gcPrimary-900 w-full absolute top-0 bottom-0 left-0 right-0 inset-0 opacity-100 rounded-br-[70px]"></div>
-            <div className="absolute z-10 top-0 w-full px-3 pt-5 sm:left-9">
-              <div className="flex gap-8 border-b border-gcNeutrals-baseWhite pb-2 sm:border-0 sm:gap-10">
+            <div className="absolute z-10 w-full px-4 lg:top-4 md:top-3 top-2 sm:px-10">
+              <div className="flex border-b border-gcNeutrals-baseWhite pb-2 sm:border-0 items-center lg:gap-6 gap-3">
                 <svg
-                  onClick={() => router.back()}
-                  width="19"
-                  height="19"
-                  viewBox="0 0 19 19"
+                  onClick={handleBackResult}
+                  className="xl:w-9 lg:w-8 md:w-7 w-5 cursor-pointer"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="relative left-3 sm:scale-150 sm:top-6 cursor-pointer"
                 >
-                  <g clipPath="url(#clip0_82_979)">
-                    <path
-                      d="M10.1736 17.1074L9.34788 16.2817L7.37737 14.3112L4.98381 11.9177L2.9261 9.85997C2.59211 9.52599 2.2637 9.18829 1.92415 8.85802L1.9093 8.84317V10.155L2.73499 9.32931L4.70549 7.3588L7.09905 4.96525L9.15676 2.90753C9.49075 2.57355 9.82844 2.24327 10.1587 1.90558L10.1736 1.89073C10.3424 1.72189 10.4445 1.47325 10.4445 1.2339C10.4445 1.00567 10.3443 0.734776 10.1736 0.577062C9.99729 0.415636 9.76536 0.29503 9.51672 0.306163C9.26995 0.317296 9.03801 0.400792 8.85989 0.577062L8.0342 1.40275L6.0637 3.37325L3.67014 5.76681L1.61243 7.82452C1.27844 8.15851 0.940747 8.48878 0.610474 8.82648L0.59563 8.84132C0.241235 9.19571 0.241235 9.79874 0.59563 10.1531C0.872095 10.4315 1.14856 10.7061 1.42317 10.9825L3.39368 12.953L5.78723 15.3466L7.84495 17.4043C8.17893 17.7383 8.5092 18.076 8.8469 18.4063L8.86174 18.4211C9.03059 18.59 9.27922 18.692 9.51858 18.692C9.7468 18.692 10.0177 18.5918 10.1754 18.4211C10.3368 18.2448 10.4574 18.0129 10.4463 17.7643C10.4333 17.5175 10.3517 17.2856 10.1736 17.1074Z"
-                      fill="#FAFAFA"
-                    />
-                    <path
-                      d="M1.24876 10.4277H17.0796C17.293 10.4277 17.5082 10.4296 17.7216 10.4277H17.7494C17.9869 10.4277 18.2374 10.3238 18.4063 10.1568C18.5677 9.99541 18.6883 9.73193 18.6772 9.5C18.666 9.26065 18.5881 9.01201 18.4063 8.84316C18.2244 8.67617 18.0018 8.57227 17.7494 8.57227H1.91858C1.7052 8.57227 1.48997 8.57041 1.27659 8.57227H1.24876C1.01126 8.57227 0.760771 8.67617 0.591924 8.84316C0.430498 9.00459 0.309892 9.26807 0.321025 9.5C0.332158 9.73936 0.410088 9.98799 0.591924 10.1568C0.775615 10.322 0.998271 10.4277 1.24876 10.4277Z"
-                      fill="#FAFAFA"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_82_979">
-                      <rect width="19" height="19" fill="white" />
-                    </clipPath>
-                  </defs>
+                  <path
+                    d="M2.02303 21.9982H36.5175C36.9824 21.9982 37.4514 22.0022 37.9163 21.9982H37.977C38.4945 21.9982 39.0403 21.7744 39.4082 21.4147C39.7599 21.0671 40.0227 20.4996 39.9984 20C39.9742 19.4845 39.8044 18.9489 39.4082 18.5853C39.012 18.2256 38.5268 18.0018 37.977 18.0018H3.48253C3.01759 18.0018 2.54861 17.9978 2.08367 18.0018H2.02303C1.50553 18.0018 0.959732 18.2256 0.591823 18.5853C0.240087 18.9329 -0.022705 19.5004 0.00155274 20C0.0258104 20.5155 0.195614 21.0511 0.591823 21.4147C0.992075 21.7704 1.47723 21.9982 2.02303 21.9982Z"
+                    fill="#fafafa"
+                  />
+                  <path
+                    d="M21.4053 36.5528L19.6099 34.7565L15.325 30.4696L10.1202 25.2625L5.64562 20.7859C4.91937 20.0593 4.20521 19.3246 3.46686 18.6061L3.43458 18.5738V21.4277L5.23004 19.6314L9.51494 15.3446L14.7198 10.1374L19.1943 5.66083C19.9206 4.93425 20.6549 4.21574 21.3731 3.48108L21.4053 3.44879C21.7725 3.08146 21.9944 2.54056 21.9944 2.01984C21.9944 1.52334 21.7765 0.934 21.4053 0.590891C21.022 0.239708 20.5177 -0.0226692 19.977 0.00155029C19.4404 0.0257698 18.9361 0.207416 18.5487 0.590891L16.7533 2.38717L12.4684 6.67401L7.26355 11.8812L2.78902 16.3578C2.06276 17.0843 1.32844 17.8029 0.610256 18.5375L0.577978 18.5698C-0.192659 19.3408 -0.192659 20.6527 0.577978 21.4237C1.17915 22.0292 1.78033 22.6266 2.37747 23.228L6.66238 27.5149L11.8672 32.722L16.3417 37.1986C17.068 37.9252 17.7862 38.6599 18.5205 39.3784L18.5528 39.4107C18.9199 39.778 19.4606 40 19.9811 40C20.4774 40 21.0664 39.782 21.4094 39.4107C21.7604 39.0272 22.0227 38.5226 21.9984 37.9817C21.9702 37.4448 21.7927 36.9403 21.4053 36.5528Z"
+                    fill="#fafafa"
+                  />
                 </svg>
-                <h1 className="text-[20px] top-6 font-bold text-[#fafafa] sm:text-[40px]">
+                <h1 className="gcHeading3p text-gcNeutrals-baseWhite">
                   Perpustakaan
                 </h1>
               </div>
             </div>
-            <div className="absolute bottom-0 mx-14 mb-5 sm:pl-12">
-              <h1 className="font-semibold text-[36px] text-gcNeutrals-baseWhite sm:text-[70.93px]">
+            <div className="absolute bottom-0 lg:mx-14 md:mx-12 sm:mx-10 mx-4 mb-5 lg:pl-12 flex md:gap-2 sm:gap-1.5 gap-1 flex-col">
+              <h1 className="text-gcNeutrals-baseWhite gcHeading5p">
                 {data.name}
               </h1>
-              <h3 className="italic text-[16px]  text-gcNeutrals-baseWhite sm:text-[30.53px] -mt-2">
+              <h3 className="italic gcBody1p text-gcNeutrals-baseWhite">
                 {data.latin}
               </h3>
             </div>
           </div>
 
-          <div className="px-6 mt-8 sm:px-24 text-gcPrimary-1000 text-lg sm:text-xl">
-            {data.description}
+          <div className="px-4 lg:px-24 sm:px-10 md:px-12 lg:mt-8 md:mt-7 sm:mt-6 mt-5 text-gcPrimary-1000">
+            <p className="indent-6 text-justify gcBody1p">{data.description}</p>
           </div>
 
           <div className="w-16 h-16 rounded-full cursor-pointer bg-gcPrimary-1000 flex justify-center items-center fixed z-50 right-6 bottom-20 sm:right-20 sm:w-24 sm:h-24">
