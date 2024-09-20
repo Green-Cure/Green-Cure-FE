@@ -16,9 +16,19 @@ export default function Library() {
   const [diseases, setDiseases] = useState([]);
   const [filter, setFilter] = useState("all");
 
-  const filteredPlants = filter === "all" || filter === "plants" ? plants : [];
+  const filteredPlants =
+    filter === "all" || filter === "plants"
+      ? plants.filter((plant) =>
+          plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : [];
+
   const filteredDiseases =
-    filter === "all" || filter === "diseases" ? diseases : [];
+    filter === "all" || filter === "diseases"
+      ? diseases.filter((disease) =>
+          disease.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : [];
 
   useEffect(() => {
     request
@@ -122,7 +132,7 @@ export default function Library() {
             }}
             legacyBehavior
           >
-            <a className="text-white bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-3 sm:px-4 py-2 rounded-full inline-block mt-4">
+            <a className="text-white text-base bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-2 sm:px-3 py-1 rounded-full inline-block mt-4">
               Read More
             </a>
           </Link>
@@ -140,7 +150,7 @@ export default function Library() {
           <div className="flex-1 flex flex-col bg-gcNeutrals-baseWhite">
             <div className="mt-6 relative w-full max-w-3xl">
               <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
