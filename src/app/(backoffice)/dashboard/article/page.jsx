@@ -14,9 +14,27 @@ export default function DashboardArticle() {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [articles, setArticles] = useState(null);
+  const [filteredArticles, seFilteredArticles] = useState(null);
   const [meta, setMeta] = useState(null);
   const [pageItems, setPageItems] = useState([]);
+
+  let page = "";
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    page = urlParams.get("page");
+  }
+
+  useEffect(() => {
+    if (!page) {
+      router.push("/dashboard/article?page=1", undefined, { shallow: true });
+    }
+  }, [page]);
+
+  if (page < 1 || (meta && page > meta.lastPage)) {
+    router.push("/dashboard/article?page=1", undefined, { shallow: true });
+  }
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
@@ -52,51 +70,69 @@ export default function DashboardArticle() {
   };
 
   useEffect(() => {
-    request
-      .get("articles")
-      .then(function (response) {
-        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
-          if (response.data.data.length > 0) {
-            setArticles(response.data.data);
-          } else {
-            setArticles(null);
-          }
-          if (response.data.meta) {
-            setMeta(response.data.meta);
-            let data = [];
-            for (let i = 1; i <= response.data.meta.lastPage; i++) {
-              data.push(
-                <li key={i}>
-                  <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                    {i}
-                  </a>
-                </li>
-              );
-              setPageItems(data);
+    setIsLoading(true);
+    if (!(page < 1 || (meta && page > meta.lastPage))) {
+      request
+        .get(`articles?page=${page}&limit=10`)
+        .then(function (response) {
+          if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+            if (response.data.data.length > 0) {
+              setArticles(response.data.data);
+            } else {
+              setArticles(null);
             }
+            if (response.data.meta) {
+              setMeta(response.data.meta);
+              let data = [];
+              for (let i = 1; i <= response.data.meta.lastPage; i++) {
+                data.push(
+                  <li key={i}>
+                    <a
+                      href={`/dashboard/article?page=${i}`}
+                      className={`flex items-center justify-center px-3 h-8 border border-gray-300 ${
+                        page === i ? "text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700" : "leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
+                      }`}
+                    >
+                      {i}
+                    </a>
+                  </li>
+                );
+                setPageItems(data);
+              }
+            } else {
+              setMeta(null);
+            }
+            toast.dismiss();
+            setIsLoading(false);
+          } else if (response.data.statusCode === 500) {
+            console.error("INTERNAL_SERVER_ERROR");
+            toast.dismiss();
+            toast.error("Server Error");
+            setIsLoading(false);
           } else {
-            setMeta(null);
+            toast.dismiss();
+            toast.error("An unexpected error occurred");
+            setIsLoading(false);
           }
-          toast.dismiss();
-          setIsLoading(false);
-        } else if (response.data.statusCode === 500) {
-          console.error("INTERNAL_SERVER_ERROR");
-          toast.dismiss();
-          toast.error("Server Error");
-          setIsLoading(false);
-        } else {
+        })
+        .catch((err) => {
+          console.error(err);
           toast.dismiss();
           toast.error("An unexpected error occurred");
           setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.dismiss();
-        toast.error("An unexpected error occurred");
-        setIsLoading(false);
-      });
-  }, []);
+        });
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (articles) {
+      if (searchQuery.length > 0) {
+        seFilteredArticles(articles.filter((article) => article.title.includes(searchQuery)));
+      } else {
+        seFilteredArticles(articles);
+      }
+    }
+  }, [articles, searchQuery]);
 
   return (
     <>
@@ -117,6 +153,10 @@ export default function DashboardArticle() {
               className="bg-gray-50 border border-gray-300 text-gcPrimary-1000 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
               placeholder="Search article..."
               required
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
             />
           </div>
           <button type="submit" className="p-2.5 ms-2 text-sm font-medium text-gcNeutrals-baseWhite rounded-lg border focus:ring-4 focus:outline-none focus:ring-gcPrimary-800 bg-gcPrimary-1000 transition hover:bg-gcPrimary-900">
@@ -166,9 +206,9 @@ export default function DashboardArticle() {
           </thead>
           <tbody>
             {!isLoading ? (
-              articles ? (
-                articles.length > 0 ? (
-                  articles.map((article) => {
+              filteredArticles ? (
+                filteredArticles.length > 0 ? (
+                  filteredArticles.map((article) => {
                     return (
                       <tr className="bg-white border-b hover:bg-gray-50" key={article.id}>
                         <td className="w-4 p-4">
@@ -236,46 +276,41 @@ export default function DashboardArticle() {
 
       <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
         <span className="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-          Showing <span className="font-semibold text-gray-900">1-10</span> of <span className="font-semibold text-gray-900">{meta?.total}</span>
+          Showing{" "}
+          {!isLoading && (
+            <span className="font-semibold text-gray-900">
+              {page === 1 ? "1" : (page - 1) * 10 + 1}-{!isLoading && (page === 1 ? "1" : (page - 1) * 10 + filteredArticles?.length)}
+            </span>
+          )}{" "}
+          of <span className="font-semibold text-gray-900">{meta?.total}</span>
         </span>
         <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
           <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
+            <button
+              onClick={() => {
+                if (meta && parseInt(page) !== 1) {
+                  router.push(`/dashboard/article?page=${parseInt(page) - 1}`);
+                }
+              }}
+              className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+            >
               Previous
-            </a>
+            </button>
           </li>
           {pageItems.map((pageItem) => {
             return pageItem;
           })}
-          {/* <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              1
-            </a>
-          </li>
           <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              2
-            </a>
-          </li>
-          <li>
-            <a href="#" aria-current="page" className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700">
-              3
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              4
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              5
-            </a>
-          </li> */}
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
+            <button
+              onClick={() => {
+                if (meta && parseInt(page) !== meta.lastPage) {
+                  router.push(`/dashboard/article?page=${parseInt(page) + 1}`);
+                }
+              }}
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+            >
               Next
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
