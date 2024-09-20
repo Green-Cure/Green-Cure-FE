@@ -21,10 +21,38 @@ export default function DashboardUsers() {
     setToggleDelete(!toggleDelete);
   };
 
-  const handleDelete = (e, id) => {
+  const handleDeleteUser = (e, id) => {
     e.preventDefault();
-    handleToggleDeleteModal();
-    toast.error("This feature is under devlopement");
+
+    setIsLoading(true);
+
+    toast.loading("Deleting user...");
+
+    request
+      .delete(`user/${id}`)
+      .then(function (res) {
+        if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
+          toast.dismiss();
+          toast.success(res.data.message);
+          setIsLoading(false);
+        } else if (res.response.data.statusCode === 422) {
+          toast.dismiss();
+          toast.error("Something Went Wrong");
+          setIsLoading(false);
+        } else if (res.response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+          setIsLoading(false);
+        } else {
+          toast.dismiss();
+          toast.error("An unexpected error occurred");
+          setIsLoading(false);
+        }
+      })
+      .finally(() => {
+        handleToggleDeleteModal();
+      });
   };
 
   useEffect(() => {
@@ -56,7 +84,7 @@ export default function DashboardUsers() {
         toast.error("An unexpected error occurred");
         setIsLoading(false);
       });
-  }, [isLoading, setIsLoading, users]);
+  }, []);
 
   return (
     <>
@@ -192,7 +220,7 @@ export default function DashboardUsers() {
           </tbody>
         </table>
 
-        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={idDelete} label={"user"} />
+        <DeleteModal handleToggleDeleteModal={handleToggleDeleteModal} toggleDelete={toggleDelete} handleDelete={handleDeleteUser} id={idDelete} label={"user"} />
       </div>
     </>
   );
