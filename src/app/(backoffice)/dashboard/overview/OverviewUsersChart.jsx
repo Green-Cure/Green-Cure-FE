@@ -1,45 +1,42 @@
 "use client";
-import { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function OverviewUsersChart({ users }) {
-  const [chartData, setChartData] = useState({});
-
-  useEffect(() => {
-    const totalAccountsByMonth = calculateTotalAccounts(users, 6);
-    const recentMonthsArray = generateRecentMonths(6);
-    setChartData({
-      options: {
-        chart: {
-          id: "greencure-users-report",
-        },
-        xaxis: {
-          categories: recentMonthsArray,
-        },
+  const options = {
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
       },
-      series: [
-        {
-          name: "Total Users",
-          data: totalAccountsByMonth,
-        },
-      ],
-    });
-  }, []);
+      title: {
+        display: true,
+        text: "Users Graph",
+      },
+    },
+  };
+
+  const totalAccountsByMonth = calculateTotalAccounts(users, 6);
+  const recentMonthsArray = generateRecentMonths(6);
+  const chartData = {
+    labels: recentMonthsArray,
+    datasets: [
+      {
+        label: "Total Users",
+        data: totalAccountsByMonth,
+        borderColor: "rgb(75, 192, 192)",
+      },
+    ],
+  };
 
   return (
     <>
-      {users && chartData && (
-        <div className="chart bg-white rounded-md w-full h-full">
-          {chartData && chartData.series && chartData.options && (
-            <Chart
-              options={chartData.options}
-              series={chartData.series}
-              type="area"
-              height={"100%"}
-            />
-          )}
-        </div>
-      )}
+      <div className="chart bg-gcNeutrals-baseWhite rounded-md h-full w-full">
+        <Line options={options} data={chartData} className="h-full" />
+      </div>
     </>
   );
 }
@@ -59,9 +56,7 @@ function generateRecentMonths(monthCount) {
     }
 
     // Get the full month name (e.g., "January")
-    const monthName = new Intl.DateTimeFormat("en-US", {
-      month: "long",
-    }).format(new Date(currentYear, currentMonth, 1));
+    const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(currentYear, currentMonth, 1));
 
     // Combine month name and year
     const formattedDate = `${monthName}, ${currentYear}`;
