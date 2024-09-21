@@ -1,56 +1,70 @@
 "use client";
 
 import request from "@/app/utils/request";
+import { hostNoPrefix } from "@/app/utils/urlApi";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaPhone } from "react-icons/fa6";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 
 export default function DetailUser({ params }) {
   const router = useRouter();
-  const id = params.id;
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("email");
-  const [phone, setPhone] = useState("123");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState();
-  const [avatarUrl, setAvatarUrl] = useState("https://placehold.co/100x100");
-  const [roleId, setRoleId] = useState("2");
-  const [typeInput, setTypeInput] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [roleId, setRoleId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
 
-  // useEffect(() => {
-  //   if (!id) {
-  //     router.push("/dashboard/users");
-  //     return;
-  //   }
-  //   request
-  //     .get(`users/${id}`)
-  //     .then(function (response) {
-  //       const data = response.data.data;
-  //       if (!data) {
-  //         router.push("/dashboard/users");
-  //         return;
-  //       }
-  //       setName(data.name);
-  //       setEmail(data.email);
-  //       setRoleId(data.role);
-  //       setUsername(data.username);
-  //       setAvatarUrl(data.avatar);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, [id, router]);
-
-  const handleSubmit = () => {
-    console.log("Submit Triggered");
-  };
-
-  const handleClickType = () => {
-    setTypeInput(!typeInput);
-  };
+  useEffect(() => {
+    request
+      .get("user")
+      .then(function (response) {
+        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+          if (response.data.data.length > 0) {
+            setUsers(response.data.data);
+            const data = response.data.data.find((data) => data.id == params.id);
+            if (!data) {
+              router.push("/dashboard/users");
+              return;
+            }
+            setName(data.name);
+            setEmail(data.email);
+            setRoleId(data.role);
+            setUsername(data.username);
+            if (data.avatar) {
+              setAvatarUrl(`${hostNoPrefix}uploads/${data.avatar}`);
+            }
+            setPhone(data.phone);
+          } else {
+            setUsers([]);
+          }
+          toast.dismiss();
+          setIsLoading(false);
+        } else if (response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+          setIsLoading(false);
+        } else {
+          toast.dismiss();
+          toast.error("An unexpected error occurred");
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -153,7 +167,7 @@ export default function DetailUser({ params }) {
                     name="role"
                     type="text"
                     required
-                    value={roleId}
+                    value={roleId === "1" ? "Admin" : roleId === "2" ? "Guest" : "Member"}
                     disabled
                     readOnly
                     className="block w-full rounded-xl border py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm text-xs sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none mt-1"
