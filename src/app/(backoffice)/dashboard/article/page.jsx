@@ -264,13 +264,19 @@ export default function DashboardArticle() {
                     );
                   })
                 ) : (
-                  <td className="p-4 text-nowrap">No data</td>
+                  <tr>
+                    <td className="p-4 text-nowrap">No data</td>
+                  </tr>
                 )
               ) : (
-                <td className="p-4 text-nowrap">No data</td>
+                <tr>
+                  <td className="p-4 text-nowrap">No data</td>
+                </tr>
               )
             ) : (
-              <td className="p-4">Loading...</td>
+              <tr>
+                <td className="p-4">Loading...</td>
+              </tr>
             )}
           </tbody>
         </table>

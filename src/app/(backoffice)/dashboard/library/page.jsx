@@ -305,7 +305,7 @@ export default function DashboardLibrary() {
                 datas.length > 0 ? (
                   datas.map((data) => {
                     return (
-                      <tr className="bg-white border-b hover:bg-gray-50" key={data.id}>
+                      <tr className="bg-white border-b hover:bg-gray-50" key={data.type + data.id}>
                         <td className="w-4 p-4">
                           <div className="flex items-center">
                             <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
@@ -356,13 +356,19 @@ export default function DashboardLibrary() {
                     );
                   })
                 ) : (
-                  <td className="p-4 text-nowrap">No data</td>
+                  <tr>
+                    <td className="p-4 text-nowrap">No data</td>
+                  </tr>
                 )
               ) : (
-                <td className="p-4 text-nowrap">No data</td>
+                <tr>
+                  <td className="p-4 text-nowrap">No data</td>
+                </tr>
               )
             ) : (
-              <td className="p-4">Loading...</td>
+              <tr>
+                <td className="p-4">Loading...</td>
+              </tr>
             )}
           </tbody>
         </table>

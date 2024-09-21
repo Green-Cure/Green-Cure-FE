@@ -15,6 +15,8 @@ export default function DashboardUsers() {
   const [idDelete, setIdDelete] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
@@ -86,10 +88,20 @@ export default function DashboardUsers() {
       });
   }, []);
 
+  useEffect(() => {
+    if (users) {
+      if (searchQuery.length > 0) {
+        setFilteredUsers(users.filter((user) => user.name.includes(searchQuery) || user.username.includes(searchQuery) || user.email.includes(searchQuery)));
+      } else {
+        setFilteredUsers(users);
+      }
+    }
+  }, [users, searchQuery]);
+
   return (
     <>
       <div className="flex justify-between">
-        <form className="flex items-center max-w-sm xl:w-96 lg:w-80 md:w-72 sm:w-64 w-52">
+        <form className="flex items-center justify-start max-w-sm xl:w-96 lg:w-80 md:w-72 sm:w-64 w-52">
           <label htmlFor="simple-search" className="sr-only">
             Search
           </label>
@@ -105,6 +117,10 @@ export default function DashboardUsers() {
               className="bg-gray-50 border border-gray-300 text-gcPrimary-1000 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
               placeholder="Search user..."
               required
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
             />
           </div>
           <button type="submit" className="p-2.5 ms-2 text-sm font-medium text-gcNeutrals-baseWhite rounded-lg border focus:ring-4 focus:outline-none focus:ring-gcPrimary-800 bg-gcPrimary-1000 transition hover:bg-gcPrimary-900">
@@ -114,16 +130,6 @@ export default function DashboardUsers() {
             <span className="sr-only">Search</span>
           </button>
         </form>
-        <button
-          type="button"
-          className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 rounded-lg px-3 md:px-4 sm:py-1.5 py-1 text-center flex items-center justify-between gap-1"
-          onClick={() => {
-            router.push(`/dashboard/users/addUser`);
-          }}
-        >
-          <LuPlus className="md:text-2xl text-xl -ml-1" />
-          <h2 className="font-medium text-sm">Add user</h2>
-        </button>
       </div>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
@@ -154,9 +160,9 @@ export default function DashboardUsers() {
           </thead>
           <tbody>
             {!isLoading ? (
-              users ? (
-                users.length > 0 ? (
-                  users.map((user) => {
+              filteredUsers ? (
+                filteredUsers.length > 0 ? (
+                  filteredUsers.map((user) => {
                     return (
                       <tr key={user.id} className="bg-white border-b hover:bg-gray-50">
                         <td className="w-4 p-4">
@@ -186,15 +192,6 @@ export default function DashboardUsers() {
                           <div className="flex gap-3 items-center justify-start">
                             <button
                               type="button"
-                              className="text-gcNeutrals-baseWhite bg-gcPrimary-600 transition hover:bg-gcPrimary-700 focus:ring-2 focus:outline-none focus:ring-gcPrimary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
-                              onClick={() => {
-                                router.push(`/dashboard/users/editUser/${user.id}`);
-                              }}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              type="button"
                               className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 font-medium rounded-lg text-sm px-4 py-2 md:px-6 md:py-2 text-center"
                               onClick={(e) => {
                                 setToggleDelete(!toggleDelete);
@@ -209,13 +206,19 @@ export default function DashboardUsers() {
                     );
                   })
                 ) : (
-                  <td className="p-4 text-nowrap">No data</td>
+                  <tr>
+                    <td className="p-4 text-nowrap">No data</td>
+                  </tr>
                 )
               ) : (
-                <td className="p-4 text-nowrap">No data</td>
+                <tr>
+                  <td className="p-4 text-nowrap">No data</td>
+                </tr>
               )
             ) : (
-              <td className="p-4">Loading...</td>
+              <tr>
+                <td className="p-4">Loading...</td>
+              </tr>
             )}
           </tbody>
         </table>
