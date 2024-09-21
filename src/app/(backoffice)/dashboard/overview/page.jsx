@@ -95,26 +95,17 @@ export default function DashboardOverview() {
   return (
     <>
       <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-44 rounded bg-gcPrimary-1000">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
+        <div className="flex flex-col justify-center xl:h-40 lg:h-36 md:h-32 sm:h-28 h-24 rounded bg-gcPrimary-1000 lg:p-5 md:p-4 sm:p-3 p-2.5">
+          <p className="place-self-start gcContentBody1p text-gcNeutrals-baseWhite">Article Uploaded</p>
+          <h3 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold gcDropShadow text-gcNeutrals-baseWhite place-self-center md:mt-2 mt-1">{articleMeta?.total}</h3>
         </div>
-        <div className="flex items-center justify-center h-44 rounded bg-gcPrimary-1000">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
+        <div className="flex flex-col justify-center xl:h-40 lg:h-36 md:h-32 sm:h-28 h-24 rounded bg-gcPrimary-1000 lg:p-5 md:p-4 sm:p-3 p-2.5">
+          <p className="place-self-start gcContentBody1p text-gcNeutrals-baseWhite">Plant Uploaded</p>
+          <h3 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold gcDropShadow text-gcNeutrals-baseWhite place-self-center md:mt-2 mt-1">{plantMeta?.total}</h3>
         </div>
-        <div className="flex items-center justify-center h-44 rounded bg-gcPrimary-1000">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
+        <div className="flex flex-col justify-center xl:h-40 lg:h-36 md:h-32 sm:h-28 h-24 rounded bg-gcPrimary-1000 lg:p-5 md:p-4 sm:p-3 p-2.5">
+          <p className="place-self-start gcContentBody1p text-gcNeutrals-baseWhite">Plant Diseases Uploaded</p>
+          <h3 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold gcDropShadow text-gcNeutrals-baseWhite place-self-center md:mt-2 mt-1">{plantDiseasesMeta?.total}</h3>
         </div>
       </div>
 
@@ -127,45 +118,6 @@ export default function DashboardOverview() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="flex items-center justify-center rounded bg-gray-200 h-28">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center rounded bg-gray-200 h-28">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center rounded bg-gray-200 h-28">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center rounded bg-gray-200 h-28">
-          <p className="text-2xl text-gray-400">
-            <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-            </svg>
-          </p>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-200">
-        <p className="text-2xl text-gray-400">
-          <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
         <div className="flex items-center justify-center rounded bg-gray-200 h-28">
           <p className="text-2xl text-gray-400">
             <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
