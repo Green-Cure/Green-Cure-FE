@@ -15,6 +15,10 @@ const DetailLibrary = ({ params }) => {
     router.push("/my/library");
   };
 
+  const handleSaved = () => {
+    router.push("/my/saved");
+  };
+
   useEffect(() => {
     request
       .get(`${params.type}/${params.id}`)
@@ -92,7 +96,10 @@ const DetailLibrary = ({ params }) => {
             <p className="indent-6 text-justify gcBody1p">{data.description}</p>
           </div>
 
-          <div className="w-16 h-16 rounded-full cursor-pointer bg-gcPrimary-1000 flex justify-center items-center fixed z-50 right-6 bottom-20 sm:right-20 sm:w-24 sm:h-24">
+          <div
+            onClick={handleSaved}
+            className="w-16 h-16 rounded-full cursor-pointer bg-gcPrimary-1000 flex justify-center items-center fixed z-50 right-6 bottom-20 sm:right-20 sm:w-24 sm:h-24"
+          >
             <svg
               width="24"
               height="32"
