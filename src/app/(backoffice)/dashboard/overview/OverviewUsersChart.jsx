@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
@@ -7,31 +6,40 @@ export default function OverviewUsersChart({ users }) {
   const [chartData, setChartData] = useState({});
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const totalAccountsByMonth = calculateTotalAccounts(users, 6);
-      const recentMonthsArray = generateRecentMonths(6);
-      setChartData({
-        options: {
-          chart: {
-            id: "greencure-users-report",
-          },
-          xaxis: {
-            categories: recentMonthsArray,
-          },
+    const totalAccountsByMonth = calculateTotalAccounts(users, 6);
+    const recentMonthsArray = generateRecentMonths(6);
+    setChartData({
+      options: {
+        chart: {
+          id: "greencure-users-report",
         },
-        series: [
-          {
-            name: "Total Users",
-            data: totalAccountsByMonth,
-          },
-        ],
-      });
-    }
+        xaxis: {
+          categories: recentMonthsArray,
+        },
+      },
+      series: [
+        {
+          name: "Total Users",
+          data: totalAccountsByMonth,
+        },
+      ],
+    });
   }, []);
 
   return (
     <>
-      {users && chartData && <div className="chart bg-white rounded-md w-full h-full">{chartData && chartData.series && chartData.options && <Chart options={chartData.options} series={chartData.series} type="area" height={"100%"} />}</div>}
+      {users && chartData && (
+        <div className="chart bg-white rounded-md w-full h-full">
+          {chartData && chartData.series && chartData.options && (
+            <Chart
+              options={chartData.options}
+              series={chartData.series}
+              type="area"
+              height={"100%"}
+            />
+          )}
+        </div>
+      )}
     </>
   );
 }
@@ -51,7 +59,9 @@ function generateRecentMonths(monthCount) {
     }
 
     // Get the full month name (e.g., "January")
-    const monthName = new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date(currentYear, currentMonth, 1));
+    const monthName = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+    }).format(new Date(currentYear, currentMonth, 1));
 
     // Combine month name and year
     const formattedDate = `${monthName}, ${currentYear}`;
