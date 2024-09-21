@@ -114,6 +114,7 @@ export default function DashboardUsers() {
             <span className="sr-only">Search</span>
           </button>
         </form>
+
         <button
           type="button"
           className="text-gcNeutrals-baseWhite bg-gcPrimary-1000 transition hover:bg-gcPrimary-900 focus:ring-2 focus:outline-none focus:ring-gcPrimary-900 rounded-lg px-3 md:px-4 sm:py-1.5 py-1 text-center flex items-center justify-between gap-1"
@@ -209,13 +210,19 @@ export default function DashboardUsers() {
                     );
                   })
                 ) : (
-                  <td className="p-4 text-nowrap">No data</td>
+                  <tr>
+                    <td className="p-4 text-nowrap">No data</td>
+                  </tr>
                 )
               ) : (
-                <td className="p-4 text-nowrap">No data</td>
+                <tr>
+                  <td className="p-4 text-nowrap">No data</td>
+                </tr>
               )
             ) : (
-              <td className="p-4">Loading...</td>
+              <tr>
+                <td className="p-4">Loading...</td>
+              </tr>
             )}
           </tbody>
         </table>
