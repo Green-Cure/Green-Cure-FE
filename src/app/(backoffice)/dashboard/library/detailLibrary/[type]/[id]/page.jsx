@@ -15,7 +15,6 @@ export default function DetailLibrary({ params }) {
 
   useEffect(() => {
     if (!data) {
-      toast.loading("Getting data...");
       setIsLoading(true);
 
       const getPlantsDatas = async () => {
@@ -38,7 +37,7 @@ export default function DetailLibrary({ params }) {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
         return plantData;
       };
@@ -101,12 +100,55 @@ export default function DetailLibrary({ params }) {
   return (
     <>
       {data && !isLoading && (
-        <div className="flex flex-col border p-3 rounded-xl">
-          <h1>Name: {data.name}</h1>
-          {params.type == "plant" && <h1>Latin: {data.latin}</h1>}
-          <h1>Description: {data.description}</h1>
-          <img src={`${hostNoPrefix}uploads/${data.image}`} alt="Thumbnail" className="max-w-96" />
-        </div>
+        <>
+          <h1 className="gcHeading7p text-gcPrimary-1000">Detail Data</h1>
+
+          <div className="grid-cols-8 grid gap-3">
+            <div className="mt-3 border rounded-xl lg:p-4 md:p-3 p-2 col-span-8">
+              <h1 className="gcContentAccent1p text-gcPrimary-1000 mb-3">Thumbnail</h1>
+              <img src={`${hostNoPrefix}uploads/${data.image}`} alt="Thumbnail" className="max-w-96" />
+            </div>
+
+            <div className="mt-3 border rounded-xl lg:p-4 md:p-3 p-2 col-span-8">
+              <div className="grid grid-cols-6 gap-3">
+                <div className={`${params.type == "plant" ? "md:col-span-3" : ""} col-span-6`}>
+                  <label htmlFor="name" className="text-gcPrimary-1000 gcContentAccent1p">
+                    Name
+                  </label>
+                  <p className="block w-full rounded-xl border py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm text-xs sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none mt-1">
+                    {data.name}
+                  </p>
+                </div>
+
+                {params.type == "plant" && (
+                  <div className="md:col-span-3 col-span-6">
+                    <label htmlFor="latin" className="text-gcPrimary-1000 gcContentAccent1p">
+                      Latin
+                    </label>
+                    <p className="block w-full rounded-xl border py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm text-xs sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none mt-1">
+                      {data.latin}
+                    </p>
+                  </div>
+                )}
+
+                <div className="col-span-6">
+                  <label htmlFor="description" className="text-gcPrimary-1000 gcContentAccent1p">
+                    Description
+                  </label>
+                  <p className="block w-full rounded-xl border py-3 px-3 text-gcPrimary-1000 shadow-sm placeholder:text-gcSecondary-600 sm:text-sm text-xs sm:leading-6 bg-gcNeutrals-baseWhite focus:bg-white transition-all outline-none mt-1">
+                    {data.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* <div className="flex flex-col border p-3 rounded-xl">
+              <h1>Name: {data.name}</h1>
+              {params.type == "plant" && <h1>Latin: {data.latin}</h1>}
+              <h1>Description: {data.description}</h1>
+            </div> */}
+          </div>
+        </>
       )}
     </>
   );

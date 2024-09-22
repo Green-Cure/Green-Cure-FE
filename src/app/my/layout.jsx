@@ -21,16 +21,16 @@ export default function MyLayout({ children }) {
         router.push("/auth/login");
         return;
       }
-    }
-
-    if (!role && !pathname.startsWith("/my/article") && !pathname.startsWith("/my/library") && token) {
-      role = getRole();
-    }
-
-    if (role && token) {
-      if (role != "2" && role != "3") {
-        router.push("/dashboard");
-        return;
+    } else {
+      if (role) {
+        if (role != "2" && role != "3") {
+          router.push("/dashboard");
+          return;
+        }
+      } else {
+        if (!pathname.startsWith("/my/article") && !pathname.startsWith("/my/library")) {
+          role = getRole();
+        }
       }
     }
 
@@ -38,22 +38,24 @@ export default function MyLayout({ children }) {
   }, [router, pathname]);
 
   useEffect(() => {
-    window.addEventListener("storage", async (event) => {
-      if (event.key === "token" || event.key === "role") {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const role = await getRole();
-          if (role) {
-            localStorage.setItem("role", role);
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", async (event) => {
+        if (event.key === "token" || event.key === "role") {
+          const token = localStorage.getItem("token");
+          if (token) {
+            const role = await getRole();
+            if (role) {
+              localStorage.setItem("role", role);
+            }
+          } else {
+            localStorage.clear();
           }
-        } else {
-          localStorage.clear();
-        }
 
-        window.location.reload();
-      }
-    });
-  });
+          window.location.reload();
+        }
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (loading) {
@@ -61,7 +63,7 @@ export default function MyLayout({ children }) {
     } else {
       toast.dismiss();
     }
-  }, [loading, setLoading]);
+  }, [loading]);
 
   return (
     <>

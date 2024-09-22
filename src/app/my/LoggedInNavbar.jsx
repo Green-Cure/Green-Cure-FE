@@ -47,7 +47,7 @@ export default function LoggedInNavbar() {
     } else {
       setLoading(false);
     }
-  }, [userData, setUserData, router]);
+  }, [userData, router]);
 
   const getUserData = async () => {
     let userData;
