@@ -39,10 +39,7 @@ export default function DashboardLayout({ children }) {
       .delete("/auth/logout")
       .then(function (response) {
         if (response.data) {
-          if (
-            response.data.statusCode === 200 ||
-            response.data.statusCode === 201
-          ) {
+          if (response.data.statusCode === 200 || response.data.statusCode === 201) {
             toast.success("Logout Successfully");
             localStorage.clear();
             window.location.href = "/auth/login";
@@ -130,13 +127,7 @@ export default function DashboardLayout({ children }) {
                 className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
               >
                 <span className="sr-only">Open sidebar</span>
-                <svg
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path
                     clipRule="evenodd"
                     fillRule="evenodd"
@@ -145,14 +136,7 @@ export default function DashboardLayout({ children }) {
                 </svg>
               </button>
               <a href="/dashboard/overview" className="flex ms-2 md:me-24">
-                <svg
-                  width="60"
-                  height="60"
-                  className="h-8"
-                  viewBox="0 0 53 53"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="60" height="60" className="h-8" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -160,67 +144,35 @@ export default function DashboardLayout({ children }) {
                     fill="#56C596"
                   />
                 </svg>
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gcPrimary-600">
-                  GreenCure
-                </span>
+                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gcPrimary-600">GreenCure</span>
               </a>
             </div>
             <div className="flex items-center">
               <div className="flex items-center ms-3">
                 <div>
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
-                    aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
-                    onClick={toggleProfileDropdown}
-                  >
+                  <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300" aria-expanded="false" data-dropdown-toggle="dropdown-user" onClick={toggleProfileDropdown}>
                     <span className="sr-only">Open user menu</span>
                     <RxAvatar className="w-8 h-8 rounded-full text-white bg-gcPrimary-600" />
                   </button>
                 </div>
                 {isProfileDropdown && (
-                  <div
-                    className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow absolute top-1/2 right-0"
-                    id="dropdown-user"
-                  >
+                  <div className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow absolute top-1/2 right-0" id="dropdown-user">
                     <div className="px-4 py-3" role="none">
                       <p className="text-sm text-gray-900" role="none">
                         {userData?.name}
                       </p>
-                      <p
-                        className="text-sm font-medium text-gray-900 truncate"
-                        role="none"
-                      >
+                      <p className="text-sm font-medium text-gray-900 truncate" role="none">
                         {userData?.email}
                       </p>
                     </div>
                     <ul className="py-1" role="none">
                       <li>
-                        <a
-                          href="/dashboard/overview"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
-                        >
+                        <a href="/dashboard/overview" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                           Dashboard
                         </a>
                       </li>
                       <li>
-                        <a
-                          href="/dashboard/settings"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
-                        >
-                          Settings
-                        </a>
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          onClick={handleLogout}
-                          className="block px-4 py-2 text-sm w-full text-left text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
-                        >
+                        <button type="button" onClick={handleLogout} className="block px-4 py-2 text-sm w-full text-left text-gray-700 hover:bg-gray-100" role="menuitem">
                           Sign out
                         </button>
                       </li>
@@ -236,60 +188,30 @@ export default function DashboardLayout({ children }) {
       <aside
         id="logo-sidebar"
         className={`${
-          isSidebarDropdown
-            ? "border-r border-gray-200 transform-none"
-            : "-translate-x-full  border-r border-gray-200"
+          isSidebarDropdown ? "border-r border-gray-200 transform-none" : "-translate-x-full  border-r border-gray-200"
         } fixed top-0 left-0 z-40 w-64 h-screen sm:pt-[55px] pt-[60px] transition-transform sm:translate-x-0 bg-transparent`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 pb-4 overflow-y-auto bg-gradient-to-b from-gcPrimary-600 to-gcPrimary-basePrimary pt-5">
           <ul className="space-y-2 font-medium">
             <li>
-              <MenuSidebar
-                icon={<BsFillBarChartLineFill className={"text-xl"} />}
-                href={"/dashboard/overview"}
-                title={"Overview"}
-              />
+              <MenuSidebar icon={<BsFillBarChartLineFill className={"text-xl"} />} href={"/dashboard/overview"} title={"Overview"} />
             </li>
 
             <li>
-              <MenuSidebar
-                icon={<MdArticle className={"text-xl"} />}
-                href={"/dashboard/article"}
-                title={"Article"}
-              />
+              <MenuSidebar icon={<MdArticle className={"text-xl"} />} href={"/dashboard/article"} title={"Article"} />
             </li>
 
             <li>
-              <MenuSidebar
-                icon={<FaBookOpen className={"text-xl"} />}
-                href={"/dashboard/library"}
-                title={"Library"}
-              />
+              <MenuSidebar icon={<FaBookOpen className={"text-xl"} />} href={"/dashboard/library"} title={"Library"} />
             </li>
 
             <li>
-              <MenuSidebar
-                icon={<MdForum className={"text-xl"} />}
-                href={"/dashboard/report-posts"}
-                title={"Report Posts"}
-              />
+              <MenuSidebar icon={<MdForum className={"text-xl"} />} href={"/dashboard/report-posts"} title={"Report Posts"} />
             </li>
 
             <li>
-              <MenuSidebar
-                icon={<BsFillPeopleFill className={"text-xl"} />}
-                href={"/dashboard/users"}
-                title={"Users"}
-              />
-            </li>
-
-            <li>
-              <MenuSidebar
-                icon={<IoSettingsSharp className={"text-xl"} />}
-                href={"/dashboard/settings"}
-                title={"Settings"}
-              />
+              <MenuSidebar icon={<BsFillPeopleFill className={"text-xl"} />} href={"/dashboard/users"} title={"Users"} />
             </li>
           </ul>
         </div>
@@ -303,12 +225,7 @@ export default function DashboardLayout({ children }) {
         </div>
       </div>
 
-      {isSidebarDropdown && (
-        <div
-          drawer-backdrop=""
-          className="bg-gray-900/50 fixed inset-0 z-30"
-        ></div>
-      )}
+      {isSidebarDropdown && <div drawer-backdrop="" className="bg-gray-900/50 fixed inset-0 z-30"></div>}
     </div>
   );
 }
