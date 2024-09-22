@@ -151,34 +151,29 @@ export default function Home() {
           <div className="text-center flex flex-col gap justify-center items-center px-8 md:px-10">
             <h1 className="gcHeading1p">Empowering Plant Lovers</h1>
           </div>
-          <div className="flex justify-center items-center gap-5 md:gap-8 text-left md:mt-12 mt-7 md:flex-row flex-wrap">
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
-              <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
+
+          <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-content-center gap-5 md:gap-8 md:mt-12 mt-7">
+            <div className="flex flex-col items-start justify-start gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 h-full w-full rounded-lg bg-gcNeutrals-baseWhite">
+              <h1 className="gcHeadingQuote mt-2">{`"Plant a seed so your heart will grow."`}</h1>
               <div className="flex gap-4 justify-center items-center">
-                <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
                 <div className="flex flex-col text-left">
-                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">Nama</h3>
-                  <h3 className="gcBodyQuote text-[#b3b3b3] font-medium">Pekerjaan</h3>
+                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">~ Hafez</h3>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
-              <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
+            <div className="flex flex-col items-start justify-start gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 h-full w-full rounded-lg bg-gcNeutrals-baseWhite">
+              <h1 className="gcHeadingQuote mt-2">{`"Before the reward, there must be labor. You plant before you harvest. You sow in tears before you reap joy."`}</h1>
               <div className="flex gap-4 justify-center items-center">
-                <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
                 <div className="flex flex-col text-left">
-                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">Nama</h3>
-                  <h3 className="gcBodyQuote text-[#b3b3b3] font-medium">Pekerjaan</h3>
+                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">~ Ralph Ransom</h3>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 xl:w-[450px] lg:w-[400px] md:w-[350px] sm:w-[300px] w-full rounded-lg bg-gcNeutrals-baseWhite">
-              <h1 className="gcHeadingQuote mt-2">{`"Quote"`}</h1>
+            <div className="flex flex-col items-start justify-start gap-4 lg:gap-6 py-3 px-2 md:px-4 md:py-5 lg:px-7 h-full w-full rounded-lg bg-gcNeutrals-baseWhite">
+              <h1 className="gcHeadingQuote mt-2">{`"All life on earth emanates from the green of the plant."`}</h1>
               <div className="flex gap-4 justify-center items-center">
-                <img src="https://placehold.co/50x50" alt="Profile" className="rounded-full" />
                 <div className="flex flex-col text-left">
-                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">Nama</h3>
-                  <h3 className="gcBodyQuote text-[#b3b3b3] font-medium">Pekerjaan</h3>
+                  <h3 className="gcBodyQuote text-gcSecondary-600 font-semibold">~ Jay Kordich</h3>
                 </div>
               </div>
             </div>
