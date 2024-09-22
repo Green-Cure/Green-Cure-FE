@@ -18,27 +18,32 @@ export default function DashboardArticle() {
   const [articles, setArticles] = useState(null);
   const [filteredArticles, seFilteredArticles] = useState(null);
   const [meta, setMeta] = useState(null);
-  const [pageItems, setPageItems] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(null);
+  const [pageNumbers, setPageNumbers] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       setPage(urlParams.get("page"));
     }
-  });
+  }, []);
 
   useEffect(() => {
-    if (!page) {
-      router.push("/dashboard/article?page=1", undefined, { shallow: true });
-      setPage(1);
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!page && !urlParams.get("page") && !urlParams.get("type")) {
+        router.push(`/dashboard/article?page=1`, undefined, { shallow: true });
+        setPage(1);
+      }
+
+      if (page && meta && urlParams.get("page") && urlParams.get("type")) {
+        if (page < 1 || (meta && page > meta.lastPage)) {
+          router.push(`/dashboard/library?page=1`, undefined, { shallow: true });
+          setPage(1);
+        }
+      }
     }
   }, [page]);
-
-  if (page < 1 || (meta && page > meta.lastPage)) {
-    router.push("/dashboard/article?page=1", undefined, { shallow: true });
-    setPage(1);
-  }
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
@@ -74,58 +79,43 @@ export default function DashboardArticle() {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    request
-      .get(`articles?page=${page}&limit=10`)
-      .then(function (response) {
-        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
-          if (response.data.data.length > 0) {
-            setArticles(response.data.data);
-          } else {
-            setArticles(null);
-          }
-          if (response.data.meta) {
-            setMeta(response.data.meta);
-            let data = [];
-            for (let i = 1; i <= response.data.meta.lastPage; i++) {
-              data.push(
-                <li key={i}>
-                  <button
-                    onClick={() => {
-                      router.push(`/dashboard/article?page=${i}`);
-                    }}
-                    className={`flex items-center justify-center px-3 h-8 border border-gray-300 ${
-                      page === i ? "text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700" : "leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
-                    }`}
-                  >
-                    {i}
-                  </button>
-                </li>
-              );
-              setPageItems(data);
+    if (page) {
+      setIsLoading(true);
+      request
+        .get(`articles?page=${page}&limit=10`)
+        .then(function (response) {
+          if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+            if (response.data.data.length > 0) {
+              setArticles(response.data.data);
+            } else {
+              setArticles(null);
             }
+            if (response.data.meta) {
+              setMeta(response.data.meta);
+              setPageNumbers(Array.from({ length: response.data.meta.lastPage }, (_, index) => index + 1));
+            } else {
+              setMeta(null);
+            }
+            toast.dismiss();
+            setIsLoading(false);
+          } else if (response.data.statusCode === 500) {
+            console.error("INTERNAL_SERVER_ERROR");
+            toast.dismiss();
+            toast.error("Server Error");
+            setIsLoading(false);
           } else {
-            setMeta(null);
+            toast.dismiss();
+            toast.error("An unexpected error occurred");
+            setIsLoading(false);
           }
-          toast.dismiss();
-          setIsLoading(false);
-        } else if (response.data.statusCode === 500) {
-          console.error("INTERNAL_SERVER_ERROR");
-          toast.dismiss();
-          toast.error("Server Error");
-          setIsLoading(false);
-        } else {
+        })
+        .catch((err) => {
+          console.error(err);
           toast.dismiss();
           toast.error("An unexpected error occurred");
           setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.dismiss();
-        toast.error("An unexpected error occurred");
-        setIsLoading(false);
-      });
+        });
+    }
   }, [page]);
 
   useEffect(() => {
@@ -292,7 +282,7 @@ export default function DashboardArticle() {
               {page === 1 ? "1" : (page - 1) * 10 + 1}-{!isLoading && (page === 1 ? filteredArticles?.length : (page - 1) * 10 + filteredArticles?.length)}
             </span>
           )}{" "}
-          of <span className="font-semibold text-gray-900">{meta?.total}</span>
+          of <span className="font-semibold text-gray-900">{!isLoading && meta?.total}</span>
         </span>
         <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
           <li>
@@ -308,9 +298,27 @@ export default function DashboardArticle() {
               Previous
             </button>
           </li>
-          {pageItems.map((pageItem) => {
-            return pageItem;
-          })}
+
+          {!isLoading &&
+            meta &&
+            pageNumbers.map((data, index) => {
+              return (
+                <li key={index}>
+                  <button
+                    onClick={() => {
+                      router.push(`/dashboard/article?page=${data}`);
+                      setPage(data);
+                    }}
+                    className={`flex items-center justify-center px-3 h-8 border border-gray-300 ${
+                      page == data ? "text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700" : "leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
+                    }`}
+                  >
+                    {data}
+                  </button>
+                </li>
+              );
+            })}
+
           <li>
             <button
               onClick={() => {
