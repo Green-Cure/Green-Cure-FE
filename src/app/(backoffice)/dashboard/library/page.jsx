@@ -40,12 +40,14 @@ export default function DashboardLibrary() {
       if (!page && !displayData && !urlParams.get("page") && !urlParams.get("type")) {
         router.push(`/dashboard/library?page=1&type=plant`, undefined, { shallow: true });
         setPage(1);
+        setDisplayData("Plant");
       }
 
       if (page && meta && urlParams.get("page") && urlParams.get("type")) {
         if (page < 1 || (meta && page > meta.lastPage)) {
           router.push(`/dashboard/library?page=1&type=plant`, undefined, { shallow: true });
           setPage(1);
+          setDisplayData("Plant");
         }
       }
     }
