@@ -69,6 +69,8 @@ export default function LoggedInNavbar() {
         if (err.response) {
           if (err.response.data.statusCode == 401) {
             userData = null;
+            localStorage.clear();
+            window.location.href = "/auth/login";
           }
         }
         console.error(err);
