@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -10,9 +10,11 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const pathname = usePathname();
 
-  if (typeof window !== "undefined" && localStorage.getItem("token")) {
-    setIsLogin(!!localStorage.getItem("token"));
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined" && localStorage.getItem("token")) {
+      setIsLogin(!!localStorage.getItem("token"));
+    }
+  }, []);
 
   return (
     <>
@@ -116,7 +118,7 @@ export default function Navbar() {
                   <div id="dropdownNavbar" className={`-z-10 font-normal overflow-hidden bg-gcNeutrals-baseWhite divide-y divide-gray-100 rounded-lg shadow w-52 absolute transition-all ${isMoreOpen ? "top-full" : "-top-full opacity-0"}`}>
                     <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                        <a href="/privacy-policy" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
                           Privacy Policy
                         </a>
                       </li>
@@ -204,7 +206,7 @@ export default function Navbar() {
                 >
                   <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
                     <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                      <a href="/privacy-policy" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
                         Privacy Policy
                       </a>
                     </li>

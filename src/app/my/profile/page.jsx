@@ -92,7 +92,7 @@ export default function Profile() {
                 </li>
                 <li className="relative">
                   <Link
-                    href={"#"}
+                    href={"/privacy-policy"}
                     className="md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcSecondary-500 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-medium"
                   >
                     Privacy Policy
@@ -108,7 +108,12 @@ export default function Profile() {
                   </button>
                 </li>
               </ul>
-              <button className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent2p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500">
+              <button
+                onClick={() => {
+                  toast("Coming Soon");
+                }}
+                className="bg-gradient-to-r from-gcPrimary-700 to-gcPrimary-600 py-1.5 lg:px-5 px-3 rounded-xl gcContentAccent2p text-gcNeutrals-baseWhite gcDropShadow hover:from-gcPrimary-600 hover:to-gcPrimary-700 transition-all duration-500"
+              >
                 Go to Premium
               </button>
             </div>
@@ -125,14 +130,14 @@ export default function Profile() {
                   <path stroke="#205072" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                 </svg>
               </button>
-              <ul className={`${isNavOpen ? "" : "hidden"} absolute transition -bottom-100 right-0 left-100 flex flex-col bg-gcPrimary-200 gap-3 w-28 gcContentAccent1p text-gcPrimary-1000 text-right px-2 py-3 rounded-xl`}>
+              <ul className={`${isNavOpen ? "" : "hidden"} absolute transition -bottom-100 right-0 left-100 flex flex-col bg-gcPrimary-200 gap-3 w-28 gcContentAccent1p text-gcPrimary-1000 text-right px-2 py-3 rounded-xl z-50`}>
                 <li className="relative border-b border-b-gcPrimary-1000">
                   <Link href={"#"} className="hover:text-gcPrimary-900">
                     Help
                   </Link>
                 </li>
                 <li className="relative border-b border-b-gcPrimary-1000">
-                  <Link href={"#"} className="hover:text-gcPrimary-900">
+                  <Link href={"/privacy-policy"} className="hover:text-gcPrimary-900">
                     Privacy Policy
                   </Link>
                 </li>

@@ -19,7 +19,7 @@ export default function Footer() {
             </a>
             <ul className="flex flex-wrap sm:mt-0 items-center mb-6 gcBody2p sm:mb-0">
               <li>
-                <a href="#" className="hover:underline me-2 sm:me-4 md:me-6 leading-5">
+                <a href="/privacy-policy" className="hover:underline me-2 sm:me-4 md:me-6 leading-5">
                   Privacy Policy
                 </a>
               </li>
