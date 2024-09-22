@@ -14,12 +14,42 @@ export default function DashboardLibrary() {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   const [typeDelete, setTypeDelete] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [datas, setDatas] = useState([]);
+  const [filteredDatas, setFilteredDatas] = useState([]);
+  const [page, setPage] = useState(null);
+  const [meta, setMeta] = useState(null);
+  const [pageNumbers, setPageNumbers] = useState([]);
 
   const types = ["plant", "plant-diseases"];
-  const displayDataOption = ["Plant", "Plant Diseases", "All"];
-  const [displayData, setDisplayData] = useState("All");
+  const displayDataOption = ["Plant", "Plant Diseases"];
+  const [displayData, setDisplayData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      setPage(urlParams.get("page"));
+      setDisplayData(urlParams.get("type") === "plant" ? "Plant" : "Plant Diseases");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!page && !displayData && !urlParams.get("page") && !urlParams.get("type")) {
+        router.push(`/dashboard/library?page=1&type=plant`, undefined, { shallow: true });
+        setPage(1);
+      }
+
+      if (page && meta && urlParams.get("page") && urlParams.get("type")) {
+        if (page < 1 || (meta && page > meta.lastPage)) {
+          router.push(`/dashboard/library?page=1&type=plant`, undefined, { shallow: true });
+          setPage(1);
+        }
+      }
+    }
+  }, [page]);
 
   const handleToggleDeleteModal = () => {
     setIdDelete("");
@@ -89,14 +119,22 @@ export default function DashboardLibrary() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const getPlantsDatas = async () => {
       let plantData = null;
       await request
-        .get("plants")
+        .get(`plants?page=${page}&limit=10`)
         .then(function (response) {
           if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
             if (response.data.data.length > 0) {
               plantData = response.data.data;
+            }
+
+            if (response.data.meta) {
+              setMeta(response.data.meta);
+              setPageNumbers(Array.from({ length: response.data.meta.lastPage }, (_, index) => index + 1));
+            } else {
+              setMeta(null);
             }
           } else if (response.data.statusCode === 500) {
             console.error("INTERNAL_SERVER_ERROR");
@@ -115,12 +153,19 @@ export default function DashboardLibrary() {
     const getPlantDiseasesDatas = async () => {
       let plantDiseasesData = null;
       await request
-        .get("plant-diseases")
+        .get(`plant-diseases?page=${page}&limit=10`)
         .then(function (response) {
           if (response.data) {
             if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
               if (response.data.data.length > 0) {
                 plantDiseasesData = response.data.data;
+              }
+
+              if (response.data.meta) {
+                setMeta(response.data.meta);
+                setPageNumbers(Array.from({ length: response.data.meta.lastPage }, (_, index) => index + 1));
+              } else {
+                setMeta(null);
               }
             } else if (response.data.statusCode === 500) {
               console.error("INTERNAL_SERVER_ERROR");
@@ -141,67 +186,49 @@ export default function DashboardLibrary() {
       return plantDiseasesData;
     };
 
-    const getDataAll = async () => {
-      let plantData = null;
-      let plantDiseasesData = null;
-      await getPlantsDatas().then(
-        (response) => {
-          if (response) {
-            plantData = addTypesToDatas(response, "plant");
-          }
-        },
-        () => null
-      );
-      await getPlantDiseasesDatas().then(
-        (response) => {
-          if (response) {
-            plantDiseasesData = addTypesToDatas(response, "plant-diseases");
-          }
-        },
-        () => null
-      );
-
-      if (plantData && plantDiseasesData) {
-        setDatas(plantData.concat(plantDiseasesData).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-      } else if (plantData && !plantDiseasesData) {
-        setDatas(plantData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-      } else if (!plantData && plantDiseasesData) {
-        setDatas(plantDiseasesData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-      } else {
-        setDatas(null);
-      }
-
-      setIsLoading(false);
-    };
-
     if (displayData === "Plant") {
-      getPlantsDatas().then(
-        (response) => {
-          if (response) {
-            setDatas(addTypesToDatas(response, "plant").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-          } else {
-            setDatas(null);
-          }
+      getPlantsDatas()
+        .then(
+          (response) => {
+            if (response) {
+              setDatas(addTypesToDatas(response, "plant").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+            } else {
+              setDatas(null);
+            }
+            setIsLoading(false);
+          },
+          () => null
+        )
+        .finally(() => {
           setIsLoading(false);
-        },
-        () => null
-      );
+        });
     } else if (displayData === "Plant Diseases") {
-      getPlantDiseasesDatas().then(
-        (response) => {
-          if (response) {
-            setDatas(addTypesToDatas(response, "plant-diseases").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-          } else {
-            setDatas(null);
-          }
+      getPlantDiseasesDatas()
+        .then(
+          (response) => {
+            if (response) {
+              setDatas(addTypesToDatas(response, "plant-diseases").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+            } else {
+              setDatas(null);
+            }
+          },
+          () => null
+        )
+        .finally(() => {
           setIsLoading(false);
-        },
-        () => null
-      );
-    } else {
-      getDataAll();
+        });
     }
-  }, [isLoading, displayData, setIsLoading]);
+  }, [displayData, page]);
+
+  useEffect(() => {
+    if (datas) {
+      if (searchQuery.length > 0) {
+        setFilteredDatas(datas.filter((data) => data.name.includes(searchQuery) || data.name.includes(searchQuery)));
+      } else {
+        setFilteredDatas(datas);
+      }
+    }
+  }, [datas, searchQuery]);
 
   return (
     <>
@@ -222,6 +249,10 @@ export default function DashboardLibrary() {
               className="bg-gray-50 border border-gray-300 text-gcPrimary-1000 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
               placeholder="Search library..."
               required
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
             />
           </div>
           <button type="submit" className="p-2.5 ms-2 text-sm font-medium text-gcNeutrals-baseWhite rounded-lg border focus:ring-4 focus:outline-none focus:ring-gcPrimary-800 bg-gcPrimary-1000 transition hover:bg-gcPrimary-900">
@@ -256,6 +287,8 @@ export default function DashboardLibrary() {
           label={"Type"}
           onChange={(e) => {
             setDisplayData(e.target.value);
+            setPage(1);
+            router.push(`/dashboard/library?page=1&type=${e.target.value === "Plant" ? "plant" : "plant-diseases"} `);
           }}
           className="
                   
@@ -301,9 +334,9 @@ export default function DashboardLibrary() {
           </thead>
           <tbody>
             {!isLoading ? (
-              datas ? (
-                datas.length > 0 ? (
-                  datas.map((data) => {
+              filteredDatas ? (
+                filteredDatas.length > 0 ? (
+                  filteredDatas.map((data) => {
                     return (
                       <tr className="bg-white border-b hover:bg-gray-50" key={data.type + data.id}>
                         <td className="w-4 p-4">
@@ -378,43 +411,61 @@ export default function DashboardLibrary() {
 
       <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
         <span className="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-          Showing <span className="font-semibold text-gray-900">1-10</span> of <span className="font-semibold text-gray-900">1000</span>
+          Showing{" "}
+          {!isLoading && (
+            <span className="font-semibold text-gray-900">
+              {page == 1 ? "1" : (page - 1) * 10 + 1}-{!isLoading && (page == 1 ? filteredDatas?.length : (page - 1) * 10 + filteredDatas?.length)}
+            </span>
+          )}{" "}
+          of <span className="font-semibold text-gray-900">{!isLoading && meta?.total}</span>
         </span>
         <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
           <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
+            <button
+              onClick={() => {
+                if (meta && parseInt(page) != 1) {
+                  router.push(`/dashboard/library?page=${parseInt(page) - 1}&type=${displayData === "Plant" ? "plant" : "plant-diseases"}`);
+                  setPage(parseInt(page) - 1);
+                }
+              }}
+              className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+            >
               Previous
-            </a>
+            </button>
           </li>
+
+          {!isLoading &&
+            meta &&
+            pageNumbers.map((data, index) => {
+              return (
+                <li key={index}>
+                  <button
+                    onClick={() => {
+                      router.push(`/dashboard/library?page=${data}&type=${displayData === "Plant" ? "plant" : "plant-diseases"}`);
+                      setPage(data);
+                    }}
+                    className={`flex items-center justify-center px-3 h-8 border border-gray-300 ${
+                      page == data ? "text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700" : "leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
+                    }`}
+                  >
+                    {data}
+                  </button>
+                </li>
+              );
+            })}
+
           <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              1
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              2
-            </a>
-          </li>
-          <li>
-            <a href="#" aria-current="page" className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700">
-              3
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              4
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              5
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
+            <button
+              onClick={() => {
+                if (meta && parseInt(page) != meta.lastPage) {
+                  router.push(`/dashboard/library?page=${parseInt(page) + 1}&type=${displayData === "Plant" ? "plant" : "plant-diseases"}`);
+                  setPage(parseInt(page) + 1);
+                }
+              }}
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+            >
               Next
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
