@@ -71,6 +71,10 @@
     @apply font-Poppins xl:text-lg md:text-base text-sm font-semibold;
   }
 
+  .gcContentAccent6p {
+    @apply font-Poppins xl:text-2xl lg:text-xl sm:text-lg text-base font-semibold;
+  }
+
   .gcContentBody1p {
     @apply font-Poppins xl:text-lg md:text-sm text-xs font-medium;
   }
