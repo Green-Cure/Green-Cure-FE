@@ -84,7 +84,7 @@ export default function Profile() {
               <ul className="flex xl:gap-16 lg:gap-10 md:gap-8 gap-3 justify-center items-center gcBody2p text-gcSecondary-500">
                 <li className="relative">
                   <Link
-                    href={"#"}
+                    href={"/help"}
                     className="md:hover:bg-transparent after:block after:content-[''] after:absolute after:h-[3px] after:bg-gcSecondary-500 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-medium"
                   >
                     Help
@@ -132,7 +132,7 @@ export default function Profile() {
               </button>
               <ul className={`${isNavOpen ? "" : "hidden"} absolute transition -bottom-100 right-0 left-100 flex flex-col bg-gcPrimary-200 gap-3 w-28 gcContentAccent1p text-gcPrimary-1000 text-right px-2 py-3 rounded-xl z-50`}>
                 <li className="relative border-b border-b-gcPrimary-1000">
-                  <Link href={"#"} className="hover:text-gcPrimary-900">
+                  <Link href={"/help"} className="hover:text-gcPrimary-900">
                     Help
                   </Link>
                 </li>
