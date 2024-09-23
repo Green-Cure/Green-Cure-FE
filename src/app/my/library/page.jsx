@@ -88,7 +88,7 @@ export default function Library() {
 
   const handleSearchNavigation = () => {
     if (!searchTerm) {
-      toast.error("Please enter a search term.");
+      toast.error("Please enter a plant or diseases.");
       return;
     }
 
@@ -232,102 +232,116 @@ export default function Library() {
                 </button>
               )}
             </div>
-
-            {/* Filter buttons */}
-            <div className="flex mt-6 space-x-4 sm:space-x-6">
-              <button
-                className={`${
-                  filter === "plants"
-                    ? "bg-gcPrimary-1000 text-white"
-                    : "bg-gcPrimary-600 text-white"
-                } font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg`}
-                onClick={() =>
-                  setFilter(filter === "plants" ? "all" : "plants")
-                }
-              >
-                Tanaman
-              </button>
-              <button
-                className={`${
-                  filter === "diseases"
-                    ? "bg-gcPrimary-1000 text-white"
-                    : "bg-gcPrimary-600 text-white"
-                } font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg`}
-                onClick={() =>
-                  setFilter(filter === "diseases" ? "all" : "diseases")
-                }
-              >
-                Penyakit
-              </button>
-            </div>
-
-            {/* List of Plants */}
-            {!isLoading && filteredPlants.length > 0 && (
-              <div className="mt-10">
-                <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
-                  Tanaman
-                </h2>
-                <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
-                  {filteredPlants.map((plant) => (
-                    <li key={plant.name} onClick={() => handleItemClick(plant)}>
-                      {plant.name}
-                      {selectedItem?.name === plant.name &&
-                        renderDetails(selectedItem)}
-                    </li>
-                  ))}
-                </ul>
+            {isLoading ? (
+              <div className="flex items-center justify-center h-screen">
+                <div className="flex flex-row gap-2">
+                  <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce"></div>
+                  <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.3s]"></div>
+                  <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.5s]"></div>
+                </div>
               </div>
+            ) : (
+              <>
+                {/* Filter buttons */}
+                <div className="flex mt-6 space-x-4 sm:space-x-6">
+                  <button
+                    className={`${
+                      filter === "plants"
+                        ? "bg-gcPrimary-1000 text-white"
+                        : "bg-gcPrimary-600 text-white"
+                    } font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg`}
+                    onClick={() =>
+                      setFilter(filter === "plants" ? "all" : "plants")
+                    }
+                  >
+                    Tanaman
+                  </button>
+                  <button
+                    className={`${
+                      filter === "diseases"
+                        ? "bg-gcPrimary-1000 text-white"
+                        : "bg-gcPrimary-600 text-white"
+                    } font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-full text-base sm:text-lg`}
+                    onClick={() =>
+                      setFilter(filter === "diseases" ? "all" : "diseases")
+                    }
+                  >
+                    Penyakit
+                  </button>
+                </div>
+
+                {/* List of Plants */}
+                {!isLoading && filteredPlants.length > 0 && (
+                  <div className="mt-10">
+                    <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
+                      Tanaman
+                    </h2>
+                    <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
+                      {filteredPlants.map((plant) => (
+                        <li
+                          key={plant.name}
+                          onClick={() => handleItemClick(plant)}
+                        >
+                          {plant.name}
+                          {selectedItem?.name === plant.name &&
+                            renderDetails(selectedItem)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <hr className="mt-4 border-t border-gray-300" />
+
+                {/* List of Diseases */}
+                {!isLoading && filteredDiseases.length > 0 && (
+                  <div className="mt-10">
+                    <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
+                      Penyakit Tanaman
+                    </h2>
+                    <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
+                      {filteredDiseases.map((disease) => (
+                        <li
+                          key={disease.name}
+                          onClick={() => handleItemClick(disease)}
+                        >
+                          {disease.name}
+                          {selectedItem?.name === disease.name &&
+                            renderDetails(selectedItem)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Pagination controls */}
+                <div className="flex justify-between mt-10 mb-20 sm:mb-10">
+                  <button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className={`${
+                      currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                    } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
+                  >
+                    Prev
+                  </button>
+                  <span className="text-gcPrimary-1000">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className={`${
+                      currentPage === totalPages
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                    } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
             )}
-
-            <hr className="mt-4 border-t border-gray-300" />
-
-            {/* List of Diseases */}
-            {!isLoading && filteredDiseases.length > 0 && (
-              <div className="mt-10">
-                <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
-                  Penyakit Tanaman
-                </h2>
-                <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
-                  {filteredDiseases.map((disease) => (
-                    <li
-                      key={disease.name}
-                      onClick={() => handleItemClick(disease)}
-                    >
-                      {disease.name}
-                      {selectedItem?.name === disease.name &&
-                        renderDetails(selectedItem)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Pagination controls */}
-            <div className="flex justify-between mt-10 mb-20 sm:mb-10">
-              <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className={`${
-                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
-              >
-                Prev
-              </button>
-              <span className="text-gcPrimary-1000">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className={`${
-                  currentPage === totalPages
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
-              >
-                Next
-              </button>
-            </div>
           </div>
         </div>
       </section>
