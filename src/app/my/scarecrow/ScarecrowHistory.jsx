@@ -3,7 +3,7 @@
 export default function MyScarecrowHistory({ datas, setShowChatId, isHistoryOpen, setIsHistoryOpen }) {
   return (
     <>
-      <section className={`xl:1/5 sm:w-1/3 sm:block sm:static absolute top-0 left-0 right-0 bottom-0 z-50 bg-gcNeutrals-baseWhite ${isHistoryOpen ? "px-4 pt-4" : "hidden"}`}>
+      <section className={`xl:1/5 sm:w-1/3 sm:block sm:static absolute top-0 left-0 right-0 bottom-0 z-40 bg-gcNeutrals-baseWhite ${isHistoryOpen ? "px-4 pt-4" : "hidden"}`}>
         <button className="flex justify-between items-center lg:gap-5 gap-3" onClick={() => setIsHistoryOpen(false)}>
           <svg className="sm:hidden xl:w-9 lg:w-8 md:w-7 w-5" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -29,7 +29,7 @@ export default function MyScarecrowHistory({ datas, setShowChatId, isHistoryOpen
             </button>
           </div>
 
-          <div>
+          <div className="sm:max-h-[80vh] sm:overflow-y-scroll">
             {datas &&
               datas.length > 0 &&
               datas.map((data) => {
