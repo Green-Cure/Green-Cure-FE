@@ -50,7 +50,7 @@ export default function WeatherCard() {
             className={`w-full h-full rounded-2xl sm:mt-0 mt-1.5 flex justify-between relative transition-all ${
               dataWheather?.condition.toLowerCase().includes("sunny")
                 ? "bg-weather-radial-cerah"
-                : dataWheather?.condition.toLowerCase().includes("cloudy")
+                : dataWheather?.condition.toLowerCase().includes("cloudy") || dataWheather?.condition.toLowerCase().includes("mist")
                 ? "bg-weather-radial-berawan"
                 : dataWheather?.condition.toLowerCase().includes("rain")
                 ? "bg-weather-radial-hujan"
@@ -69,7 +69,7 @@ export default function WeatherCard() {
               src={`/images/${
                 dataWheather?.condition.toLowerCase().includes("sunny")
                   ? "weather-sun.png"
-                  : dataWheather?.condition.toLowerCase().includes("cloudy")
+                  : dataWheather?.condition.toLowerCase().includes("cloudy") || dataWheather?.condition.toLowerCase().includes("mist")
                   ? "weather-clouds.png"
                   : dataWheather?.condition.toLowerCase().includes("rain")
                   ? "weather-rainy.png"
