@@ -43,6 +43,14 @@ export default function Monitor() {
     }
   }, [isAddMonitorOpen]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("monitor_name")) {
+        setIsAddMonitorOpen(true);
+      }
+    }
+  }, []);
+
   if (showNoteEditor) {
     return <NoteEditor onBack={() => setShowNoteEditor(false)} />;
   }
@@ -104,7 +112,7 @@ function MonitorItem({ data }) {
     >
       <div>
         <h2 className="gcContentAccent5p font-semibold text-gcPrimary-1000">{data.name}</h2>
-        <p className="gcContentBody6p text-gcSecondary-600">{data.name}</p>
+        <p className="gcContentBody6p text-gcSecondary-600">{data.information}</p>
       </div>
       <div className="relative z-20 flex xl:gap-8 lg:gap-7 md:gap-6 sm:gap-5 gap-4 items-center">
         <button
