@@ -23,6 +23,7 @@ export default function Library() {
 
   const router = useRouter();
 
+  // Filter plants and diseases based on search term and filter
   const filteredPlants =
     filter === "all" || filter === "plants"
       ? plants.filter((plant) =>
@@ -38,27 +39,23 @@ export default function Library() {
       : [];
 
   useEffect(() => {
-    setIsLoading(true);
+    const pageQuery = `&page=${currentPage}`;
     const searchQuery = searchTerm ? `&search=${searchTerm}` : "";
-    const pageQuery = searchTerm ? "" : `&page=${currentPage}`;
 
+    setIsLoading(true);
     request
       .get(`/plants?limit=${limit}${pageQuery}${searchQuery}`)
       .then(function (response) {
-        if (
-          response.data?.statusCode === 200 ||
-          response.data?.statusCode === 201
-        ) {
+        if (response.data?.statusCode === 200) {
           setPlants(response.data.data || []);
           if (!searchTerm) {
             setTotalPages(response.data.meta?.lastPage || 1);
           }
-        } else if (response.data.statusCode === 500) {
-          console.error("INTERNAL_SERVER_ERROR");
+        } else {
+          toast.error("Failed to fetch plants.");
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
       })
@@ -68,38 +65,33 @@ export default function Library() {
   }, [currentPage, searchTerm]);
 
   useEffect(() => {
+    const pageQuery = `&page=${currentPage}`;
     const searchQuery = searchTerm ? `&search=${searchTerm}` : "";
-    const pageQuery = searchTerm ? "" : `&page=${currentPage}`;
 
     request
       .get(`/plant-diseases?limit=${limit}${pageQuery}${searchQuery}`)
       .then(function (response) {
-        if (
-          response.data?.statusCode === 200 ||
-          response.data?.statusCode === 201
-        ) {
+        if (response.data?.statusCode === 200) {
           setDiseases(response.data.data || []);
           if (!searchTerm) {
             setTotalPages(response.data.meta?.lastPage || 1);
           }
-        } else if (response.data.statusCode === 500) {
-          console.error("INTERNAL_SERVER_ERROR");
+        } else {
+          toast.error("Failed to fetch diseases.");
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
       });
   }, [currentPage, searchTerm]);
 
-  useEffect(() => {
-    if (searchTerm) {
-      setCurrentPage(1);
-    }
-  }, [searchTerm]);
-
   const handleSearchNavigation = () => {
+    if (!searchTerm) {
+      toast.error("Please enter a search term.");
+      return;
+    }
+
     const firstPlant = filteredPlants.length > 0 ? filteredPlants[0] : null;
     const firstDisease =
       filteredDiseases.length > 0 ? filteredDiseases[0] : null;
@@ -167,7 +159,7 @@ export default function Library() {
             }}
             legacyBehavior
           >
-            <a className="inline-block px-2 py-1 mt-4 text-base text-white rounded-full bg-gcPrimary-1000 hover:bg-gcPrimary-700 sm:px-3">
+            <a className="inline-block px-3 py-2 mt-4 text-base text-white rounded-full bg-gcPrimary-1000 hover:bg-gcPrimary-700 sm:px-3">
               Read More
             </a>
           </Link>
