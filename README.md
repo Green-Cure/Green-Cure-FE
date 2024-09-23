@@ -1,4 +1,4 @@
-# Green Cure App
+# GreenCure App
 
 DEMO 👉 https://green-cure.netlify.app/
 
