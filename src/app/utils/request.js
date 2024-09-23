@@ -3,7 +3,7 @@ import { host } from "./urlApi";
 
 const request = axios.create({
   baseURL: `${host}`,
-  timeout: 10000,
+  timeout: 60000,
   headers: {
     "Content-Type": "application/json, multipart/form-data",
     "Access-Control-Allow-Origin": "*",
