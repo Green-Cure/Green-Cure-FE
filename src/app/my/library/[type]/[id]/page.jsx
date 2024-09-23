@@ -32,7 +32,7 @@ const DetailLibrary = ({ params }) => {
           } else {
             setData(null);
           }
-          setIsLoading(false);
+          setIsLoading(false); // Stop loading when data is fetched
         } else if (response.data.statusCode === 500) {
           console.error("INTERNAL_SERVER_ERROR");
         }
@@ -41,11 +41,25 @@ const DetailLibrary = ({ params }) => {
         console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
-        setIsLoading(false);
+        setIsLoading(false); // Stop loading on error
       });
-  }, [data]);
+  }, [params.id, params.type]);
 
-  if (data && !isLoading) {
+  // Jika masih loading, tampilkan spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-row gap-2">
+          <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce"></div>
+          <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.3s]"></div>
+          <div className="w-2.5 h-2.5 lg:w-4 lg:h-4 rounded-full bg-gcPrimary-basePrimary animate-bounce [animation-delay:-.5s]"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Jika data sudah tersedia, tampilkan konten
+  if (data) {
     return (
       <>
         <LoggedInNavbar />
@@ -58,10 +72,10 @@ const DetailLibrary = ({ params }) => {
             />
             <div className="bg-gradient-to-br from-transparent to-gcPrimary-900 w-full absolute top-0 bottom-0 left-0 right-0 inset-0 opacity-100 rounded-br-[70px]"></div>
             <div className="absolute z-10 w-full px-4 lg:top-4 md:top-3 top-2 sm:px-10">
-              <div className="flex border-b border-gcNeutrals-baseWhite pb-2 sm:border-0 items-center lg:gap-6 gap-3">
+              <div className="flex items-center gap-3 pb-2 border-b border-gcNeutrals-baseWhite sm:border-0 lg:gap-6">
                 <svg
                   onClick={handleBackResult}
-                  className="xl:w-9 lg:w-8 md:w-7 w-5 cursor-pointer"
+                  className="w-5 cursor-pointer xl:w-9 lg:w-8 md:w-7"
                   width="40"
                   height="40"
                   viewBox="0 0 40 40"
@@ -92,13 +106,13 @@ const DetailLibrary = ({ params }) => {
             </div>
           </div>
 
-          <div className="px-4 lg:px-24 sm:px-10 md:px-12 lg:mt-8 md:mt-7 sm:mt-6 mt-5 text-gcPrimary-1000">
-            <p className="indent-6 text-justify gcBody1p">{data.description}</p>
+          <div className="px-4 mt-5 lg:px-24 sm:px-10 md:px-12 lg:mt-8 md:mt-7 sm:mt-6 text-gcPrimary-1000">
+            <p className="text-justify indent-6 gcBody1p">{data.description}</p>
           </div>
 
           <div
             onClick={handleSaved}
-            className="w-16 h-16 rounded-full cursor-pointer bg-gcPrimary-1000 flex justify-center items-center fixed z-50 right-6 bottom-20 sm:right-20 sm:w-24 sm:h-24"
+            className="fixed z-50 flex items-center justify-center w-16 h-16 rounded-full cursor-pointer bg-gcPrimary-1000 right-6 bottom-20 sm:right-20 sm:w-24 sm:h-24"
           >
             <svg
               width="24"
@@ -119,6 +133,7 @@ const DetailLibrary = ({ params }) => {
     );
   }
 
+  // Jika tidak ada data dan tidak loading
   if (!isLoading) {
     return notFound();
   }
