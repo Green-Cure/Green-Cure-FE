@@ -123,7 +123,7 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                        <a href="/terms-conditions" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
                           Terms and Conditions
                         </a>
                       </li>
@@ -211,7 +211,7 @@ export default function Navbar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                      <a href="/terms-conditions" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
                         Terms and Conditions
                       </a>
                     </li>

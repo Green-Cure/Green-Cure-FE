@@ -82,7 +82,7 @@ export default function PrivacyPolicy() {
               <strong className="gcHeading4p text-gcPrimary-1000">Green Cure Support</strong>
               <br />
               Email:{" "}
-              <a href="mailto:support@greencure.com" className="text-gcPrimary-600 underline">
+              <a href="mailto:support@greencure.com" className="text-gcPrimary-600 gcContentBody2p underline">
                 support@greencure.com
               </a>
               <br />
