@@ -122,7 +122,7 @@ export default function DashboardOverview() {
           if (response.data.data.length > 0) {
             setForum(response.data.data);
           } else {
-            setForum(null);
+            setForum([]);
           }
         } else if (response.data.statusCode === 500) {
           console.error("INTERNAL_SERVER_ERROR");
