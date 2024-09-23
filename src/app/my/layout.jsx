@@ -57,14 +57,6 @@ export default function MyLayout({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    if (loading) {
-      toast.loading("Loading...");
-    } else {
-      toast.dismiss();
-    }
-  }, [loading]);
-
   return (
     <>
       <ArticleProvider>{!loading && children}</ArticleProvider>
