@@ -4,7 +4,7 @@ export default function MyArticleMore({ articles }) {
   if (!articles) return;
   return (
     <>
-      <div className="sm:w-3/5 w-full sm:mt-0 mt-1">
+      <div className="sm:mt-0 mt-1">
         <h1 className="gcHeading3p text-gcPrimary-1000 sm:hidden">More</h1>
         {articles.map((article, index) => {
           return (

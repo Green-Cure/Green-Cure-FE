@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoggedInNavbar from "../LoggedInNavbar";
 import { useRouter } from "next/navigation";
 import request from "@/app/utils/request";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { hostNoPrefix } from "@/app/utils/urlApi";
 
 export default function Detection() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [scanHistory, setScanHistory] = useState(null);
   const [errors, setErrors] = useState({
     image: "",
   });
@@ -57,10 +60,42 @@ export default function Detection() {
       });
   };
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    request
+      .get("scan/result")
+      .then(function (response) {
+        if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
+          if (response.data.data.length > 0) {
+            setScanHistory(response.data.data);
+          } else {
+            setScanHistory([]);
+          }
+          toast.dismiss();
+        } else if (response.data.statusCode === 500) {
+          console.error("INTERNAL_SERVER_ERROR");
+          toast.dismiss();
+          toast.error("Server Error");
+        } else {
+          toast.dismiss();
+          toast.error("An unexpected error occurred");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.dismiss();
+        toast.error("An unexpected error occurred");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <>
       <LoggedInNavbar />
-      <section className="sm:ml-12 md:ml-16 lg:ml-20">
+      <section className="sm:ml-12 md:ml-16 lg:ml-20 mb-20">
         <div className="flex justify-between items-center sm:px-10 lg:py-4 md:py-3 py-2 sm:mx-0 mx-4">
           <button type="button" onClick={() => router.back()} className="flex justify-center items-center lg:gap-6 gap-3">
             <svg className="xl:w-9 lg:w-8 md:w-7 w-5" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,6 +174,30 @@ export default function Detection() {
           </div>
         </div>
         {errors.image && <small className="text-red-600 text-center mx-auto flex justify-center">{errors.image}</small>}
+
+        <div className="sm:px-10 px-4 mt-4">
+          <h1 className="gcHeading3p text-gcPrimary-1000">Scan History</h1>
+          {scanHistory && scanHistory.length > 0 && (
+            <div className="flex flex-col">
+              {scanHistory.map((data, index) => {
+                return (
+                  <div key={index} className="flex items-center xl:py-4 py-2 border-b border-gcSecondary-400 gap-3">
+                    <div className="md:w-48 w-40 lg:h-36 md:h-32 sm:h-24 h-20 flex justify-center items-center rounded-xl">
+                      <img className="rounded-xl object-cover object-center xl:h-36 xl:w-60 lg:h-32 lg:w-56 md:h-28 md:w-52 sm:h-24 sm:w-48 h-20 w-44" src={`${hostNoPrefix}uploads/${data.image}`} alt={data.plantDiseases[0].diseases} />
+                    </div>
+
+                    <div className="w-full">
+                      <Link href={`/my/detection/result/${data.id}`} className="hover:underline text-gcPrimary-1000">
+                        <h2 className="gcContentAccent1p text-gcPrimary-1000">{data.plantDiseases[0].diseases}</h2>
+                      </Link>
+                      <h4 className="text-gcSecondary-600 gcContentBody2p mt-1 line-clamp-2">{data.plantDiseases[0].description}</h4>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </section>
     </>
   );
