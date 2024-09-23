@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { remark } from "remark";
 
-export default function MyScarecrowChat({ userData, showChatId, isHistoryOpen }) {
+export default function MyScarecrowChat({ userData, showChatId, isHistoryOpen, getHistoryData, setShowChatId }) {
   const [prompt, setPrompt] = useState("");
   const [chatData, setChatData] = useState(null);
   const [isLoading, setIsLoading] = useState(!!showChatId);
@@ -42,7 +42,8 @@ export default function MyScarecrowChat({ userData, showChatId, isHistoryOpen })
           toast.error("An unexpected error occurred");
           setIsLoading(false);
         });
-    } else {
+    }
+    if (!showChatId) {
       setChatData(null);
       setPrompt("");
     }
@@ -61,9 +62,11 @@ export default function MyScarecrowChat({ userData, showChatId, isHistoryOpen })
         if (res.data?.statusCode === 200 || res.data?.statusCode === 201) {
           toast.success(res.data.message);
           setChatData(res.data.data);
+          setShowChatId(res.data.data.id);
           setErrors({
             question: "",
           });
+          getHistoryData();
         } else if (res.data?.statusCode === 422) {
           const newErrors = {
             question: "",

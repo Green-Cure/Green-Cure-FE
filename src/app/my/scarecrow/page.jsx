@@ -47,6 +47,10 @@ export default function MyScarecrow() {
 
   useEffect(() => {
     setIsLoading(true);
+    getHistoryData();
+  }, []);
+
+  const getHistoryData = () => {
     request
       .get(`scarecrow`)
       .then(function (response) {
@@ -75,7 +79,7 @@ export default function MyScarecrow() {
         toast.error("An unexpected error occurred");
         setIsLoading(false);
       });
-  }, []);
+  };
 
   return (
     <>
@@ -93,7 +97,7 @@ export default function MyScarecrow() {
           </TopBar>
           <div className="flex xl:gap-2 md:gap-1 h-full md:mt-8 mt-3 pb-20">
             <MyScarecrowHistory datas={historyChat} setShowChatId={setShowChatId} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen} />
-            <MyScarecrowChat userData={userData} showChatId={showChatId} isHistoryOpen={isHistoryOpen} />
+            <MyScarecrowChat userData={userData} showChatId={showChatId} isHistoryOpen={isHistoryOpen} setShowChatId={setShowChatId} getHistoryData={getHistoryData} />
           </div>
         </>
       )}
