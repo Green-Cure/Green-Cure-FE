@@ -128,13 +128,13 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
+                        <a href="/cookie-policy" className="block px-4 py-2 hover:bg-gray-100 gcBody2p">
                           Cookie Policy
                         </a>
                       </li>
                     </ul>
                     <div className="py-1">
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 gcBody2p">
+                      <a href="https://documenter.getpostman.com/view/18903733/2sA3kRJiZi" target="_blank" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 gcBody2p">
                         API Reference
                       </a>
                     </div>
@@ -216,13 +216,13 @@ export default function Navbar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                      <a href="/cookie-policy" className="block px-4 py-2 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
                         Cookie Policy
                       </a>
                     </li>
                   </ul>
                   <div className="py-1">
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
+                    <a href="https://documenter.getpostman.com/view/18903733/2sA3kRJiZi" target="_blank" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gcNeutrals-600 hover:text-gcNeutrals-baseWhite gcBody2p">
                       API Reference
                     </a>
                   </div>

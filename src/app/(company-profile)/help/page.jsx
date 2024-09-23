@@ -44,7 +44,7 @@ export default function Help() {
       <div className="bg-gradient-to-br from-gcNeutrals-baseWhite to-gcPrimary-basePrimary min-h-screen flex flex-col justify-between">
         <Navbar />
         <section className="pt-16 flex md:flex-row flex-col gap-10 px-6">
-          <div className="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg my-10">
+          <div className="max-w-3xl mx-auto bg-gcNeutrals-baseWhite p-6 shadow-lg rounded-lg my-10">
             <h1 className="gcHeading3p text-gcPrimary-600 xl:mb-6 lg:mb-5 md:mb-4 sm:mb-3.5 mb-3">Frequently Asked Questions</h1>
             {faqs.map((faq) => (
               <FAQItem key={faq.id} faq={faq} isActive={activeFAQ === faq.id} toggleFAQ={toggleFAQ} />

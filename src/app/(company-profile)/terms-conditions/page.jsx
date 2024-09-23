@@ -10,7 +10,7 @@ export default function TermsConditions() {
       <div className="bg-gradient-to-br from-gcNeutrals-baseWhite to-gcPrimary-basePrimary">
         <Navbar />
         <section className="pt-16 flex md:flex-row flex-col gap-10 px-6">
-          <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg mt-10 rounded-lg">
+          <div className="max-w-4xl mx-auto p-6 bg-gcNeutrals-baseWhite shadow-lg mt-10 rounded-lg">
             <h1 className="gcHeading3p mb-6 text-gcPrimary-600">Terms and Conditions for Green Cure</h1>
 
             <p className="mb-4 gcContentBody3p">
