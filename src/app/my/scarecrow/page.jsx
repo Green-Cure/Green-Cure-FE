@@ -93,7 +93,7 @@ export default function MyScarecrow() {
           </TopBar>
           <div className="flex xl:gap-2 md:gap-1 h-full md:mt-8 mt-3 pb-20">
             <MyScarecrowHistory datas={historyChat} setShowChatId={setShowChatId} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen} />
-            <MyScarecrowChat userData={userData} showChatId={showChatId} />
+            <MyScarecrowChat userData={userData} showChatId={showChatId} isHistoryOpen={isHistoryOpen} />
           </div>
         </>
       )}

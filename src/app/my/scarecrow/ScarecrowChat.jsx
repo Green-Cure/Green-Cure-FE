@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { remark } from "remark";
 
-export default function MyScarecrowChat({ userData, showChatId }) {
+export default function MyScarecrowChat({ userData, showChatId, isHistoryOpen }) {
   const [prompt, setPrompt] = useState("");
   const [chatData, setChatData] = useState(null);
   const [isLoading, setIsLoading] = useState(!!showChatId);
@@ -90,7 +90,7 @@ export default function MyScarecrowChat({ userData, showChatId }) {
 
   return (
     <>
-      <section className="xl:w-4/5 sm:w-2/3 sm:pl-3 lg:pl-4 sm:px-0 px-4 relative w-full">
+      <section className={`xl:w-4/5 sm:w-2/3 sm:pl-3 lg:pl-4 sm:px-0 px-4 relative w-full ${isHistoryOpen && "hidden"}`}>
         <div>
           <div className="relative before:hidden sm:before:block before:absolute before:left-0 before:top-0 before:transform before:w-0.5 before:h-[80vh] before:bg-gcSecondary-500 before:rounded-xl xl:pl-10 lg:pl-8 md:pl-7 sm:pl-6 h-[80vh] mb-20">
             {isLoading && (
