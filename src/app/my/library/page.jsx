@@ -16,6 +16,11 @@ export default function Library() {
   const [plants, setPlants] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [filter, setFilter] = useState("all");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit] = useState(5);
+
   const router = useRouter();
 
   const filteredPlants =
@@ -33,17 +38,20 @@ export default function Library() {
       : [];
 
   useEffect(() => {
+    setIsLoading(true);
+    const searchQuery = searchTerm ? `&search=${searchTerm}` : "";
+    const pageQuery = searchTerm ? "" : `&page=${currentPage}`;
+
     request
-      .get(`/plants`)
+      .get(`/plants?limit=${limit}${pageQuery}${searchQuery}`)
       .then(function (response) {
         if (
           response.data?.statusCode === 200 ||
           response.data?.statusCode === 201
         ) {
-          if (response.data.data.length > 0) {
-            setPlants(response.data.data);
-          } else {
-            setPlants([]);
+          setPlants(response.data.data || []);
+          if (!searchTerm) {
+            setTotalPages(response.data.meta?.lastPage || 1);
           }
         } else if (response.data.statusCode === 500) {
           console.error("INTERNAL_SERVER_ERROR");
@@ -57,20 +65,22 @@ export default function Library() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [currentPage, searchTerm]);
 
   useEffect(() => {
+    const searchQuery = searchTerm ? `&search=${searchTerm}` : "";
+    const pageQuery = searchTerm ? "" : `&page=${currentPage}`;
+
     request
-      .get(`/plant-diseases`)
+      .get(`/plant-diseases?limit=${limit}${pageQuery}${searchQuery}`)
       .then(function (response) {
         if (
           response.data?.statusCode === 200 ||
           response.data?.statusCode === 201
         ) {
-          if (response.data.data.length > 0) {
-            setDiseases(response.data.data);
-          } else {
-            setDiseases([]);
+          setDiseases(response.data.data || []);
+          if (!searchTerm) {
+            setTotalPages(response.data.meta?.lastPage || 1);
           }
         } else if (response.data.statusCode === 500) {
           console.error("INTERNAL_SERVER_ERROR");
@@ -80,11 +90,14 @@ export default function Library() {
         console.log(err);
         toast.dismiss();
         toast.error("An unexpected error occurred");
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
-  }, []);
+  }, [currentPage, searchTerm]);
+
+  useEffect(() => {
+    if (searchTerm) {
+      setCurrentPage(1);
+    }
+  }, [searchTerm]);
 
   const handleSearchNavigation = () => {
     const firstPlant = filteredPlants.length > 0 ? filteredPlants[0] : null;
@@ -128,22 +141,22 @@ export default function Library() {
         : item.description;
 
     return (
-      <div className="mt-4 bg-gcPrimary-200 p-4 sm:p-6 rounded-lg shadow-md flex flex-row items-center sm:items-start">
-        <div className="flex justify-center items-center w-32 h-32 sm:w-36 sm:h-36 mb-4 sm:mb-0">
+      <div className="flex flex-row items-center p-4 mt-4 rounded-lg shadow-md bg-gcPrimary-200 sm:p-6 sm:items-start">
+        <div className="flex items-center justify-center w-32 h-32 mb-4 sm:w-36 sm:h-36 sm:mb-0">
           <img
             src={`${hostNoPrefix}uploads/${item.image}`}
             alt={item.name}
-            className="object-cover rounded-lg w-full h-full"
+            className="object-cover w-full h-full rounded-lg"
           />
         </div>
-        <div className="flex-1 text-left ml-4">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gcPrimary-1000 mb-2">
+        <div className="flex-1 ml-4 text-left">
+          <h2 className="mb-2 text-xl font-semibold sm:text-2xl text-gcPrimary-1000">
             {item.name}
           </h2>
-          <p className="text-gcPrimary-1000 text-base sm:text-lg mb-2">
+          <p className="mb-2 text-base text-gcPrimary-1000 sm:text-lg">
             <em>{item.latin}</em>
           </p>
-          <p className="text-gcPrimary-1000 text-sm sm:text-base">
+          <p className="text-sm text-gcPrimary-1000 sm:text-base">
             {shortDescription}
           </p>
           <Link
@@ -154,7 +167,7 @@ export default function Library() {
             }}
             legacyBehavior
           >
-            <a className="text-white text-base bg-gcPrimary-1000 hover:bg-gcPrimary-700 px-2 sm:px-3 py-1 rounded-full inline-block mt-4">
+            <a className="inline-block px-2 py-1 mt-4 text-base text-white rounded-full bg-gcPrimary-1000 hover:bg-gcPrimary-700 sm:px-3">
               Read More
             </a>
           </Link>
@@ -163,16 +176,28 @@ export default function Library() {
     );
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <>
       <LoggedInNavbar />
       <section className="sm:ml-12 md:ml-16 lg:ml-20 sm:px-10">
         <TopBar pageName={"Perpustakaan"} />
-        <div className="flex justify-center items-center px-4 sm:px-0">
-          <div className="flex-1 flex flex-col bg-gcNeutrals-baseWhite">
-            <div className="mt-6 relative w-full max-w-3xl">
+        <div className="flex items-center justify-center px-4 sm:px-0">
+          <div className="flex flex-col flex-1 bg-gcNeutrals-baseWhite">
+            <div className="relative w-full max-w-3xl mt-6">
               <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                className="absolute transform -translate-y-1/2 cursor-pointer left-4 top-1/2"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -191,16 +216,16 @@ export default function Library() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Search plants or diseases...."
-                className="w-full rounded-full border border-gray-300 py-3 px-5 pl-12 focus:outline-none focus:ring-2 focus:ring-gcPrimary-600 placeholder:text-gcSecondary-600 bg-gradient-to-r from-gcPrimary-200 to-gcNeutrals-baseWhite text-lg"
+                className="w-full px-5 py-3 pl-12 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-gcPrimary-600 placeholder:text-gcSecondary-600 bg-gradient-to-r from-gcPrimary-200 to-gcNeutrals-baseWhite"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute text-gray-500 transform -translate-y-1/2 right-4 top-1/2 hover:text-gray-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="w-6 h-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -215,7 +240,9 @@ export default function Library() {
                 </button>
               )}
             </div>
-            <div className="mt-6 flex space-x-4 sm:space-x-6">
+
+            {/* Filter buttons */}
+            <div className="flex mt-6 space-x-4 sm:space-x-6">
               <button
                 className={`${
                   filter === "plants"
@@ -241,12 +268,14 @@ export default function Library() {
                 Penyakit
               </button>
             </div>
-            {!isLoading && filteredPlants && filteredPlants.length > 0 && (
+
+            {/* List of Plants */}
+            {!isLoading && filteredPlants.length > 0 && (
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
                   Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl cursor-pointer">
+                <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
                   {filteredPlants.map((plant) => (
                     <li key={plant.name} onClick={() => handleItemClick(plant)}>
                       {plant.name}
@@ -258,13 +287,15 @@ export default function Library() {
               </div>
             )}
 
-            <hr className="border-t border-gray-300 mt-4" />
-            {!isLoading && filteredDiseases && filteredDiseases.length > 0 && (
+            <hr className="mt-4 border-t border-gray-300" />
+
+            {/* List of Diseases */}
+            {!isLoading && filteredDiseases.length > 0 && (
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-2xl font-semibold text-gcPrimary-1000">
+                <h2 className="text-2xl font-semibold sm:text-2xl text-gcPrimary-1000">
                   Penyakit Tanaman
                 </h2>
-                <ul className="mt-4 space-y-2 sm:space-y-3 text-gcPrimary-1000 text-base sm:text-xl cursor-pointer">
+                <ul className="mt-6 space-y-4 text-base cursor-pointer sm:space-y-6 text-gcPrimary-1000 sm:text-xl">
                   {filteredDiseases.map((disease) => (
                     <li
                       key={disease.name}
@@ -278,6 +309,33 @@ export default function Library() {
                 </ul>
               </div>
             )}
+
+            {/* Pagination controls */}
+            <div className="flex justify-between mt-10 mb-20 sm:mb-10">
+              <button
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1}
+                className={`${
+                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
+              >
+                Prev
+              </button>
+              <span className="text-gcPrimary-1000">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className={`${
+                  currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                } px-4 py-2 text-white bg-gcPrimary-600 rounded`}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </section>
