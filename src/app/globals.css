@@ -24,7 +24,7 @@
   }
 
   .gcHeading3p {
-    @apply xl:text-3xl font-bold lg:text-2xl md:text-xl text-base gcDropShadow;
+    @apply xl:text-3xl font-bold lg:text-2xl md:text-xl text-lg gcDropShadow;
   }
 
   .gcHeading4p {

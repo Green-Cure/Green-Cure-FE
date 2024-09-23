@@ -24,18 +24,18 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline me-4 sm:me-4 md:me-6 leading-5">
+                <a href="/terms-conditions" className="hover:underline me-4 sm:me-4 md:me-6 leading-5">
                   Terms and Conditions
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline me-4 sm:me-4 md:me-6 leading-5">
+                <a href="/cookie-policy" className="hover:underline me-4 sm:me-4 md:me-6 leading-5">
                   Cookie Policy
                 </a>
               </li>
             </ul>
             <div className="flex gap-5">
-              <a href="">
+              <a href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#fafafa" className="bi bi-linkedin" viewBox="0 0 16 16" id="Linkedin--Streamline-Bootstrap" height="25" width="25">
                   <desc>Linkedin Streamline Icon: https://streamlinehq.com</desc>
                   <path
@@ -44,7 +44,7 @@ export default function Footer() {
                   ></path>
                 </svg>
               </a>
-              <a href="">
+              <a href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#fafafa" className="bi bi-instagram" viewBox="0 0 16 16" id="Instagram--Streamline-Bootstrap" height="25" width="25">
                   <desc>Instagram Streamline Icon: https://streamlinehq.com</desc>
                   <path
@@ -53,7 +53,7 @@ export default function Footer() {
                   ></path>
                 </svg>
               </a>
-              <a href="">
+              <a href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="X-Twitter-Logo--Streamline-Logos" height="25" width="25">
                   <desc>X Logo Twitter Streamline Icon: https://streamlinehq.com</desc>
                   <path stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" d="M17.2705 22.464 1.5 1.53589h5.22951L22.5 22.464h-5.2295Z" strokeWidth="1"></path>
@@ -61,7 +61,7 @@ export default function Footer() {
                   <path stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" d="m2.24207 22.464 8.30673 -8.9078" strokeWidth="1"></path>
                 </svg>
               </a>
-              <a href="">
+              <a href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" id="Youtube--Streamline-Font-Awesome" height="25" width="25" fill="#fafafa">
                   <desc>Youtube Streamline Icon: https://streamlinehq.com</desc>
                   <path
